@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import * as base64 from 'base-64';
+import { GetAllAnimalsApiResponse, Animal } from './Types';
+
 const clientId = import.meta.env.VITE_PETFINDER_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_PETFINDER_CLIENT_SECRET;
-import { GetAllAnimalsApiResponse } from './Types';
 
 const getBearerToken = async (clientId: string, clientSecret: string): Promise<string | null> => {
     const tokenUrl = 'https://api.petfinder.com/v2/oauth2/token';
@@ -28,44 +30,96 @@ const getBearerToken = async (clientId: string, clientSecret: string): Promise<s
     }
 }
 
-const getAllAnimals = async (
-    accessToken: string,
-): Promise<GetAllAnimalsApiResponse | null> => {
-    const allAnimalsUrl = "https://api.petfinder.com/v2/animals";
-    try {
-        const response = await axios.get(allAnimalsUrl, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            params: {
-            },
-        });
-        return response.data as GetAllAnimalsApiResponse;
-    } catch (error) {
-        console.error("Error GETTING all animals:", error);
-        return null;
-    }
-};
-
-export const fetchAllAnimals = async (
-): Promise<GetAllAnimalsApiResponse | undefined> => {
+export const fetchAllAnimals = async (): Promise<GetAllAnimalsApiResponse | undefined> => {
     try {
         const accessToken = await getBearerToken(clientId, clientSecret);
         if (!accessToken) {
             console.log("Failed to get access token");
             return;
         }
-        const allAnimals = await getAllAnimals(accessToken
-        );
-        if (allAnimals && allAnimals.animals.length > 0) {
-            console.log('all animals.animals', allAnimals.animals);
-            console.log('all animals', allAnimals);
-            return allAnimals;
+
+        const allAnimalsUrl = "https://api.petfinder.com/v2/animals";
+        const response = await axios.get(allAnimalsUrl, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (response && response.data && response.data.animals) {
+            return response.data;
+        } else {
+            console.error("No animals data found");
+            return undefined;
         }
-        console.log("No animals found");
-        return undefined;
     } catch (error) {
-        console.error("Error FETCHING:", error);
+        console.error("Error fetching animals:", error);
+        return undefined;
+    }
+};
+
+// Function to fetch animals based on breed
+export const fetchAnimalsByBreed = async (breed: string): Promise<Animal[]> => {
+    const accessToken = await getBearerToken(clientId, clientSecret);
+    if (!accessToken) {
+        return [];
+    }
+
+    const url = `https://api.petfinder.com/v2/animals`;
+
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+                breed,
+            },
+        });
+
+        return response.data.animals || [];  // Return the animals data
+    } catch (error) {
+        console.error(`Error fetching animals for breed ${breed}:`, error);
+        return [];
+    }
+};
+
+// Function to get animal types
+export const fetchAnimalTypes = async (): Promise<string[]> => {
+    const accessToken = await getBearerToken(clientId, clientSecret); // Get token
+    if (!accessToken) {
+        return [];
+    }
+    const url = "https://api.petfinder.com/v2/types";
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.data.types.map((type: { name: string }) => type.name);
+    } catch (error) {
+        console.error("Error fetching animal types:", error);
+        return [];
+    }
+};
+
+// Function to get breeds for a given animal type
+export const fetchBreeds = async (type: string): Promise<string[]> => {
+    const accessToken = await getBearerToken(clientId, clientSecret); // Get token
+    if (!accessToken) {
+        return [];
+    }
+    const url = `https://api.petfinder.com/v2/types/${type}/breeds`;
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.data.breeds.map((breed: { name: string }) => breed.name);
+    } catch (error) {
+        console.error(`Error fetching breeds for ${type}:`, error);
+        return [];
     }
 };
 
