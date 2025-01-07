@@ -1,0 +1,123 @@
+form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+div {
+  margin-bottom: 15px;
+}
+
+div label {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+input[type="checkbox"]:not(:last-child),
+input[type="radio"]:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+button[type="submit"] {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+select {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+select:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #007BFF;
+  border-color: #007BFF;
+}
+
+input[type="checkbox"]:not(:checked) {
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+input[type="text"] {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+input[type="number"] {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+@media (max-width: 768px) {
+  form {
+    padding: 15px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+
+  select,
+  input[type="text"],
+  input[type="number"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
