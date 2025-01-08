@@ -36,6 +36,12 @@ export interface Animal {
   _links: Links;
 }
 
+export interface AnimalCard {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface Attributes {
   spayed_neutered: boolean;
   house_trained: boolean;
