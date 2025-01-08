@@ -1,8 +1,23 @@
-// import React from "react";
-import "./Results.css";
-import { ResultsProps } from "../../utils/Types";
+import { useLocation } from "react-router-dom";
+import Card from "../Card/Card";
+export default function Results() {
+  const location = useLocation();
+  const { animals } = location.state || {};
 
-export default function Results({ finalResults }: ResultsProps) {
-  console.log("final results", finalResults);
-  return <div>Results</div>;
+  if (!animals || animals.length === 0) {
+    return <h2>No animals found for your search criteria.</h2>;
+  }
+
+  return (
+    <div>
+      <h2>Results</h2>
+      <div className="cards-container">
+        {animals.map(
+          (animal: { id: number; name: string; description: string }) => (
+            <Card key={animal.id} {...animal} />
+          )
+        )}
+      </div>
+    </div>
+  );
 }
