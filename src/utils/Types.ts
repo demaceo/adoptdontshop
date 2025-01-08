@@ -40,6 +40,18 @@ export interface AnimalCard {
   id: number;
   name: string;
   description: string;
+  primary_photo_cropped: PrimaryPhotoCropped;
+  breeds: Breeds;
+  colors: Colors;
+  age: string;
+  gender: string;
+  size: string;
+  coat: string;
+  attributes: Attributes;
+  tags: string[];
+  environment: Environment;
+  status: string;
+  published_at: string;
 }
 
 export interface Attributes {
@@ -85,7 +97,7 @@ export interface FormProps {
 
 export interface GetAllAnimalsApiResponse {
   animals: Animal[];
-  pagination: Pagination; 
+  pagination: Pagination;
 }
 
 export interface Links {
