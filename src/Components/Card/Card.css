@@ -1,17 +1,17 @@
-.card {
+/* .card {
   background-color: #fff;
   padding: 16px;
   margin: 16px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 200px;
-}
+} */
 
-.cards-container {
+/* .cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-}
+} */
 
 .card h3 {
   font-size: 1.5rem;
@@ -21,4 +21,90 @@
 .card p {
   font-size: 1rem;
   color: #555;
+}
+.card {
+  position: relative;
+  width: 250px;
+  height: 350px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: scroll;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  /* margin-bottom: 20px; */
+}
+
+/* Card Hover Effects */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card.expanded {
+  height: 500px; /* Expanded height */
+}
+
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.card-content {
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card.expanded .card-content {
+  opacity: 1;
+}
+
+/* Card Name and Details */
+.card h3 {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  color: #4e3b31; /* Rich Brown for animal name */
+  /* font-family: "Poppins", sans-serif; */
+}
+
+.card-details p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.card-details strong {
+  color: #6d9f2b; /* Muted Green for emphasis on labels */
+}
+
+.card-details p:last-child {
+  margin-bottom: 0;
+}
+
+/* Additional styling for tags and other details */
+.card-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-tags span {
+  background-color: #ffd24b; /* Sunny Yellow for tags */
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  /* margin-right: 5px; */
+}
+
+.card-tags span:hover {
+  background-color: #f48c8c; /* Vibrant Coral on hover for tags */
+}
+
+.card-details .status {
+  color: #b0e57c; /* Lime Green for status */
+  font-weight: bold;
 }
