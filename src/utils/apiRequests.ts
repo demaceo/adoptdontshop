@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import * as base64 from 'base-64';
 import { GetAllAnimalsApiResponse, Animal } from './Types';

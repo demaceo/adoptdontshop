@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import {
   fetchAnimalTypes,
   fetchBreeds,
   fetchAnimalsByBreed,
-} from "../../utils/apiRequests"; 
+} from "../../utils/apiRequests";
 import "./Form.css";
 
 export default function Form() {
@@ -28,6 +29,8 @@ export default function Form() {
     specialNeeds: false,
   });
 
+  const navigate = useNavigate(); // Used for redirecting to the results page
+
   useEffect(() => {
     const loadAnimalTypes = async () => {
       const types = await fetchAnimalTypes();
@@ -41,20 +44,15 @@ export default function Form() {
     setFormData({ ...formData, type });
     // Fetch breeds for selected type and remove duplicates
     const fetchedBreeds = await fetchBreeds(type);
-
-    // Filter duplicates and set the unique breeds
     const uniqueBreeds = Array.from(new Set(fetchedBreeds)); // Remove duplicates using Set
-
     setBreeds(uniqueBreeds);
   };
 
   const handleBreedChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const breed = e.target.value;
     setFormData({ ...formData, breed });
-
     // Fetch animals for the selected breed and update Size & Coat
     const animalsData = await fetchAnimalsByBreed(breed);
-
     // Extract unique size and coat values from the animals' data
     const sizes = Array.from(
       new Set(animalsData.map((animal: { size: string }) => animal.size))
@@ -84,11 +82,27 @@ export default function Form() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    //! Handle the form submission logic, e.g., send data to an API
-    console.log("Form submitted with: ", formData);
+    const params = new URLSearchParams();
+    Object.keys(formData).forEach((key) => {
+      const typedKey = key as keyof typeof formData;
+      if (formData[typedKey] && formData[typedKey] !== "") {
+        params.append(key, formData[typedKey].toString());
+      }
+    });
+
+    const response = await fetch(
+      `https://api.petfinder.com/v2/animals?${params.toString()}`
+    );
+    const data = await response.json();
+    navigate("/results", { state: { animals: data.animals } });
   };
+
+  //   const handleSubmit = (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     console.log("Form submitted with: ", formData);
+  //   };
 
   return (
     <form onSubmit={handleSubmit}>
