@@ -1,28 +1,34 @@
 form {
-  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f6eedf; /* Light Beige background */
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+select,
+input[type="text"],
+input[type="number"],
+input[type="checkbox"],
+input[type="radio"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #e6e6e6; /* Soft Gray for input borders */
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 1rem;
   text-align: center;
-  margin-bottom: 20px;
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
 }
 
 select,
 input[type="text"],
 input[type="number"] {
-  width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
@@ -30,9 +36,43 @@ input[type="number"] {
   font-size: 16px;
 }
 
-input[type="checkbox"],
-input[type="radio"] {
-  margin-right: 10px;
+select:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline-color: #6d9f2b; /* Muted Green for focus on input fields */
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #ffd24b; /* Sunny Yellow for buttons */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f48c8c; /* Vibrant Coral on hover */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.field-label {
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+label {
+  font-size: 1.1rem;
+  /* display: block; */
+  margin-bottom: 5px;
+  color: #4e3b31; /* Rich Brown for labels */
 }
 
 div {
@@ -49,41 +89,107 @@ input[type="radio"]:not(:last-child) {
   margin-bottom: 10px;
 }
 
-button[type="submit"] {
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-select {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-  font-size: 16px;
-}
-
-select:focus {
-  border-color: #007BFF;
-  outline: none;
-}
-
 .form-section {
-  margin-bottom: 20px;
+  display: none;
+  margin-bottom: 15px;
+  opacity: 0;
+  /* transition: opacity 0.5s ease-out; */
+  transition: opacity 1.5s ease-in;
+}
+/* Add padding and smooth transitions */
+form .form-section {
+  transition: padding 0.5s ease;
 }
 
-input[type="checkbox"]:checked {
-  background-color: #007BFF;
-  border-color: #007BFF;
+.form-section.visible {
+  display: block;
+  opacity: 1;
+}
+
+
+/*! styles for the customized radio button */
+/* Hide the default radio button */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #4E3B31; /* Initial border color (Rich Brown) */
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Create a custom radio button (using ::before) */
+input[type="radio"]::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff; /* Initial background color */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* When the radio button is checked */
+input[type="radio"]:checked::before {
+  background-color: #FFD24B; /* Sunny Yellow for checked state */
+  border-color: #FFD24B; /* Match the border color with the checked state */
+}
+
+/* Optional: Hover state for better interactivity */
+input[type="radio"]:hover {
+  border-color: #6D9F2B; /* Muted Green on hover */
+}
+
+/* ! Styles for Customized checkboxes */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px; /* Optionally, change this to a round checkbox */
+  border: 2px solid #4E3B31; /* Initial border color */
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Create the custom checkbox using ::before */
+input[type="checkbox"]::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background-color: #fff; /* Initial background color */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4px; /* Match the checkbox border radius */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* When the checkbox is checked */
+input[type="checkbox"]:checked::before {
+  background-color: #FFD24B; /* Sunny Yellow for checked state */
+  border-color: #FFD24B; /* Match the border color */
+}
+
+/* Optional: Hover state for better interactivity */
+input[type="checkbox"]:hover {
+  border-color: #6D9F2B; /* Muted Green on hover */
+}
+
+input[type="checkbox"]:checked{
+  background-color: #6d9f2b;
+  color:#f48c8c;
+  border-color: #f48c8c;
 }
 
 input[type="checkbox"]:not(:checked) {
@@ -104,10 +210,87 @@ input[type="number"] {
   background-color: #fff;
   border-color: #ccc;
 }
+/* !Container for "Good with" checkboxes */
+.good-with-container {
+  margin-bottom: 0px;
+}
 
+.good-with-container label {
+  font-size: 1.1rem;
+  /* font-weight: bold; */
+  color: #4e3b31; /* Rich Brown */
+}
+
+/* Flexbox to display checkboxes in a row */
+.checkbox-group {
+  display: flex;
+  justify-content: center; /* Align checkboxes to the left */
+  gap: 10px; /* Space between the checkboxes */
+  flex-wrap: wrap; /* Allow wrapping if screen is too small */
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #555; /* Gray for checkbox text */
+}
+
+/* Style for the checkbox input */
+.checkbox-item input {
+  margin-right: 5px; /* Space between the checkbox and label */
+}
+
+/* ! Style for the Distance range input field*/
+.range-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.range-input {
+  width: 95%;
+  margin-right: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 5px;
+  background: #6d9f2b; /* Muted Green for the range track */
+  outline: none;
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f48c8c; /* Vibrant Coral for the slider thumb */
+  cursor: pointer;
+}
+
+.range-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f48c8c;
+  cursor: pointer;
+}
+
+.range-value {
+  font-size: 1rem;
+  color: #4e3b31; /* Rich Brown */
+  font-weight: bold;
+}
+
+/* !Media queries for different screen sizes */
 @media (max-width: 768px) {
   form {
     padding: 15px;
+  }
+  .checkbox-group {
+    flex-direction: column; /* Stack checkboxes vertically on mobile */
   }
 
   button[type="submit"] {
