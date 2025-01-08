@@ -37,8 +37,8 @@ export const fetchCompletedFormResults = async (params: URLSearchParams): Promis
             return;
         }
 
-        const allAnimalsUrl = "https://api.petfinder.com/v2/animals";
-        const response = await axios.get(allAnimalsUrl, {
+        const url = "https://api.petfinder.com/v2/animals";
+        const response = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -122,6 +122,34 @@ export const fetchBreeds = async (type: string): Promise<string[]> => {
         return [];
     }
 };
+
+// export const fetchAnimalsWithPagination = async (
+//     page: number,
+//     limit: number
+// ): Promise<GetAllAnimalsApiResponse | undefined> => {
+//     try {
+//         const accessToken = await getBearerToken(clientId, clientSecret);
+//         if (!accessToken) {
+//             console.log("Failed to get access token");
+//             return;
+//         }
+//         // Set query parameters for pagination
+//         const params = new URLSearchParams({
+//             page: String(page), // Current page
+//             limit: String(limit), // Number of items per page (20)
+//         });
+
+//         const allAnimals = await fetchCompletedFormResults(params);
+//         if (allAnimals && allAnimals.animals.length > 0) {
+//             return allAnimals;
+//         }
+//         console.log("No animals found");
+//         return undefined;
+//     } catch (error) {
+//         console.error("Error FETCHING animals with pagination:", error);
+//     }
+// };
+
 
 
 /* NOTES ON API REQUESTS
