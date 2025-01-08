@@ -29,7 +29,7 @@ const getBearerToken = async (clientId: string, clientSecret: string): Promise<s
     }
 }
 
-export const fetchAllAnimals = async (): Promise<GetAllAnimalsApiResponse | undefined> => {
+export const fetchCompletedFormResults = async (params: URLSearchParams): Promise<GetAllAnimalsApiResponse | undefined> => {
     try {
         const accessToken = await getBearerToken(clientId, clientSecret);
         if (!accessToken) {
@@ -42,6 +42,7 @@ export const fetchAllAnimals = async (): Promise<GetAllAnimalsApiResponse | unde
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
+            params,
         });
 
         if (response && response.data && response.data.animals) {

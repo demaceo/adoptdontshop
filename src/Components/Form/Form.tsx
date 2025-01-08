@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { useNavigate } from "react-router-dom";
 import {
   fetchAnimalTypes,
   fetchBreeds,
+  fetchCompletedFormResults,
   fetchAnimalsByBreed,
 } from "../../utils/apiRequests";
 import "./Form.css";
@@ -92,17 +93,14 @@ export default function Form() {
       }
     });
 
-    const response = await fetch(
-      `https://api.petfinder.com/v2/animals?${params.toString()}`
-    );
-    const data = await response.json();
-    navigate("/results", { state: { animals: data.animals } });
+    const data = await fetchCompletedFormResults(params);
+    if (data && data.animals) {
+      // Redirect to /results route with the response data passed as props
+      navigate("/results", { state: { animals: data.animals } });
+    } else {
+      console.error("Error fetching animals or no animals found");
+    }
   };
-
-  //   const handleSubmit = (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     console.log("Form submitted with: ", formData);
-  //   };
 
   return (
     <form onSubmit={handleSubmit}>
