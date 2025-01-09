@@ -27,7 +27,6 @@ function App() {
           <>
             <NavBar />
             <Hero />
-            <SearchBar />
             <Form />
             <Footer />
           </>
