@@ -1,10 +1,15 @@
 export default personalities = [
+  "Adeventurous", 
+  "Affectionate",
   "Athletic",
+  "Attentive",
   "Brave",
   "Curious",
   "Friendly",
   "Funny",
+  "Gentle",
   "Independent",
+  "Loyal",
   "Playful",
   "Smart",
 ];
