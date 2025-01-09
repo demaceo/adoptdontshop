@@ -52,6 +52,7 @@ export interface AnimalCard {
   environment: Environment;
   status: string;
   published_at: string;
+  contact: Contact;
 }
 
 export interface Attributes {
