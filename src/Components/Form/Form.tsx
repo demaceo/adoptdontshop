@@ -343,10 +343,10 @@ export default function Form() {
       </div>
       {/* //! ATTRIBUTES */}
       <div className="attributes-container">
-        <label className="field-label">Attributes</label>
+        <label className="field-label">Attributes:</label>
 
-        <div className="checkbox-group">
-          <div>
+        <div className="attributes-group">
+          <div className="checkbox-item">
             <label>
               <input
                 type="checkbox"
@@ -357,7 +357,7 @@ export default function Form() {
               Spayed/Neutered
             </label>
           </div>
-          <div>
+          <div className="checkbox-item">
             <label>
               <input
                 type="checkbox"
@@ -368,8 +368,7 @@ export default function Form() {
               House Trained
             </label>
           </div>
-
-          <div>
+          <div className="checkbox-item">
             <label>
               <input
                 type="checkbox"
@@ -380,7 +379,7 @@ export default function Form() {
               Special Needs
             </label>
           </div>
-          <div>
+          <div className="checkbox-item">
             <label>
               <input
                 type="checkbox"
@@ -388,12 +387,12 @@ export default function Form() {
                 checked={formData.shotsCurrent}
                 onChange={handleInputChange}
               />
-              Shots Current
+              Vaccinated
             </label>
           </div>
         </div>
       </div>
-      <button type="submit" disabled>
+      <button type="submit">
         Search
       </button>
     </form>

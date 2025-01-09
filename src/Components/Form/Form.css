@@ -14,7 +14,7 @@ form {
 select,
 input[type="text"],
 input[type="number"],
-input[type="checkbox"],
+/* input[type="checkbox"], */
 input[type="radio"] {
   width: 100%;
   padding: 10px;
@@ -165,9 +165,9 @@ input[type="checkbox"]::before {
   width: 16px;
   height: 16px;
   background-color: #fff; /* Initial background color */
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* left: 50%; */
   transform: translate(-50%, -50%);
   border-radius: 4px; /* Match the checkbox border radius */
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -176,7 +176,7 @@ input[type="checkbox"]::before {
 /* When the checkbox is checked */
 input[type="checkbox"]:checked::before {
   background-color: #6d9f2b;
-  /* border-color: #FFD24B; */
+  border-color: #FFD24B;
 }
 
 /* Optional: Hover state for better interactivity */
@@ -221,21 +221,32 @@ input[type="number"] {
 /* Flexbox to display checkboxes in a row */
 .checkbox-group {
   display: flex;
-  justify-content: center; /* Align checkboxes to the left */
-  gap: 10px; /* Space between the checkboxes */
+  /* align-items: center; */
+  /* flex-direction: row; */
+  justify-content: center; 
+  gap: 10px; 
   flex-wrap: wrap; /* Allow wrapping if screen is too small */
 }
 
 .checkbox-item {
   display: flex;
-  align-items: center;
+  /* align-items: baseline; */
   font-size: 1rem;
   color: #555; /* Gray for checkbox text */
 }
 
 /* Style for the checkbox input */
 .checkbox-item input {
-  margin-right: 5px; /* Space between the checkbox and label */
+  margin-right: 5px;
+   /* Space between the checkbox and label */
+}
+
+.attributes-group {
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  justify-content: center;
+  /* gap: 10px; */
 }
 
 /* ! Style for the Distance range input field*/
@@ -243,11 +254,11 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: max-content;
+  width: auto;
 }
 
 .range-input {
-  width: 100%;
+  width: 250px;
   margin-right: 10px;
   -webkit-appearance: none;
   appearance: none;
