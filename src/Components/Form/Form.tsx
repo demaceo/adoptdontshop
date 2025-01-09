@@ -118,23 +118,13 @@ export default function Form() {
     });
 
     const data = await fetchCompletedFormResults(params);
-    // if (!data || data.animals.length === 0) {
-    //   console.error("Error fetching animals or no animals found");
-    //   return (
-    //     <h2>
-    //       Sorry, there are no results for that selection.
-    //       <br />
-    //       <p>Click the "Home" or "back" button to try again.</p>
-    //     </h2>
-    //   );
-    // } else if (data && data.animals) {
     navigate("/results", { state: data });
-    // }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-section visible">
+        {/* //!Type field */}
         <label className="field-label">Type</label>
         <select name="type" value={formData.type} onChange={handleTypeChange}>
           <option value="">Select Animal Type</option>
@@ -145,7 +135,7 @@ export default function Form() {
           ))}
         </select>
       </div>
-      {/* Breed Field: Only show after Type is selected */}
+      {/* //!Breed: Only show after Type is selected */}
       {formData.type && (
         <div className={`form-section ${formData.type ? "visible" : ""}`}>
           <label className="field-label">Breed</label>
@@ -163,8 +153,7 @@ export default function Form() {
           </select>
         </div>
       )}
-
-      {/* // Additional Fields: Show after Breed is selected  */}
+      {/* //! Additional Fields: Show after Breed is selected  */}
       {formData.breed && (
         <>
           <div className="checkbox-group">
@@ -183,7 +172,7 @@ export default function Form() {
                 ))}
               </select>
             </div>
-
+            {/* //! COAT */}
             <div className={`form-section ${formData.breed ? "visible" : ""}`}>
               <label className="field-label">Coat</label>
               <select
@@ -200,226 +189,213 @@ export default function Form() {
               </select>
             </div>
           </div>
-          {/* //! GENDER */}
-          <div>
-            <label className="field-label">Gender</label>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === "male"}
-                  onChange={handleInputChange}
-                />
-                Male
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === "female"}
-                  onChange={handleInputChange}
-                />
-                Female
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="unknown"
-                  checked={formData.gender === "unknown"}
-                  onChange={handleInputChange}
-                />
-                Unknown
-              </label>
-            </div>
-          </div>
-          {/* //! AGE */}
-          <div>
-            <label className="field-label">Age</label>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="age"
-                  value="baby"
-                  checked={formData.age === "baby"}
-                  onChange={handleInputChange}
-                />
-                Baby
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="age"
-                  value="young"
-                  checked={formData.age === "young"}
-                  onChange={handleInputChange}
-                />
-                Young
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="age"
-                  value="adult"
-                  checked={formData.age === "adult"}
-                  onChange={handleInputChange}
-                />
-                Adult
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="age"
-                  value="senior"
-                  checked={formData.age === "senior"}
-                  onChange={handleInputChange}
-                />
-                Senior
-              </label>
-            </div>
-          </div>
-          {/* //! LOCATION */}
-          <div>
-            <label className="field-label">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              placeholder="Enter a city, state, OR zip code"
-            />
-          </div>
-          {/* //! DISTANCE */}
-          <div>
-            <label className="field-label">Distance</label>
-            <div className="range-input-container">
-              <input
-                type="range"
-                name="distance"
-                min="0"
-                max="500"
-                value={formData.distance || 0} // Default to 0 if formData.distance is empty
-                onChange={handleInputChange}
-                className="range-input"
-              />
-              <span className="range-value">
-                {formData.distance || 0} miles
-              </span>
-            </div>
-          </div>
-          {/* //! GOOD WITH: */}
-
-          <div className="good-with-container">
-            <label className="field-label">Good with:</label>
-            <div className="checkbox-group">
-              <div className="checkbox-item">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="goodWithChildren"
-                    checked={formData.goodWithChildren}
-                    onChange={handleInputChange}
-                  />
-                  Children
-                </label>
-              </div>
-
-              <div className="checkbox-item">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="goodWithDogs"
-                    checked={formData.goodWithDogs}
-                    onChange={handleInputChange}
-                  />
-                  Dogs
-                </label>
-              </div>
-
-              <div className="checkbox-item">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="goodWithCats"
-                    checked={formData.goodWithCats}
-                    onChange={handleInputChange}
-                  />
-                  Cats
-                </label>
-              </div>
-            </div>
-          </div>
-          {/* //! ATTRIBUTES */}
-          <div className="attributes-container">
-            <label className="field-label">Attributes</label>
-
-            <div className="checkbox-group">
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="spayedneutered"
-                    checked={formData.spayedNeutered}
-                    onChange={handleInputChange}
-                  />
-                  Spayed/Neutered
-                </label>
-              </div>
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="houseTrained"
-                    checked={formData.houseTrained}
-                    onChange={handleInputChange}
-                  />
-                  House Trained
-                </label>
-              </div>
-
-              {/* <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="declawed"
-                    checked={formData.declawed}
-                    onChange={handleInputChange}
-                  />
-                  Declawed
-                </label>
-              </div> */}
-
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="specialNeeds"
-                    checked={formData.specialNeeds}
-                    onChange={handleInputChange}
-                  />
-                  Special Needs
-                </label>
-              </div>
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="shotscurrent"
-                    checked={formData.shotsCurrent}
-                    onChange={handleInputChange}
-                  />
-                  Shots Current
-                </label>
-              </div>
-            </div>
-          </div>
         </>
       )}
-      <button type="submit">Search</button>
+      {/* //! GENDER */}
+      <div>
+        <label className="field-label">Gender</label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              checked={formData.gender === "male"}
+              onChange={handleInputChange}
+            />
+            Male
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              checked={formData.gender === "female"}
+              onChange={handleInputChange}
+            />
+            Female
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="unknown"
+              checked={formData.gender === "unknown"}
+              onChange={handleInputChange}
+            />
+            Unknown
+          </label>
+        </div>
+      </div>
+      {/* //! AGE */}
+      <div>
+        <label className="field-label">Age</label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="age"
+              value="baby"
+              checked={formData.age === "baby"}
+              onChange={handleInputChange}
+            />
+            Baby
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="age"
+              value="young"
+              checked={formData.age === "young"}
+              onChange={handleInputChange}
+            />
+            Young
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="age"
+              value="adult"
+              checked={formData.age === "adult"}
+              onChange={handleInputChange}
+            />
+            Adult
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="age"
+              value="senior"
+              checked={formData.age === "senior"}
+              onChange={handleInputChange}
+            />
+            Senior
+          </label>
+        </div>
+      </div>
+      {/* //! LOCATION */}
+      <div>
+        <label className="field-label">Location</label>
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleInputChange}
+          placeholder="Enter a city, state, OR zip code"
+        />
+      </div>
+      {/* //! DISTANCE */}
+      <div>
+        <label className="field-label">Distance</label>
+        <div className="range-input-container">
+          <input
+            type="range"
+            name="distance"
+            min="0"
+            max="500"
+            value={formData.distance || 0}
+            onChange={handleInputChange}
+            className="range-input"
+          />
+          <span className="range-value">{formData.distance || 0} miles</span>
+        </div>
+      </div>
+      {/* //! GOOD WITH: */}
+      <div className="good-with-container">
+        <label className="field-label">Good with:</label>
+        <div className="checkbox-group">
+          <div className="checkbox-item">
+            <label>
+              <input
+                type="checkbox"
+                name="goodWithChildren"
+                checked={formData.goodWithChildren}
+                onChange={handleInputChange}
+              />
+              Children
+            </label>
+          </div>
+
+          <div className="checkbox-item">
+            <label>
+              <input
+                type="checkbox"
+                name="goodWithDogs"
+                checked={formData.goodWithDogs}
+                onChange={handleInputChange}
+              />
+              Dogs
+            </label>
+          </div>
+
+          <div className="checkbox-item">
+            <label>
+              <input
+                type="checkbox"
+                name="goodWithCats"
+                checked={formData.goodWithCats}
+                onChange={handleInputChange}
+              />
+              Cats
+            </label>
+          </div>
+        </div>
+      </div>
+      {/* //! ATTRIBUTES */}
+      <div className="attributes-container">
+        <label className="field-label">Attributes</label>
+
+        <div className="checkbox-group">
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="spayedneutered"
+                checked={formData.spayedNeutered}
+                onChange={handleInputChange}
+              />
+              Spayed/Neutered
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="houseTrained"
+                checked={formData.houseTrained}
+                onChange={handleInputChange}
+              />
+              House Trained
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="specialNeeds"
+                checked={formData.specialNeeds}
+                onChange={handleInputChange}
+              />
+              Special Needs
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                name="shotscurrent"
+                checked={formData.shotsCurrent}
+                onChange={handleInputChange}
+              />
+              Shots Current
+            </label>
+          </div>
+        </div>
+      </div>
+      <button type="submit" disabled>
+        Search
+      </button>
     </form>
   );
 }

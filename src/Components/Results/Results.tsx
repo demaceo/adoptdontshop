@@ -13,6 +13,7 @@ export default function Results() {
   useEffect(() => {
     const getAnimals = async () => {
       setLoading(true);
+      // const uniqueAnimals = Array.from(new Set(location.state.animals)); // Remove duplicates using Set
       setAnimals(location.state.animals);
       setTotalPages(location.state.pagination.total_pages);
       setLoading(false);

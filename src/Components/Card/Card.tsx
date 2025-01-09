@@ -1,11 +1,10 @@
 import { useState } from "react";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
-
 export default function Card({
   id,
   name,
-  // description,
+  description,
   primary_photo_cropped,
   breeds,
   colors,
@@ -18,9 +17,9 @@ export default function Card({
   environment,
   status,
   published_at,
+  contact,
 }: AnimalCard) {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div
       key={id}
@@ -29,19 +28,24 @@ export default function Card({
       onMouseLeave={() => setIsHovered(false)}
     >
       <h3>{name}</h3>
-
+      <p>{description}</p>
       <div className="card-image">
         <img src={primary_photo_cropped?.small} alt={name} />
       </div>
       <div className="card-content">
-        {/* <h3>{name}</h3> */}
-        {/* <p>{description}</p> */}
         <div className={`card-details ${isHovered ? "show" : ""}`}>
           <p>
-            <strong>Breed:</strong> {breeds.primary} {" "} {breeds.secondary}
+            <strong>Published:</strong>{" "}
+            {new Date(published_at).toLocaleDateString()}
           </p>
           <p>
-            <strong>Mixed:</strong> {breeds.mixed}
+            <strong>Located:</strong> {`${contact.address.city}, ${contact.address.state}`}
+          </p>
+          <p>
+            <strong>Breed:</strong> {breeds.primary} {breeds.secondary}
+          </p>
+          <p>
+            <strong>Mixed:</strong> {`${breeds.mixed}`}
           </p>
           <p>
             <strong>Colors:</strong> {colors.primary}{" "}
@@ -71,17 +75,13 @@ export default function Card({
             <strong>Tags:</strong> {tags.join(", ")}
           </p>
           <p>
-            <strong>Environment:</strong> Children:{" "}
+            <strong>Good With:</strong> Children:{" "}
             {environment.children ? "Yes" : "No"}, Dogs:{" "}
             {environment.dogs ? "Yes" : "No"}, Cats:{" "}
             {environment.cats ? "Yes" : "No"}
           </p>
           <p>
             <strong>Status:</strong> {status}
-          </p>
-          <p>
-            <strong>Published:</strong>{" "}
-            {new Date(published_at).toLocaleDateString()}
           </p>
         </div>
       </div>
@@ -95,13 +95,13 @@ export default function Card({
 // !    "url": "https://www.petfinder.com/dog/kota-74691411/nv/silver-springs/lyon-county-animal-services-nv188/?referrer_id=5d7e2547-8c8b-4c56-959f-11bbabafda5a&utm_source=api&utm_medium=partnership&utm_content=5d7e2547-8c8b-4c56-959f-11bbabafda5a",
 //     "type": "Dog",
 //     "species": "Dog",
-//  !   "breeds": {
-//   !      "primary": "Husky",
-//   !      "secondary": null,
-//    !     "mixed": true,
+//    "breeds": {
+//        "primary": "Husky",
+//        "secondary": null,
+//        "mixed": true,
 //         "unknown": false
 //     },
-//  !   "colors": {
+//     "colors": {
 //         "primary": "Black",
 //         "secondary": "White / Cream",
 //         "tertiary": null
@@ -110,14 +110,14 @@ export default function Card({
 // !    "gender": "Male",
 // !    "size": "Large",
 // !    "coat": "Long",
-// ?    "attributes": {
+//     "attributes": {
 //         "spayed_neutered": true,
 //         "house_trained": false,
 //         "declawed": null,
 //         "special_needs": false,
 //         "shots_current": true
 //     },
-//  !   "environment": {
+//     "environment": {
 //         "children": null,
 //         "dogs": true,
 //         "cats": null
@@ -133,7 +133,7 @@ export default function Card({
 //         "Smart"
 //     ],
 //     "name": "Kota",
-// !    "description": null,
+//     "description": null,
 //     "organization_animal_id": null,
 //  !   "photos": [
 //         {

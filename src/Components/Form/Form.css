@@ -5,7 +5,7 @@ form {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px 10px;
   background-color: #f6eedf; /* Light Beige background */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -31,7 +31,7 @@ input[type="text"],
 input[type="number"] {
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ddd;
+  border: 0px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
 }
@@ -84,10 +84,10 @@ div label {
   margin-right: 20px;
 }
 
-input[type="checkbox"]:not(:last-child),
+/* input[type="checkbox"]:not(:last-child),
 input[type="radio"]:not(:last-child) {
   margin-bottom: 10px;
-}
+} */
 
 .form-section {
   display: none;
@@ -106,7 +106,6 @@ form .form-section {
   opacity: 1;
 }
 
-
 /*! styles for the customized radio button */
 /* Hide the default radio button */
 input[type="radio"] {
@@ -116,15 +115,14 @@ input[type="radio"] {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #4E3B31; /* Initial border color (Rich Brown) */
+  border: 2px solid #f48c8c00; /* Initial border color (Rich Brown) */
   position: relative;
   margin-right: 10px;
   cursor: pointer;
 }
 
-/* Create a custom radio button (using ::before) */
 input[type="radio"]::before {
-  content: '';
+  content: "";
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -138,13 +136,13 @@ input[type="radio"]::before {
 
 /* When the radio button is checked */
 input[type="radio"]:checked::before {
-  background-color: #FFD24B; /* Sunny Yellow for checked state */
-  border-color: #FFD24B; /* Match the border color with the checked state */
+  background-color: #f48c8c; /* Sunny Yellow for checked state */
+  border-color: #f48c8c; /* Match the border color with the checked state */
 }
 
 /* Optional: Hover state for better interactivity */
 input[type="radio"]:hover {
-  border-color: #6D9F2B; /* Muted Green on hover */
+  border-color: #6d9f2b; /* Muted Green on hover */
 }
 
 /* ! Styles for Customized checkboxes */
@@ -155,7 +153,7 @@ input[type="checkbox"] {
   width: 20px;
   height: 20px;
   border-radius: 4px; /* Optionally, change this to a round checkbox */
-  border: 2px solid #4E3B31; /* Initial border color */
+  border: 2px solid #4e3b31; /* Initial border color */
   position: relative;
   margin-right: 10px;
   cursor: pointer;
@@ -163,7 +161,7 @@ input[type="checkbox"] {
 
 /* Create the custom checkbox using ::before */
 input[type="checkbox"]::before {
-  content: '';
+  /* content: ''; */
   width: 16px;
   height: 16px;
   background-color: #fff; /* Initial background color */
@@ -177,19 +175,18 @@ input[type="checkbox"]::before {
 
 /* When the checkbox is checked */
 input[type="checkbox"]:checked::before {
-  background-color: #FFD24B; /* Sunny Yellow for checked state */
-  border-color: #FFD24B; /* Match the border color */
+  background-color: #6d9f2b;
+  /* border-color: #FFD24B; */
 }
 
 /* Optional: Hover state for better interactivity */
 input[type="checkbox"]:hover {
-  border-color: #6D9F2B; /* Muted Green on hover */
+  border-color: #f48c8c;
 }
 
-input[type="checkbox"]:checked{
-  background-color: #6d9f2b;
-  color:#f48c8c;
-  border-color: #f48c8c;
+input[type="checkbox"]:checked {
+  background-color: #f48c8c;
+  border-color: #6d9f2b;
 }
 
 input[type="checkbox"]:not(:checked) {
@@ -246,11 +243,11 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: max-content;
 }
 
 .range-input {
-  width: 95%;
+  width: 100%;
   margin-right: 10px;
   -webkit-appearance: none;
   appearance: none;
