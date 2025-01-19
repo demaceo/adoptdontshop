@@ -392,7 +392,7 @@ export default function Form() {
           </div>
         </div>
       </div>
-      <button type="submit">
+      <button type="submit"  onClick={handleSubmit}>
         Search
       </button>
     </form>

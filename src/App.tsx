@@ -7,8 +7,11 @@ import Results from "./Components/Results/Results.tsx";
 // import Favorites from "./Components/Favorites/Favorites.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
-
+import ThemeProvider from "./context/ThemeContext";
+import ThemeToggle from "./Components/ThemeToggle/ThemeToggle.tsx";
+import { useContext } from "react";
 function App() {
+  const { theme } = useContext(ThemeProvider);
   // const [finalResults, setFinalResults] = useState<any[]>([]);
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
@@ -24,12 +27,13 @@ function App() {
       {
         path: "/",
         element: (
-          <>
+          <div className={theme === "dark" ? "dark" : "light"}>
+            <ThemeToggle />
             <NavBar />
             <Hero />
             <Form />
             <Footer />
-          </>
+          </div>
         ),
       },
       {

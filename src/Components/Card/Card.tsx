@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import { gsap } from "gsap";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
 export default function Card({
@@ -20,6 +21,54 @@ export default function Card({
   contact,
 }: AnimalCard) {
   const [isHovered, setIsHovered] = useState(false);
+  // const [inFavorites, setInFavorites] = useState(false);
+
+    // const animateAddFavorite = () => {
+    //   let tl = gsap.timeline();
+    //   gsap.set(`.${"--" + id}`, {
+    //     //start animation state
+    //     transition: "ease 0",
+    //     transform: "rotate(0deg)",
+    //   });
+
+    //   tl.to(`.${"--" + id}`, { duration: 0.1, translateY: 3 })
+    //     .to(`.${"--" + id}`, { duration: 0.3, rotateY: 360, translateY: -10 })
+    //     .to(`.${"--" + id}`, { duration: 0.3, translateY: 0 })
+    //     .to(
+    //       `.${"--" + id}`,
+    //       { duration: 0.2, filter: "grayscale(0%)", cursor: "default" },
+    //       "-=.4"
+    //     )
+    //     .to(
+    //       `.title-artist-${id}`,
+    //       { duration: "0.2 !important", color: "rgb(253,235,103)" },
+    //       "-=.4"
+    //     )
+    //     .to(
+    //       `.badge-${id}`,
+    //       {
+    //         borderColor: "rgb(253,235,103)",
+    //         backgroundColor: "rgb(253,235,103)",
+    //         color: "rgb(40,44,52)",
+    //       },
+    //       "<"
+    //     )
+    //     .to(`.card-${id}`, { border: "solid 3px rgb(253,235,103)" }, "<")
+    //     .to(`.${"--" + id}`, {
+    //       ease: "none",
+    //       duration: 8,
+    //       repeat: -1,
+    //       rotate: 360,
+    //     });
+    //   setInFavorites(true);
+    // };
+
+    // const handleClick = () => {
+    //   if (!inFavorites) {
+    //     addFavorite(id);
+    //     animateAddFavorite();
+    //   }
+    // };
   return (
     <div
       key={id}
