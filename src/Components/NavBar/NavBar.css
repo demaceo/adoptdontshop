@@ -1,0 +1,32 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #000;
+  border-bottom: 4px solid #ffcc00;
+}
+
+.logo a {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.nav-links a {
+  margin-left: 3rem;
+  font-size: 1.3rem;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+  font-weight: bold;
+  text-decoration: underline;
+}

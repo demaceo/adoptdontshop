@@ -1,0 +1,24 @@
+.about {
+  padding: 5rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 3rem;
+  color: #ffcc00;
+  margin-bottom: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  text-transform: uppercase;
+}
+
+.about p {
+  font-size: 1.3rem;
+  color: #333;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 1rem;
+  letter-spacing: 0.5px;
+}

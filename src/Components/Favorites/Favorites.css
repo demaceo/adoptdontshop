@@ -1,0 +1,19 @@
+.favorites {
+  padding: 4rem 2rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.favorites h2 {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  margin-bottom: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 2rem;
+}

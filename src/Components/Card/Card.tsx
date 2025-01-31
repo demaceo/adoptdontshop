@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
+
+const isFavorited = (id: number) => {
+  const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  return favorites.some((favorite: any) => favorite.id === id);
+};
 export default function Card({
   id,
   name,
@@ -20,6 +26,27 @@ export default function Card({
   contact,
 }: AnimalCard) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isFavoritedState, setIsFavoritedState] = useState<boolean>(
+    isFavorited(id)
+  );
+  // Function to handle favoriting the animal
+  const handleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    if (isFavoritedState) {
+      // Remove from favorites
+      const updatedFavorites = favorites.filter(
+        (favorite: any) => favorite.id !== id
+      );
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    } else {
+      // Add to favorites
+      favorites.push({ id, name, primary_photo_cropped });
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+
+    setIsFavoritedState(!isFavoritedState);
+  };
   return (
     <div
       key={id}
@@ -39,7 +66,8 @@ export default function Card({
             {new Date(published_at).toLocaleDateString()}
           </p>
           <p>
-            <strong>Located:</strong> {`${contact.address.city}, ${contact.address.state}`}
+            <strong>Located:</strong>{" "}
+            {`${contact.address.city}, ${contact.address.state}`}
           </p>
           <p>
             <strong>Breed:</strong> {breeds.primary} {breeds.secondary}
@@ -84,6 +112,13 @@ export default function Card({
             <strong>Status:</strong> {status}
           </p>
         </div>
+        {/* Add the Favorite Button */}
+        <button
+          className={`favorite-btn ${isFavoritedState ? "favorited" : ""}`}
+          onClick={handleFavorite}
+        >
+          {isFavoritedState ? "★" : "☆"} {/* Simple star icon */}
+        </button>
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
 import SearchBar from "./Components/Search/SearchBar.tsx";
 import Results from "./Components/Results/Results.tsx";
-// import Favorites from "./Components/Favorites/Favorites.tsx";
+import Favorites from "./Components/Favorites/Favorites.tsx";
+import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
 
@@ -27,6 +28,7 @@ function App() {
           <>
             <NavBar />
             <Hero />
+            <About />
             <Form />
             <Footer />
           </>
@@ -34,7 +36,13 @@ function App() {
       },
       {
         path: "/results",
-        element: <Results />,
+        element: (
+          <>
+            <NavBar />
+            <Results />
+            <Footer />
+          </>
+        ),
       },
       {
         path: "/favorites",
@@ -43,8 +51,8 @@ function App() {
             <NavBar />
             <Hero />
             <SearchBar />
-            {/* <Favorites  favoritePets={favoritePets} /> */}
-            = <Footer />
+            <Favorites />
+            <Footer />
           </>
         ),
       },
