@@ -54,11 +54,19 @@ export default function Card({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Add the Favorite Button */}
+      <button
+        className={`favorite-btn ${isFavoritedState ? "favorited" : ""}`}
+        onClick={handleFavorite}
+      >
+        {isFavoritedState ? "★" : "☆"}
+      </button>
       <h3>{name}</h3>
-      <p>{description}</p>
       <div className="card-image">
         <img src={primary_photo_cropped?.small} alt={name} />
       </div>
+      <p>{description}</p>
+
       <div className="card-content">
         <div className={`card-details ${isHovered ? "show" : ""}`}>
           <p>
@@ -112,13 +120,6 @@ export default function Card({
             <strong>Status:</strong> {status}
           </p>
         </div>
-        {/* Add the Favorite Button */}
-        <button
-          className={`favorite-btn ${isFavoritedState ? "favorited" : ""}`}
-          onClick={handleFavorite}
-        >
-          {isFavoritedState ? "★" : "☆"} {/* Simple star icon */}
-        </button>
       </div>
     </div>
   );
