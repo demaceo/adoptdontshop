@@ -1,11 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable @typescript-eslint/no-unused-vars
-// import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Favorites.css";
-import { FavoritesProps } from "../../utils/Types";
+// import { FavoritesProps } from "../../utils/Types";
+import Card from "../Card/Card";
 
+export default function Favorites() {
+  const [favorites, setFavorites] = useState<any[]>([]);
 
+  useEffect(() => {
+    const storedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    setFavorites(storedFavorites);
+  }, []);
 
-export default function Favorites({ favoritePets }: FavoritesProps) {
-  console.log("fav pets", favoritePets);
-  return <div>Favorites</div>;
+  return (
+    <section className="favorites">
+      <h2>Your Favorite Pets</h2>
+      <div className="favorites-grid">
+        {favorites.map((animal: any) => (
+          <Card key={animal.id} {...animal} />
+        ))}
+      </div>
+    </section>
+  );
 }
