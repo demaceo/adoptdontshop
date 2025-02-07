@@ -2,6 +2,8 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 100%;
   max-width: 600px;
   margin: 2vh auto;
@@ -21,7 +23,7 @@ input[type="radio"] {
   margin-top: 5px;
   border: 1px solid #e6e6e6; /* Soft Gray for input borders */
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--secondary-color);
   font-size: 1rem;
   text-align: center;
 }
@@ -43,19 +45,23 @@ input[type="number"]:focus {
 }
 
 button {
-  padding: 10px 15px;
+  padding: 12px 24px;
   background-color: #ffd24b; /* Sunny Yellow for buttons */
-  color: white;
+  color: var(--primary-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin-top: 20px;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.3s ease; */
+  box-shadow: 4px 4px 0px var(--primary-color);
+  transition: transform 0.1s ease-in-out;
 }
 
 button:hover {
-  background-color: #f48c8c; /* Vibrant Coral on hover */
+  transform: scale(1.05);
+  background-color: #f48c8c; /* Vibrant Coral for buttons on hover */
+  color: var(--secondary-color);
 }
 
 h2 {
@@ -126,7 +132,7 @@ input[type="radio"]::before {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #fff; /* Initial background color */
+  background-color: var(--secondary-color); /* Initial background color */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -164,7 +170,7 @@ input[type="checkbox"]::before {
   /* content: ''; */
   width: 16px;
   height: 16px;
-  background-color: #fff; /* Initial background color */
+  background-color: var(--secondary-color);
   /* position: absolute; */
   /* top: 50%; */
   /* left: 50%; */
@@ -176,7 +182,7 @@ input[type="checkbox"]::before {
 /* When the checkbox is checked */
 input[type="checkbox"]:checked::before {
   background-color: #6d9f2b;
-  border-color: #FFD24B;
+  border-color: #ffd24b;
 }
 
 /* Optional: Hover state for better interactivity */
@@ -190,7 +196,7 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:not(:checked) {
-  background-color: #fff;
+  background-color: var(--secondary-color);
   border-color: #ddd;
 }
 
@@ -199,15 +205,15 @@ form div {
 }
 
 input[type="text"] {
-  background-color: #fff;
+  background-color: var(--secondary-color);
   border-color: #ccc;
 }
 
 input[type="number"] {
-  background-color: #fff;
+  background-color: var(--secondary-color);
   border-color: #ccc;
 }
-/* !Container for "Good with" checkboxes */
+/* !Container for "Good with + Attributes:" checkboxes */
 .good-with-container {
   margin-bottom: 0px;
 }
@@ -221,16 +227,16 @@ input[type="number"] {
 /* Flexbox to display checkboxes in a row */
 .checkbox-group {
   display: flex;
-  /* align-items: center; */
-  /* flex-direction: row; */
-  justify-content: center; 
-  gap: 10px; 
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
   flex-wrap: wrap; /* Allow wrapping if screen is too small */
 }
 
 .checkbox-item {
   display: flex;
-  /* align-items: baseline; */
+  text-align: baseline;
   font-size: 1rem;
   color: #555; /* Gray for checkbox text */
 }
@@ -238,15 +244,15 @@ input[type="number"] {
 /* Style for the checkbox input */
 .checkbox-item input {
   margin-right: 5px;
-   /* Space between the checkbox and label */
+  /* Space between the checkbox and label */
 }
 
 .attributes-group {
   display: flex;
   flex-direction: column;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   justify-content: center;
-  /* gap: 10px; */
+  gap: 10px;
 }
 
 /* ! Style for the Distance range input field*/

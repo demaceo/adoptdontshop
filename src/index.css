@@ -1,18 +1,60 @@
 :root {
-  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
-  font-family: 'Poppins', sans-serif;
-  /* font-family: 'Montserrat', sans-serif; */
+  --primary-color: #000; /* Black */
+  --secondary-color: #fff; /* White */
+  --accent-color: #ff0000; /* Red */
+  --highlight-color: #ffcc00; /* Yellow */
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
   /* font-family: "Lato", sans-serif; */
   /* font-family: "Quicksand", sans-serif; */
   /* font-family: "Roboto", sans-serif; */
+  /* font-family: "Bangers", cursive; Comic-book style font */
   color-scheme: light dark;
-  background-color: #1e3502; 
-  
-  /* #242424; */
+  background-color: #1e3502;
+  /* background-color: var(--secondary-color); */
+  color: var(--primary-color);
+  text-align: center;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0 auto;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; */
+  /* align-items: center; */
+  /* height: 100vh;
+  min-width: 320px;
+  width: 100vw; */
 }
 
+/* Comic-style Outline Effect */
+/* * {
+  border: 3px solid var(--primary-color);
+  box-shadow: 4px 4px 0px var(--primary-color);
+} */
 
+/* Main Page Styles */
+/* body {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+} */
+
+/* Button Styling */
+button {
+  background-color: var(--highlight-color);
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  padding: 12px 24px;
+  border: 3px solid var(--primary-color);
+  box-shadow: 4px 4px 0px var(--primary-color);
+  transition: transform 0.1s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+}

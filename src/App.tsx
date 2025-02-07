@@ -2,7 +2,7 @@ import { BrowserRouter, useRoutes } from "react-router-dom";
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
-import SearchBar from "./Components/Search/SearchBar.tsx";
+// import SearchBar from "./Components/Search/SearchBar.tsx";
 import Results from "./Components/Results/Results.tsx";
 import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
@@ -49,8 +49,7 @@ function App() {
         element: (
           <>
             <NavBar />
-            <Hero />
-            <SearchBar />
+            {/* <SearchBar /> */}
             <Favorites />
             <Footer />
           </>

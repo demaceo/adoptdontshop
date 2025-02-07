@@ -1,10 +1,13 @@
 .hero {
-  position: relative;
+  /* background-color: var(--secondary-color); */
   height: 85vh;
-  background-color: #ffcc00; /* Vibrant Pop Art Yellow */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  /* border: 5px solid var(--primary-color); */
+
+  background-color: #ffcc00; /*Vibrant Pop Art Yellow*/
   text-align: center;
   overflow: hidden;
 }
@@ -36,9 +39,13 @@
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   color: #f9f8f2;
+  text-shadow: 5px 5px 0px var(--primary-color);
 }
 
 .hero p {
   font-size: 1.5rem;
   color: #ffffff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  line-height: 1.5;
 }
