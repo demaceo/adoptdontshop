@@ -2,6 +2,7 @@
 import { useState } from "react";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
+import { gsap } from "gsap";
 
 const isFavorited = (id: number) => {
   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -12,24 +13,86 @@ export default function Card({
   name,
   description,
   primary_photo_cropped,
-  breeds,
-  colors,
-  age,
-  gender,
-  size,
-  coat,
-  attributes,
+  breeds = {
+    primary: "Unknown",
+    secondary: "",
+    mixed: false,
+    unknown: false,
+  },
+  colors = { primary: "Unknown", secondary: "", tertiary: "" },
+  age = "Unknown",
+  gender = "Unknown",
+  size = "Unknown",
+  coat = "Unknown",
+  attributes = {
+    spayed_neutered: false,
+    house_trained: false,
+    declawed: null,
+    special_needs: false,
+    shots_current: false,
+  },
   tags,
-  environment,
-  status,
+  environment = { children: false, dogs: false, cats: false },
+  status = "Unknown",
   published_at,
-  contact,
+  contact = {
+    address: {
+      city: "Unknown",
+      state: "N/A",
+      address1: null,
+      address2: null,
+      postcode: "",
+      country: "",
+    },
+    email: "",
+    phone: null,
+  },
 }: AnimalCard) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavoritedState, setIsFavoritedState] = useState<boolean>(
     isFavorited(id)
   );
-  // Function to handle favoriting the animal
+
+  const animateAddFavorite = () => {
+    const tl = gsap.timeline();
+    gsap.set(`.${"--" + id}`, {
+      //start animation state
+      transition: "ease 0",
+      transform: "rotate(0deg)",
+    });
+
+    tl.to(`.${"--" + id}`, { duration: 0.1, translateY: 3 })
+      .to(`.${"--" + id}`, { duration: 0.3, rotateY: 360, translateY: -10 })
+      .to(`.${"--" + id}`, { duration: 0.3, translateY: 0 })
+      .to(
+        `.${"--" + id}`,
+        { duration: 0.2, filter: "grayscale(0%)", cursor: "default" },
+        "-=.4"
+      )
+      .to(
+        `.title-artist-${id}`,
+        { duration: "0.2 !important", color: "rgb(253,235,103)" },
+        "-=.4"
+      )
+      .to(
+        `.badge-${id}`,
+        {
+          borderColor: "rgb(253,235,103)",
+          backgroundColor: "rgb(253,235,103)",
+          color: "rgb(40,44,52)",
+        },
+        "<"
+      )
+      .to(`.card-${id}`, { border: "solid 3px rgb(253,235,103)" }, "<")
+      .to(`.${"--" + id}`, {
+        ease: "none",
+        duration: 8,
+        repeat: -1,
+        rotate: 360,
+      });
+    // setInFavorites(true);
+  };
+
   const handleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
@@ -41,11 +104,29 @@ export default function Card({
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     } else {
       // Add to favorites
-      favorites.push({ id, name, primary_photo_cropped });
+      favorites.push({
+        id,
+        name,
+        description,
+        primary_photo_cropped,
+        breeds,
+        colors,
+        age,
+        gender,
+        size,
+        coat,
+        attributes,
+        tags,
+        environment,
+        status,
+        published_at,
+        contact,
+      });
       localStorage.setItem("favorites", JSON.stringify(favorites));
     }
 
     setIsFavoritedState(!isFavoritedState);
+    animateAddFavorite();
   };
   return (
     <div
@@ -75,49 +156,53 @@ export default function Card({
           </p>
           <p>
             <strong>Located:</strong>{" "}
-            {`${contact.address.city}, ${contact.address.state}`}
+            {contact?.address
+              ? `${contact.address.city}, ${contact.address.state}`
+              : "Location Unavailable"}
           </p>
           <p>
-            <strong>Breed:</strong> {breeds.primary} {breeds.secondary}
+            <strong>Breed:</strong> {breeds?.primary || "Unknown"}{" "}
+            {breeds?.secondary || ""}
           </p>
           <p>
-            <strong>Mixed:</strong> {`${breeds.mixed}`}
+            <strong>Mixed:</strong>{" "}
+            {breeds?.mixed !== undefined ? `${breeds.mixed}` : "Unknown"}
           </p>
           <p>
-            <strong>Colors:</strong> {colors.primary}{" "}
-            {colors.secondary && `/ ${colors.tertiary}`}
+            <strong>Colors:</strong> {colors?.primary || "Unknown"}{" "}
+            {colors?.secondary && `/ ${colors.tertiary}`}
           </p>
           <p>
-            <strong>Age:</strong> {age}
+            <strong>Age:</strong> {age || "Unknown"}
           </p>
           <p>
-            <strong>Gender:</strong> {gender}
+            <strong>Gender:</strong> {gender || "Unknown"}
           </p>
           <p>
-            <strong>Size:</strong> {size}
+            <strong>Size:</strong> {size || "Unknown"}
           </p>
           <p>
-            <strong>Coat:</strong> {coat}
+            <strong>Coat:</strong> {coat || "Unknown"}
           </p>
           <p>
             <strong>Spayed/Neutered:</strong>{" "}
-            {attributes.spayed_neutered ? "Yes" : "No"}
+            {attributes?.spayed_neutered ? "Yes" : "No"}
           </p>
           <p>
             <strong>House Trained:</strong>{" "}
-            {attributes.house_trained ? "Yes" : "No"}
+            {attributes?.house_trained ? "Yes" : "No"}
           </p>
           <p>
-            <strong>Tags:</strong> {tags.join(", ")}
+            <strong>Tags:</strong> {tags.length > 0 ? tags.join(", ") : "None"}
           </p>
           <p>
             <strong>Good With:</strong> Children:{" "}
-            {environment.children ? "Yes" : "No"}, Dogs:{" "}
-            {environment.dogs ? "Yes" : "No"}, Cats:{" "}
-            {environment.cats ? "Yes" : "No"}
+            {environment?.children ? "Yes" : "No"}, Dogs:{" "}
+            {environment?.dogs ? "Yes" : "No"}, Cats:{" "}
+            {environment?.cats ? "Yes" : "No"}
           </p>
           <p>
-            <strong>Status:</strong> {status}
+            <strong>Status:</strong> {status || "Unknown"}
           </p>
         </div>
       </div>
