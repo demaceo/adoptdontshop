@@ -31,10 +31,11 @@
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/adoptdontshop/fonts/Poppins.woff2") format("woff2"),
-       url("/adoptdontshop/fonts/Poppins.ttf") format("truetype");
+  src: url("/fonts/Poppins.woff2") format("woff2"),
+       url("/fonts/Poppins.ttf") format("truetype");
   font-display: swap;
 }
+
 
 
 /* Comic-style Outline Effect */
