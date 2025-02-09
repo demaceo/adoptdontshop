@@ -6,6 +6,7 @@ interface FilterProps {
     type: string;
     gender: string;
     age: string;
+    tags: string;
   }) => void;
 }
 
@@ -14,6 +15,7 @@ export default function Filter({ onFilterChange }: FilterProps) {
     type: "",
     gender: "",
     age: "",
+    tags: ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -25,7 +27,7 @@ export default function Filter({ onFilterChange }: FilterProps) {
 
   return (
     <div className="filter-container">
-      <label>
+      {/* <label>
         Type:
         <select name="type" value={filters.type} onChange={handleChange}>
           <option value="">All</option>
@@ -33,7 +35,7 @@ export default function Filter({ onFilterChange }: FilterProps) {
           <option value="cat">Cat</option>
           <option value="rabbit">Rabbit</option>
         </select>
-      </label>
+      </label> */}
 
       <label>
         Gender:
@@ -52,6 +54,13 @@ export default function Filter({ onFilterChange }: FilterProps) {
           <option value="young">Young</option>
           <option value="adult">Adult</option>
           <option value="senior">Senior</option>
+        </select>
+      </label>
+      <label>
+        Tags:
+        <select name="tags" value={filters.tags} onChange={handleChange}>
+          <option value="any">Any</option>
+          <option value="none">None</option>
         </select>
       </label>
     </div>

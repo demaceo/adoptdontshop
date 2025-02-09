@@ -22,13 +22,17 @@ export default function Favorites() {
     type: string;
     gender: string;
     age: string;
+    tags: string;
   }) => {
     const filtered = favorites.filter(
       (animal) =>
         (!filters.type || animal.type === filters.type) &&
         (!filters.gender ||
           animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
-        (!filters.age || animal.age.toLowerCase() === filters.age.toLowerCase())
+        (!filters.age ||
+          animal.age.toLowerCase() === filters.age.toLowerCase()) &&
+        (filters.tags === "any" ||
+          (filters.tags === "none" && animal.tags.length === 0))
     );
     setFilteredFavorites(filtered);
   };
