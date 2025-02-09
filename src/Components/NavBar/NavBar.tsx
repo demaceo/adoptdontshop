@@ -11,8 +11,8 @@ const Navbar = () => {
         <Link to="/">Home</Link>
         {/* <Link to="/vibe-check">Vibe Check</Link> */}
         <Link to="/favorites">Favorites</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/login">Log-In / Sign Up</Link>
+        {/* <Link to="/contact">Contact</Link> */}
+        {/* <Link to="/login">Log-In / Sign Up</Link> */}
       </div>
     </nav>
   );
