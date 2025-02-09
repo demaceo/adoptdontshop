@@ -1,10 +1,10 @@
 :root {
   --primary-color: #000; /* Black */
   --secondary-color: #fff; /* White */
-  --accent-color: #ff0000; /* Red */
+  --accent-color: #cc0000;
   --highlight-color: #ffcc00; /* Yellow */
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   font-family: "Poppins", sans-serif;
   /* font-family: "Montserrat", sans-serif; */
   /* font-family: "Lato", sans-serif; */
@@ -28,6 +28,14 @@
   /* height: 100vh;
   min-width: 320px;
   width: 100vw; */
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins.woff2") format("woff2"),
+       url("/fonts/Poppins.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Comic-style Outline Effect */
@@ -57,4 +65,8 @@ button:hover {
   transform: scale(1.05);
   background-color: var(--accent-color);
   color: var(--secondary-color);
+}
+
+button:focus {
+  outline: 3px solid var(--accent-color);
 }
