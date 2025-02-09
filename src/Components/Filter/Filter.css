@@ -1,0 +1,18 @@
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

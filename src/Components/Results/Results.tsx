@@ -1,25 +1,47 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Card from "../Card/Card";
+import Filter from "../Filter/Filter";
 import { AnimalCard } from "../../utils/Types";
 import "./Results.css";
 export default function Results() {
   const [animals, setAnimals] = useState<AnimalCard[]>([]); // Store the animals
   const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [totalPages, setTotalPages] = useState(0); // Track total pages
-  const [loading, setLoading] = useState(true); // Loading state
+  // const [totalPages, setTotalPages] = useState(0); // Track total pages
+  // const [loading, setLoading] = useState(true); // Loading state
+  const [filteredAnimals, setFilteredAnimals] = useState<any[]>([]);
   const location = useLocation();
 
   useEffect(() => {
-    const getAnimals = async () => {
-      setLoading(true);
-      // const uniqueAnimals = Array.from(new Set(location.state.animals)); // Remove duplicates using Set
+    if (location.state?.animals) {
       setAnimals(location.state.animals);
-      setTotalPages(location.state.pagination.total_pages);
-      setLoading(false);
-    };
-    getAnimals();
-  }, [location.state.animals, location.state.pagination]);
+      setFilteredAnimals(location.state.animals); // Initialize filtered state
+    }
+  }, [location.state?.animals]);
+
+  const handleFilterChange = (filters: {
+    type: string;
+    gender: string;
+    age: string;
+  }) => {
+    const filtered = animals.filter(
+      (animal) =>
+        (!filters.type || animal.type === filters.type) &&
+        (!filters.gender ||
+          animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
+        (!filters.age || animal.age.toLowerCase() === filters.age.toLowerCase())
+    );
+    setFilteredAnimals(filtered);
+  };
+  // useEffect(() => {
+  //   const getAnimals = async () => {
+  //     setLoading(true);
+  //     setAnimals(location.state.animals);
+  //     setTotalPages(location.state.pagination.total_pages);
+  //     setLoading(false);
+  //   };
+  //   getAnimals();
+  // }, [location.state.animals, location.state.pagination]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -48,7 +70,15 @@ export default function Results() {
   return (
     <div className="results-container">
       <h2>Results</h2>
-      {loading ? (
+      <Filter onFilterChange={handleFilterChange} />
+      <div className="cards-container">
+        {filteredAnimals.length > 0 ? (
+          filteredAnimals.map((animal) => <Card key={animal.id} {...animal} />)
+        ) : (
+          <p>No pets match your filter.</p>
+        )}
+      </div>
+      {/* {loading ? (
         <p>Loading...</p>
       ) : (
         <>
@@ -72,8 +102,8 @@ export default function Results() {
               Next
             </button>
           </div>
-        </>
-      )}
+        </> 
+      )}*/}
     </div>
   );
 }
