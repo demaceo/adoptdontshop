@@ -18,7 +18,8 @@
 
 /* Card Hover Effects */
 .card:hover {
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
+  transform: scale(1.1) rotate(2deg);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -31,6 +32,7 @@
   height: 200px;
   object-fit: cover;
   border-radius: 5px;
+  border: 4px solid var(--primary-color);
 }
 
 .card-content {
@@ -49,6 +51,7 @@
   font-size: 1.5rem;
   color: #4e3b31; /* Rich Brown for animal name */
   /* font-family: "Poppins", sans-serif; */
+  /* text-shadow: 3px 3px 0px var(--primary-color); */
 }
 
 .card-details p {
@@ -87,4 +90,25 @@
 .card-details .status {
   color: #b0e57c; /* Lime Green for status */
   font-weight: bold;
+}
+
+.favorite-btn {
+  background-color: var(--secondary-color);
+  border: none;
+  filter: grayscale(100%);
+  font-size: clamp(1em, 10vw, 2.1em);
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  /* transition: background-color 0.3s ease; */
+  transition: ease-in 0.1s;
+}
+
+.favorite-btn:hover {
+  background-color: #f48c8c;
+  transform: rotate(25deg);
+}
+
+.favorited {
+  background-color: var(--accent-color);
 }

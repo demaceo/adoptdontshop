@@ -139,12 +139,15 @@ export default function Card({
       <button
         className={`favorite-btn ${isFavoritedState ? "favorited" : ""}`}
         onClick={handleFavorite}
+        aria-label={
+          isFavoritedState ? "Remove from favorites" : "Add to favorites"
+        }
       >
         {isFavoritedState ? "★" : "☆"}
       </button>
       <h3>{name}</h3>
       <div className="card-image">
-        <img src={primary_photo_cropped?.small} alt={name} />
+        <img src={primary_photo_cropped?.small} alt={name} loading="lazy" />
       </div>
       <p>{description}</p>
 

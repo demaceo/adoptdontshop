@@ -10,7 +10,6 @@ import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
 
 function App() {
-  // const [finalResults, setFinalResults] = useState<any[]>([]);
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
 
