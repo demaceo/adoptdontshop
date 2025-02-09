@@ -1,21 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Card from "../Card/Card";
 import Filter from "../Filter/Filter";
-import { AnimalCard } from "../../utils/Types";
 import "./Results.css";
+
+const RESULTS_PER_PAGE = 50; // Max results per page
+
 export default function Results() {
-  const [animals, setAnimals] = useState<AnimalCard[]>([]); // Store the animals
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  // const [totalPages, setTotalPages] = useState(0); // Track total pages
-  // const [loading, setLoading] = useState(true); // Loading state
+  const [animals, setAnimals] = useState<any[]>([]);
   const [filteredAnimals, setFilteredAnimals] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
 
   useEffect(() => {
     if (location.state?.animals) {
       setAnimals(location.state.animals);
-      setFilteredAnimals(location.state.animals); // Initialize filtered state
+      setFilteredAnimals(location.state.animals);
     }
   }, [location.state?.animals]);
 
@@ -32,78 +33,54 @@ export default function Results() {
         (!filters.age || animal.age.toLowerCase() === filters.age.toLowerCase())
     );
     setFilteredAnimals(filtered);
-  };
-  // useEffect(() => {
-  //   const getAnimals = async () => {
-  //     setLoading(true);
-  //     setAnimals(location.state.animals);
-  //     setTotalPages(location.state.pagination.total_pages);
-  //     setLoading(false);
-  //   };
-  //   getAnimals();
-  // }, [location.state.animals, location.state.pagination]);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    setCurrentPage(1); // Reset to first page after filtering
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  if (!animals || animals.length === 0) {
-    return <h2>No animals found for your search criteria.</h2>;
-  } else if (!animals.length) {
-    return (
-      <h2>
-        <br />
-        One moment while we play fetch...
-        <br />
-      </h2>
-    );
-  }
+  // Pagination Logic
+  const totalResults = filteredAnimals.length;
+  const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * RESULTS_PER_PAGE;
+  const currentResults = filteredAnimals.slice(
+    startIndex,
+    startIndex + RESULTS_PER_PAGE
+  );
 
   return (
     <div className="results-container">
-      <h2>Results</h2>
+      <h2>Results ({totalResults})</h2>
+      {/* <p>Total Results: {totalResults}</p> */}
+      {/* <p>Showing {currentResults.length} results on this page</p> */}
       <Filter onFilterChange={handleFilterChange} />
       <div className="cards-container">
-        {filteredAnimals.length > 0 ? (
-          filteredAnimals.map((animal) => <Card key={animal.id} {...animal} />)
+        {currentResults.length > 0 ? (
+          currentResults.map((animal) => <Card key={animal.id} {...animal} />)
         ) : (
           <p>No pets match your filter.</p>
         )}
       </div>
-      {/* {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <div className="cards-container">
-            {animals.map((animal: AnimalCard) => (
-              <Card key={animal.id} {...animal} />
-            ))}
-          </div>
 
-          <div className="pagination">
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
-        </> 
-      )}*/}
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
