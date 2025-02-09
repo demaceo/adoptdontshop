@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import viteCompression from 'vite-plugin-compression'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), viteCompression()],
+  build: {
+    minify: "terser",
+  },
   server: {
     port: 3001, // Change to any unused port
 
