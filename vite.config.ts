@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression'
 
 export default defineConfig({
-  base: "https://demaceo.github.io/",
+  base: "/adoptdontshop",
   plugins: [react(), viteCompression()],
   build: {
     minify: "terser",
