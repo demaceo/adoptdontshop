@@ -1,4 +1,4 @@
-import { BrowserRouter, useRoutes } from "react-router-dom";
+import { HashRouter, useRoutes } from "react-router-dom";
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
@@ -59,9 +59,9 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
