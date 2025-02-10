@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
 import { gsap } from "gsap";
-import DEFAULT_IMAGE from "../../assets/default-card-img.jsx";
+// import DEFAULT_IMAGE from "../../assets/default-card-img.jsx";
 const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
 const isFavorited = (id: number) => {
@@ -174,7 +174,7 @@ export default function Card({
         {primary_photo_cropped?.small ? (
           <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
         ) : (
-          DEFAULT_IMAGE
+          "🐾"
         )}
       </div>
       <p>{description}</p>
