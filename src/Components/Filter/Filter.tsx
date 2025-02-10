@@ -7,6 +7,7 @@ interface FilterProps {
     gender: string;
     age: string;
     tags: string;
+    published_at: string;
   }) => void;
 }
 
@@ -15,7 +16,8 @@ export default function Filter({ onFilterChange }: FilterProps) {
     type: "",
     gender: "",
     age: "",
-    tags: ""
+    tags: "",
+    published_at: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -36,7 +38,6 @@ export default function Filter({ onFilterChange }: FilterProps) {
           <option value="rabbit">Rabbit</option>
         </select>
       </label> */}
-
       <label>
         Gender:
         <select name="gender" value={filters.gender} onChange={handleChange}>
@@ -45,7 +46,6 @@ export default function Filter({ onFilterChange }: FilterProps) {
           <option value="female">Female</option>
         </select>
       </label>
-
       <label>
         Age:
         <select name="age" value={filters.age} onChange={handleChange}>
@@ -62,7 +62,14 @@ export default function Filter({ onFilterChange }: FilterProps) {
           <option value="any">Any</option>
           <option value="none">None</option>
         </select>
-      </label>
+      </label>{" "}
+      {/* <label>
+        Published Date:
+        <select name="tags" value={filters.published_at} onChange={handleChange}>
+          <option value="older">Oldest</option>
+          <option value="newer">Newest</option>
+        </select>
+      </label> */}
     </div>
   );
 }
