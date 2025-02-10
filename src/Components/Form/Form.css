@@ -60,7 +60,7 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  background-color: #f48c8c; /* Vibrant Coral for buttons on hover */
+  /* background-color: #f48c8c; Vibrant Coral for buttons on hover */
   color: var(--secondary-color);
 }
 
