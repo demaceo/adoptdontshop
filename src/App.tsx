@@ -8,16 +8,18 @@ import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
+// import { useEffect, useState } from "react";
 
 function App() {
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
 
   // useEffect(() => {
-  //   let storedFavs: any = localStorage;
-  //   storedFavs = storedFavs ? storedFavs : [];
-  //   setFavoritePets(storedFavs);
-  // }, [localStorage]);
+  //   const storedFavorites = JSON.parse(
+  //     localStorage.getItem("favorites") || "[]"
+  //   );
+  //   setFavoritePets(storedFavorites);
+  // }, []);
 
   const Routes = () => {
     const routes = useRoutes([

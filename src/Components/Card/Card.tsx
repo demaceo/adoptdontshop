@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
 import { gsap } from "gsap";
@@ -85,6 +85,24 @@ export default function Card({
     isFavorited(id)
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const checkFavoriteStatus = () => {
+    const storedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    const match = storedFavorites.find((pet: { id: number }) => pet.id === id);
+    if (match) {
+      setIsFavoritedState(true);
+      animateAddFavorite();
+    } else {
+      setIsFavoritedState(false);
+    }
+  };
+
+  useEffect(() => {
+    checkFavoriteStatus();
+  }, [checkFavoriteStatus]);
+
   const animateAddFavorite = () => {
     const tl = gsap.timeline();
     gsap.set(`.${"--" + id}`, {
@@ -102,14 +120,21 @@ export default function Card({
         "-=.4"
       )
       .to(
-        `.title-artist-${id}`,
-        { duration: "0.2 !important", color: "rgb(253,235,103)" },
+        `.pet-name-${id}`,
+        {
+          duration: "0.2 !important",
+          backgroundColor: "rgb(253,235,103)",
+          borderRadius: "5px",
+
+          color: "rgb(253, 135, 103)",
+        },
         "-=.4"
       )
       .to(
         `.badge-${id}`,
         {
           borderColor: "rgb(253,235,103)",
+          borderRadius: "5px",
           backgroundColor: "rgb(253,235,103)",
           color: "rgb(40,44,52)",
         },
@@ -122,7 +147,7 @@ export default function Card({
         repeat: -1,
         rotate: 360,
       });
-    // setInFavorites(true);
+    setIsFavoritedState(true);
   };
 
   const handleFavorite = () => {
@@ -156,20 +181,22 @@ export default function Card({
       });
       localStorage.setItem("favorites", JSON.stringify(favorites));
     }
-
-    setIsFavoritedState(!isFavoritedState);
     animateAddFavorite();
+    setIsFavoritedState(!isFavoritedState);
   };
+
   return (
     <div
       key={id}
-      className={`card ${isHovered ? "expanded" : ""}`}
+      className={`card .card-${id} ${isHovered ? "expanded" : ""}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Add the Favorite Button */}
       <button
-        className={`favorite-btn ${isFavoritedState ? "favorited" : ""}`}
+        className={`favorite-btn --${id} ${
+          isFavoritedState ? "favorited" : ""
+        }`}
         onClick={handleFavorite}
         aria-label={
           isFavoritedState ? "Remove from favorites" : "Add to favorites"
@@ -177,7 +204,7 @@ export default function Card({
       >
         {isFavoritedState ? "★" : "☆"}
       </button>
-      <h3>{name}</h3>
+      <h3 className={`pet-name-${id}`}>{name}</h3>
       <div className="card-image">
         {primary_photo_cropped?.small ? (
           <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
@@ -189,7 +216,7 @@ export default function Card({
 
       <div className="card-content">
         <div className={`card-details ${isHovered ? "show" : ""}`}>
-          <p>
+          <p className={`badge badge-${id}`}>
             <strong>Published:</strong>{" "}
             {new Date(published_at).toLocaleDateString()}
           </p>

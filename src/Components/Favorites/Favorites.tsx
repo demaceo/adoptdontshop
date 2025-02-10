@@ -6,7 +6,7 @@ import "./Favorites.css";
 import Card from "../Card/Card";
 import Filter from "../Filter/Filter";
 
-export default function Favorites() {
+export default function Favorites(){
   const [favorites, setFavorites] = useState<any[]>([]);
   const [filteredFavorites, setFilteredFavorites] = useState<any[]>([]);
 

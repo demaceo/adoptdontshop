@@ -68,5 +68,5 @@ button:hover {
 }
 
 button:focus {
-  outline: 3px solid var(--accent-color);
+  /* outline: 3px solid var(--accent-color); */
 }
