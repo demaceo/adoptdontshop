@@ -11,7 +11,7 @@
   font-size: 2.5rem;
   color: #ffcc00;
   text-decoration: none;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   text-transform: uppercase;
   letter-spacing: 3px;
 }
@@ -21,12 +21,41 @@
   font-size: 1.3rem;
   color: #fff;
   text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  text-transform: lowercase;
 }
 
 .nav-links a:hover {
   color: #ffcc00;
   font-weight: bold;
   text-decoration: underline;
+}
+
+#typewriter-container {
+  display: flex;
+  justify-content: center; /* if removed - left cursor affect */
+}
+
+#typewriter-text {
+  font-family: monospace;
+  margin-inline: auto;  /* if removed - left cursor affect*/
+  overflow: hidden;
+  white-space: nowrap; /* keeps on a single line */
+  border-right: 1px solid; /* acts as the cursor */
+  animation: typing 3s steps(22) forwards, blink 1s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
 }

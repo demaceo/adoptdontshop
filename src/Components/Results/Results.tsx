@@ -5,7 +5,7 @@ import Card from "../Card/Card";
 import Filter from "../Filter/Filter";
 import "./Results.css";
 
-const RESULTS_PER_PAGE = 50; // Max results per page
+const RESULTS_PER_PAGE = 100; // Max results per page
 
 export default function Results() {
   const [animals, setAnimals] = useState<any[]>([]);
@@ -33,7 +33,7 @@ export default function Results() {
           animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
         (!filters.age ||
           animal.age.toLowerCase() === filters.age.toLowerCase()) &&
-        (filters.tags === "any" ||
+        (!filters.tags ||
           (filters.tags === "none" && animal.tags.length === 0))
     );
     setFilteredAnimals(filtered);
