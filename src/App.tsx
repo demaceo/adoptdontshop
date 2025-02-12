@@ -8,6 +8,8 @@ import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
+import PetDetails from "./Components/PetDetails/PetDetails";
+
 // import { useEffect, useState } from "react";
 
 function App() {
@@ -52,6 +54,16 @@ function App() {
             <NavBar />
             {/* <SearchBar /> */}
             <Favorites />
+            <Footer />
+          </>
+        ),
+      },
+      {
+        path: "/pet-details/:id",
+        element: (
+          <>
+            <NavBar />
+            <PetDetails />
             <Footer />
           </>
         ),
