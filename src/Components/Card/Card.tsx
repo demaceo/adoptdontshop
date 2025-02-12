@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
-import { gsap } from "gsap";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 // import DEFAULT_IMAGE from "../../assets/default-card-img.jsx";
-const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
-const isFavorited = (id: number) => {
-  return favorites.some((favorite: any) => favorite.id === id);
-};
 export default function Card({
   id,
   name,
@@ -51,9 +47,6 @@ export default function Card({
   },
 }: AnimalCard) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isFavoritedState, setIsFavoritedState] = useState<boolean>(
-    isFavorited(id)
-  );
   const navigate = useNavigate();
 
   const handleImageClick = () => {
@@ -80,99 +73,6 @@ export default function Card({
       },
     });
   };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const checkFavoriteStatus = () => {
-    const match = favorites.find((pet: { id: number }) => pet.id === id);
-    if (match) {
-      setIsFavoritedState(true);
-      animateAddFavorite();
-    } else {
-      setIsFavoritedState(false);
-    }
-  };
-
-  useEffect(() => {
-    checkFavoriteStatus();
-  }, [checkFavoriteStatus]);
-
-  const animateAddFavorite = () => {
-    const tl = gsap.timeline();
-    gsap.set(`.${"--" + id}`, {
-      //start animation state
-      transition: "ease 0",
-      transform: "rotate(0deg)",
-    });
-
-    tl.to(`.${"--" + id}`, { duration: 0.1, translateY: 3 })
-      .to(`.${"--" + id}`, { duration: 0.3, rotateY: 360, translateY: -10 })
-      .to(`.${"--" + id}`, { duration: 0.3, translateY: 0 })
-      .to(
-        `.${"--" + id}`,
-        { duration: 0.2, filter: "grayscale(0%)", cursor: "default" },
-        "-=.4"
-      )
-      .to(
-        `.pet-name-${id}`,
-        {
-          duration: "0.2 !important",
-          backgroundColor: "rgb(253,235,103)",
-          borderRadius: "5px",
-          color: "rgb(253, 135, 103)",
-        },
-        "-=.4"
-      )
-      .to(
-        `.badge-${id}`,
-        {
-          borderColor: "rgb(253,235,103)",
-          borderRadius: "5px",
-          backgroundColor: "rgb(253,235,103)",
-          color: "rgb(40,44,52)",
-        },
-        "<"
-      )
-      .to(`.card-${id}`, { border: "solid 3px rgb(253,235,103)" }, "<")
-      .to(`.${"--" + id}`, {
-        ease: "none",
-        duration: 8,
-        repeat: -1,
-        rotate: 360,
-      });
-    // setIsFavoritedState(true);
-  };
-
-  const handleFavorite = () => {
-    if (isFavoritedState) {
-      // Remove from favorites
-      const updatedFavorites = favorites.filter(
-        (favorite: any) => favorite.id !== id
-      );
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    } else {
-      // Add to favorites
-      favorites.push({
-        id,
-        name,
-        description,
-        primary_photo_cropped,
-        breeds,
-        colors,
-        age,
-        gender,
-        size,
-        coat,
-        attributes,
-        tags,
-        environment,
-        status,
-        published_at,
-        contact,
-      });
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-    }
-    // animateAddFavorite();
-    setIsFavoritedState(!isFavoritedState);
-  };
 
   return (
     <div
@@ -182,19 +82,27 @@ export default function Card({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* the Favorite Button */}
-      <button
-        className={`favorite-btn --${id} ${
-          isFavoritedState ? "favorited" : ""
-        }`}
-        onClick={handleFavorite}
-        aria-label={
-          isFavoritedState ? "Remove from favorites" : "Add to favorites"
-        }
-      >
-        {isFavoritedState ? "★" : "☆"}
-      </button>
-
-      {/* the Pet Details */}
+      <FavoriteButton
+        id={id}
+        petData={{
+          id,
+          name,
+          description,
+          primary_photo_cropped,
+          breeds,
+          colors,
+          age,
+          gender,
+          size,
+          coat,
+          attributes,
+          tags,
+          environment,
+          status,
+          published_at,
+          contact,
+        }}
+      />
       <h3 className={`pet-name-${id}`}>{name}</h3>
       <div
         className="card-image"

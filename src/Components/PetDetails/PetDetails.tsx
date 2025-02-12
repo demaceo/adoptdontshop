@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PetDetails.css";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 export default function PetDetails() {
   const location = useLocation();
@@ -17,9 +18,12 @@ export default function PetDetails() {
 
   return (
     <div className="pet-details-container">
-      <button className="back-button" onClick={() => navigate(-1)}>
-        ⬅ Back
-      </button>
+      <div className="pet-details-header">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ⬅ Back
+        </button>
+        <FavoriteButton id={pet.id} petData={pet} />
+      </div>
       <h2>{pet.name}</h2>
       <img
         src={

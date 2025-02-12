@@ -9,6 +9,13 @@
   text-align: center;
 }
 
+.pet-details-header {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
+
 .pet-details-container h2 {
   font-size: 2rem;
   color: #4e3b31;

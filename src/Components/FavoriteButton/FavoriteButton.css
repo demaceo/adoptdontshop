@@ -1,0 +1,31 @@
+/* .favorite-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+} */
+
+.favorite-btn {
+  /* display: grid; */
+  /* align-items: center; */
+    /* justify-items: end; */
+  background-color: #ffd24b00;
+  border: none;
+  font-size: clamp(1em, 10vw, 2.1em);
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  /* transition: background-color 0.3s ease; */
+  transition: ease-in 0.1s;
+}
+
+.favorite-btn:hover {
+  transform: rotate(25deg);
+  color: black;
+}
+
+.favorited {
+  color: var(--highlight-color);
+  transition: color 0.3s ease;
+}
