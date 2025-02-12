@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
 import { gsap } from "gsap";
@@ -53,7 +54,32 @@ export default function Card({
   const [isFavoritedState, setIsFavoritedState] = useState<boolean>(
     isFavorited(id)
   );
+  const navigate = useNavigate();
 
+  const handleImageClick = () => {
+    navigate(`/pet-details/${id}`, {
+      state: {
+        pet: {
+          id,
+          name,
+          description,
+          primary_photo_cropped,
+          breeds,
+          colors,
+          age,
+          gender,
+          size,
+          coat,
+          attributes,
+          tags,
+          environment,
+          status,
+          published_at,
+          contact,
+        },
+      },
+    });
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkFavoriteStatus = () => {
     const match = favorites.find((pet: { id: number }) => pet.id === id);
@@ -170,7 +196,11 @@ export default function Card({
 
       {/* the Pet Details */}
       <h3 className={`pet-name-${id}`}>{name}</h3>
-      <div className="card-image">
+      <div
+        className="card-image"
+        onClick={handleImageClick}
+        style={{ cursor: "pointer" }}
+      >
         {primary_photo_cropped?.small ? (
           <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
         ) : (
