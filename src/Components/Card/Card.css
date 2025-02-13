@@ -33,6 +33,10 @@
   border-radius: 5px;
 }
 
+.no-card-image{
+  font-size: 5rem;
+}
+
 .card-content {
   padding: 10px;
   opacity: 0;

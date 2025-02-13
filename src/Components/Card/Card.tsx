@@ -112,7 +112,7 @@ export default function Card({
         {primary_photo_cropped?.small ? (
           <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
         ) : (
-          "🐾"
+          <div className="no-card-image"> 🐾</div>
         )}
       </div>
       <p>{description}</p>

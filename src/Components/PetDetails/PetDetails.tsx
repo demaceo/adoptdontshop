@@ -25,12 +25,15 @@ export default function PetDetails() {
         <FavoriteButton id={pet.id} petData={pet} />
       </div>
       <h2>{pet.name}</h2>
-      <img
-        src={
-          pet.primary_photo_cropped?.large || "https://via.placeholder.com/300"
-        }
-        alt={pet.name}
-      />
+      {pet.primary_photo_cropped?.large ? (
+        <img
+          src={pet.primary_photo_cropped.large}
+          alt={pet.name}
+          loading="lazy"
+        />
+      ) : (
+        <div className="no-pet-image"> 🐾</div>
+      )}
       <p>
         <strong>Breed:</strong> {pet.breeds.primary}
       </p>

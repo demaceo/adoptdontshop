@@ -10,10 +10,10 @@
 }
 
 .pet-details-header {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 10px;
 }
 
 .pet-details-container h2 {
@@ -27,6 +27,10 @@
   height: auto;
   border-radius: 10px;
   margin-bottom: 1rem;
+}
+
+.no-pet-image {
+  font-size: 5rem;
 }
 
 .pet-details-container p {
