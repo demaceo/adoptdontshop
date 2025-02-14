@@ -60,8 +60,11 @@ export default function PetDetails() {
         <p className="contact-info phone-number">
           <strong>Phone:</strong> <a href={`tel:${pet.contact.phone || ''}`}>{pet.contact.phone || ""}</a>
         </p>
-        <p>
-          <strong>Email:</strong> {pet.contact.email || "Not available"}
+        <p className="contact-info email">
+          <strong>Email:</strong>{" "}
+          <a href={`mailto:${pet.contact.email || "Not available"}`}>
+            {pet.contact.email || ""}
+          </a>
         </p>
         <p>
           <strong>Phone:</strong> {pet.contact.phone || "Not available"}
