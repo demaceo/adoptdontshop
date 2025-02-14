@@ -34,6 +34,9 @@ export default function PetDetails() {
       ) : (
         <div className="no-pet-image">🐾</div>
       )}
+      <p className="pet-tags">
+        <strong>Tags:</strong> {pet.tags || "N/A"}
+      </p>
       <p>
         <strong>Breed:</strong> {pet.breeds.primary}
       </p>
