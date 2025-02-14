@@ -56,9 +56,9 @@ export default function PetDetails() {
         <strong>Status:</strong> {pet.status}
       </p>
       <section className="contact-info-container">
-        <p>
-          <strong>Location:</strong> {pet.contact.address.city},{" "}
-          {pet.contact.address.state}
+        <h3 className="contact-info-header">Contact</h3>
+        <p className="contact-info phone-number">
+          <strong>Phone:</strong> <a href={`tel:${pet.contact.phone || ''}`}>{pet.contact.phone || ""}</a>
         </p>
         <p>
           <strong>Email:</strong> {pet.contact.email || "Not available"}
