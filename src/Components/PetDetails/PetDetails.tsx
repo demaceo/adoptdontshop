@@ -66,9 +66,15 @@ export default function PetDetails() {
             {pet.contact.email || ""}
           </a>
         </p>
-        <p>
-          <strong>Phone:</strong> {pet.contact.phone || "Not available"}
+        <p className="contact-info address">
+          <strong>Location:</strong>{" "}
+          {pet.contact.address.address1 || "Not available"}
+          <br></br>
+          {pet.contact.address.city || ""}, {pet.contact.address.state || ""}
+          <br></br>
+          {pet.contact.address.postcode || ""}{" "}
         </p>
+        {/* <a href={pet.url || ""}>More Details</a> */}
       </section>
     </div>
   );
