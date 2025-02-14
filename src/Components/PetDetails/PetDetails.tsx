@@ -32,7 +32,7 @@ export default function PetDetails() {
           loading="lazy"
         />
       ) : (
-        <div className="no-pet-image"> 🐾</div>
+        <div className="no-pet-image">🐾</div>
       )}
       <p>
         <strong>Breed:</strong> {pet.breeds.primary}
@@ -52,16 +52,18 @@ export default function PetDetails() {
       <p>
         <strong>Status:</strong> {pet.status}
       </p>
-      <p>
-        <strong>Location:</strong> {pet.contact.address.city},{" "}
-        {pet.contact.address.state}
-      </p>
-      <p>
-        <strong>Email:</strong> {pet.contact.email || "Not available"}
-      </p>
-      <p>
-        <strong>Phone:</strong> {pet.contact.phone || "Not available"}
-      </p>
+      <section className="contact-info-container">
+        <p>
+          <strong>Location:</strong> {pet.contact.address.city},{" "}
+          {pet.contact.address.state}
+        </p>
+        <p>
+          <strong>Email:</strong> {pet.contact.email || "Not available"}
+        </p>
+        <p>
+          <strong>Phone:</strong> {pet.contact.phone || "Not available"}
+        </p>
+      </section>
     </div>
   );
 }
