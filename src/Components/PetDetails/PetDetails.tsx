@@ -34,6 +34,11 @@ export default function PetDetails() {
       ) : (
         <div className="no-pet-image">🐾</div>
       )}
+      <p className="pet-description">
+        <strong>Bio:</strong> {pet.description || ""}{" "}
+        <a href={pet.url || ""}>More Details</a>
+      </p>
+      <p></p>
       <p className="pet-tags">
         <strong>Tags:</strong> {pet.tags || "N/A"}
       </p>
@@ -58,7 +63,10 @@ export default function PetDetails() {
       <section className="contact-info-container">
         <h3 className="contact-info-header">Contact</h3>
         <p className="contact-info phone-number">
-          <strong>Phone:</strong> <a href={`tel:${pet.contact.phone || ''}`}>{pet.contact.phone || ""}</a>
+          <strong>Phone:</strong>{" "}
+          <a href={`tel:${pet.contact.phone || ""}`}>
+            {pet.contact.phone || ""}
+          </a>
         </p>
         <p className="contact-info email">
           <strong>Email:</strong>{" "}
@@ -70,8 +78,7 @@ export default function PetDetails() {
           <strong>Location:</strong>{" "}
           {pet.contact.address.address1 || "Not available"}
           <br></br>
-          {pet.contact.address.city || ""}, {pet.contact.address.state || ""}
-          <br></br>
+          {pet.contact.address.city || ""}, {pet.contact.address.state || ""}{" "}
           {pet.contact.address.postcode || ""}{" "}
         </p>
         {/* <a href={pet.url || ""}>More Details</a> */}

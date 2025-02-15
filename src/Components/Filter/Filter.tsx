@@ -20,24 +20,32 @@ export default function Filter({ onFilterChange }: FilterProps) {
     published_at: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    const updatedFilters = { ...filters, [name]: value };
-    setFilters(updatedFilters);
-    onFilterChange(updatedFilters); // Pass selected filters back
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   const updatedFilters = { ...filters, [name]: value };
+  //   setFilters(updatedFilters);
+  //   onFilterChange(updatedFilters);
+  // };
+
+const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const { name, value } = e.target;
+  const updatedFilters = { ...filters, [name]: value }; // Keep original casing
+  setFilters(updatedFilters);
+  onFilterChange(updatedFilters);
+};
+
 
   return (
     <div className="filter-container">
-      {/* <label>
+      <label>
         Type:
         <select name="type" value={filters.type} onChange={handleChange}>
           <option value="">All</option>
-          <option value="dog">Dog</option>
-          <option value="cat">Cat</option>
-          <option value="rabbit">Rabbit</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Rabbit">Rabbit</option>
         </select>
-      </label> */}
+      </label>
       <label>
         Gender:
         <select name="gender" value={filters.gender} onChange={handleChange}>

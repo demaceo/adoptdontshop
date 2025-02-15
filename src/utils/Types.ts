@@ -38,6 +38,11 @@ export interface Animal {
 
 export interface AnimalCard {
   id: number;
+  type: string;
+  organization_id: string;
+  url: string;
+  image_url: string;
+  images: string[];
   name: string;
   description: string;
   primary_photo_cropped: PrimaryPhotoCropped;

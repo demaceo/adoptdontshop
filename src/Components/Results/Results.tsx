@@ -20,25 +20,44 @@ export default function Results() {
     }
   }, [location.state?.animals]);
 
-  const handleFilterChange = (filters: {
-    type: string;
-    gender: string;
-    age: string;
-    tags: string;
-  }) => {
-    const filtered = animals.filter(
-      (animal) =>
-        (!filters.type || animal.type === filters.type) &&
-        (!filters.gender ||
-          animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
-        (!filters.age ||
-          animal.age.toLowerCase() === filters.age.toLowerCase()) &&
-        (!filters.tags ||
-          (filters.tags === "none" && animal.tags.length === 0))
-    );
-    setFilteredAnimals(filtered);
-    setCurrentPage(1); // Reset to first page after filtering
-  };
+  // const handleFilterChange = (filters: {
+  //   type: string;
+  //   gender: string;
+  //   age: string;
+  //   tags: string;
+  // }) => {
+  //   const filtered = animals.filter(
+  //     (animal) =>
+  //       (!filters.type || animal.type === filters.type) &&
+  //       (!filters.gender ||
+  //         animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
+  //       (!filters.age ||
+  //         animal.age.toLowerCase() === filters.age.toLowerCase()) &&
+  //       (!filters.tags ||
+  //         (filters.tags === "none" && animal.tags.length === 0))
+  //   );
+  //   setFilteredAnimals(filtered);
+  //   setCurrentPage(1);
+  // };
+
+const handleFilterChange = (filters: {
+  type: string;
+  gender: string;
+  age: string;
+  tags: string;
+}) => {
+  const filtered = animals.filter(
+    (animal) =>
+      (!filters.type || animal.type.toLowerCase() === filters.type.toLowerCase()) &&
+      (!filters.gender || animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
+      (!filters.age || animal.age.toLowerCase() === filters.age.toLowerCase()) &&
+      (!filters.tags || (filters.tags === "none" && animal.tags.length === 0))
+  );
+  setFilteredAnimals(filtered);
+  setCurrentPage(1);
+};
+
+
 
   // Pagination Logic
   const totalResults = filteredAnimals.length;

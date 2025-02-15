@@ -8,6 +8,11 @@ import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 export default function Card({
   id,
+  type,
+  organization_id,
+  url,
+  image_url,
+  images,
   name,
   description,
   primary_photo_cropped,
@@ -54,6 +59,10 @@ export default function Card({
       state: {
         pet: {
           id,
+          organization_id,
+          url,
+          image_url,
+          images,
           name,
           description,
           primary_photo_cropped,
@@ -86,6 +95,11 @@ export default function Card({
         id={id}
         petData={{
           id,
+          type,
+          organization_id,
+          url,
+          image_url,
+          images,
           name,
           description,
           primary_photo_cropped,
