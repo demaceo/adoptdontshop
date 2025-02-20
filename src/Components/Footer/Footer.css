@@ -4,8 +4,9 @@
   text-align: center;
   padding: 1.5rem 0;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
+  margin-top: auto;
 }
 
 .footer p {
