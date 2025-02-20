@@ -26,6 +26,20 @@ function App() {
   const Routes = () => {
     const routes = useRoutes([
       {
+        path: "*",
+        element: (
+          <div className="app-container">
+            <NavBar />
+            <main className="content">
+              <Hero />
+              <About />
+              <Form />
+            </main>
+            <Footer />
+          </div>
+        ),
+      },
+      {
         path: "/",
         element: (
           <>
