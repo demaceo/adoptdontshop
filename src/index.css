@@ -1,12 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap'); */
-
-/* @font-face {
-  font-family: "Poppins";
-  src: url("/fonts/Poppins.woff2") format("woff2"),
-       url("/fonts/Poppins.ttf") format("truetype");
-  font-display: swap;
-} */
-
 :root {
   --primary-color: #000; /* Black */
   --secondary-color: #fff; /* White */
@@ -24,7 +15,8 @@
   margin: 0 auto;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   display: flex;
@@ -34,24 +26,8 @@ html, body {
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
+  min-height: 100vh;
 }
-
-
-
-
-
-/* Comic-style Outline Effect */
-/* * {
-  border: 3px solid var(--primary-color);
-  box-shadow: 4px 4px 0px var(--primary-color);
-} */
-
-/* Main Page Styles */
-/* body {
-  background: var(--secondary-color);
-  color: var(--primary-color);
-} */
 
 /* Button Styling */
 button {
@@ -66,7 +42,6 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  /* background-color: var(--accent-color); */
   color: var(--secondary-color);
 }
 

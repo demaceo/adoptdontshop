@@ -6,7 +6,7 @@ import Filter from "../Filter/Filter";
 import "./Results.css";
 import SearchBar from "../SearchBar/SearchBar";
 
-const RESULTS_PER_PAGE = 100; // Max results per page
+const RESULTS_PER_PAGE = 25; // Max results per page
 
 export default function Results() {
   const [animals, setAnimals] = useState<any[]>([]);
