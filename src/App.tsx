@@ -2,15 +2,12 @@ import { HashRouter, useRoutes } from "react-router-dom";
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
-// import SearchBar from "./Components/Search/SearchBar.tsx";
 import Results from "./Components/Results/Results.tsx";
 import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
-
-// import { useEffect, useState } from "react";
 
 function App() {
   // const [favoritePets, setFavoritePets] = useState([]);
@@ -42,13 +39,15 @@ function App() {
       {
         path: "/",
         element: (
-          <>
+          <div className="app-container">
             <NavBar />
-            <Hero />
-            <About />
-            <Form />
+            <main className="content">
+              <Hero />
+              <About />
+              <Form />
+            </main>
             <Footer />
-          </>
+          </div>
         ),
       },
       {
@@ -66,7 +65,6 @@ function App() {
         element: (
           <>
             <NavBar />
-            {/* <SearchBar /> */}
             <Favorites />
             <Footer />
           </>
