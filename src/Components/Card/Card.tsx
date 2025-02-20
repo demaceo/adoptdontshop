@@ -90,7 +90,6 @@ export default function Card({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* the Favorite Button */}
       <FavoriteButton
         id={id}
         petData={{

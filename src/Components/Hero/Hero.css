@@ -1,13 +1,10 @@
 .hero {
-  /* background-color: var(--secondary-color); */
   height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  /* border: 5px solid var(--primary-color); */
-
-  background-color: #ffcc00; /*Vibrant Pop Art Yellow*/
+  background-color: var(--highlight-color);
   text-align: center;
   overflow: hidden;
 }
@@ -27,7 +24,6 @@
   position: absolute;
   color: #ffffff;
   font-family: "Poppins", sans-serif;
-  /* font-family: 'Bebas Neue', sans-serif; */
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   transform: translateY(-20%);
 }
@@ -49,6 +45,7 @@
   margin: 0;
   line-height: 1.5;
 }
+
 /* Tennis Ball Animation */
 .tennis-ball {
   width: 80px; /* Adjust size as needed */
