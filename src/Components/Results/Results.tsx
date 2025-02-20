@@ -56,7 +56,6 @@ export default function Results() {
             tag.toLowerCase().includes(lowerQuery)
           ))
     );
-
     setFilteredAnimals(searched);
   };
 
@@ -74,7 +73,6 @@ export default function Results() {
       {/* <h2>Results ({totalResults})</h2> */}
       <h2>Results ({filteredAnimals.length})</h2>
       <SearchBar handleSearch={handleSearch} />
-
       {/* <p>Total Results: {totalResults}</p> */}
       {/* <p>Showing {currentResults.length} results on this page</p> */}
       <Filter onFilterChange={handleFilterChange} />
@@ -85,7 +83,6 @@ export default function Results() {
           <p>No pets match your filter.</p>
         )}
       </div>
-
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="pagination">
