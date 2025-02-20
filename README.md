@@ -33,9 +33,6 @@ Adopt Don't Shop is a **pet adoption platform** designed to connect potential pe
 
 ---
 
-## 🎨 UI Design Inspiration
-This project's design is inspired by **Teyana Taylor’s mansion**, featuring a **comic-book aesthetic** with bold outlines, vibrant colors, and pop-art influences.
-
 ---
 
 ## 🚀 Getting Started
