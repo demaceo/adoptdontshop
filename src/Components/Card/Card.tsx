@@ -83,6 +83,19 @@ export default function Card({
     });
   };
 
+  const adjustedDescription = (description: string) => {
+    if (!description) return "";
+    let content = description.replace(/(<([^>]+)>)/gi, "");
+    content = content.replace(/&#8217;|&#8221;|&amp;#39;|&#039;/g, "'");
+    content = content.replace(
+      /F&#038;F9|&#8216;|&#8220;|&#8230;|Read More/g,
+      ""
+    );
+    content = content.replace("&#8212;", "-");
+    content = content.replace("&#8211;", "- ");
+    return content.slice(0, 1000);
+  };
+
   return (
     <div
       key={id}
@@ -128,7 +141,7 @@ export default function Card({
           <div className="no-card-image"> 🐾</div>
         )}
       </div>
-      <p>{description}</p>
+      <p>{adjustedDescription(description)}</p>
 
       <div className="card-content">
         <div className={`card-details ${isHovered ? "show" : ""}`}>
