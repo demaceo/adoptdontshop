@@ -43,10 +43,10 @@ const handleFilterChange = (filters: {
 
     const searched = favorites.filter(
       (animal) =>
-        animal.name.toLowerCase().includes(lowerQuery) ||
-        animal.type.toLowerCase().includes(lowerQuery) ||
-        animal.gender.toLowerCase().includes(lowerQuery) ||
-        animal.age.toLowerCase().includes(lowerQuery) ||
+        animal.name?.toLowerCase().includes(lowerQuery) ||
+        animal.type?.toLowerCase().includes(lowerQuery) ||
+        animal.gender?.toLowerCase().includes(lowerQuery) ||
+        animal.age?.toLowerCase().includes(lowerQuery) ||
         (animal.tags &&
           animal.tags.some((tag: string) =>
             tag.toLowerCase().includes(lowerQuery)
