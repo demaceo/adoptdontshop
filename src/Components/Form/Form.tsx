@@ -7,18 +7,20 @@ import {
   fetchAnimalsByBreed,
 } from "../../utils/apiRequests";
 import "./Form.css";
+import { FormData } from "../../utils/Types";
 
 export default function Form() {
   const [animalTypes, setAnimalTypes] = useState<string[]>([]);
   const [breeds, setBreeds] = useState<string[]>([]);
   const [availableSizes, setAvailableSizes] = useState<string[]>([]);
   const [availableCoats, setAvailableCoats] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
+  
+  const [formData, setFormData] = useState<FormData>({
     type: "",
     breed: "",
     size: "",
-    gender: "",
-    age: "",
+    gender: [],
+    age: [],
     coat: "",
     location: "",
     distance: "",
@@ -27,7 +29,6 @@ export default function Form() {
     goodWithCats: false,
     spayedNeutered: false,
     houseTrained: false,
-    // declawed: false,
     specialNeeds: false,
     shotsCurrent: false,
     limit: 100,
@@ -39,8 +40,8 @@ export default function Form() {
       type: "",
       breed: "",
       size: "",
-      gender: "",
-      age: "",
+      gender: [],
+      age: [],
       coat: "",
       location: "",
       distance: "",
@@ -80,7 +81,6 @@ export default function Form() {
     const breed = e.target.value;
     setFormData({ ...formData, breed });
     const animalsData = await fetchAnimalsByBreed(breed);
-    // Extract unique size and coat values from the animals' data
     const sizes = Array.from(
       new Set(animalsData.map((animal: { size: string }) => animal.size))
     );
@@ -104,6 +104,20 @@ export default function Form() {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+  const handleMultiSelect = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "gender" | "age"
+  ) => {
+    const { value, checked } = e.target;
+
+    setFormData((prevFormData) => {
+      const updatedValues = checked
+        ? [...prevFormData[field], value] // Add if checked
+        : prevFormData[field].filter((item) => item !== value); // Remove if unchecked
+
+      return { ...prevFormData, [field]: updatedValues };
     });
   };
 
@@ -191,88 +205,43 @@ export default function Form() {
           </div>
         </>
       )}
-      {/* //! GENDER */}
+      {/* //! GENDER - Multi-select using checkboxes */}
       <div>
         <label className="field-label">Gender</label>
         <div>
-          <label>
-            <input
-              type="radio"
-              name="gender"
-              value="male"
-              checked={formData.gender === "male"}
-              onChange={handleInputChange}
-            />
-            Male
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="gender"
-              value="female"
-              checked={formData.gender === "female"}
-              onChange={handleInputChange}
-            />
-            Female
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="gender"
-              value="unknown"
-              checked={formData.gender === "unknown"}
-              onChange={handleInputChange}
-            />
-            Unknown
-          </label>
+          {["male", "female", "unknown"].map((option) => (
+            <label key={option}>
+              <input
+                type="checkbox"
+                name="gender"
+                value={option}
+                checked={formData.gender.includes(option)}
+                onChange={(e) => handleMultiSelect(e, "gender")}
+              />
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </label>
+          ))}
         </div>
       </div>
-      {/* //! AGE */}
+      {/* //! AGE - Multi-select using checkboxes */}
       <div>
         <label className="field-label">Age</label>
         <div>
-          <label>
-            <input
-              type="radio"
-              name="age"
-              value="baby"
-              checked={formData.age === "baby"}
-              onChange={handleInputChange}
-            />
-            Baby
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="age"
-              value="young"
-              checked={formData.age === "young"}
-              onChange={handleInputChange}
-            />
-            Young
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="age"
-              value="adult"
-              checked={formData.age === "adult"}
-              onChange={handleInputChange}
-            />
-            Adult
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="age"
-              value="senior"
-              checked={formData.age === "senior"}
-              onChange={handleInputChange}
-            />
-            Senior
-          </label>
+          {["baby", "young", "adult", "senior"].map((option) => (
+            <label key={option}>
+              <input
+                type="checkbox"
+                name="age"
+                value={option}
+                checked={formData.age.includes(option)}
+                onChange={(e) => handleMultiSelect(e, "age")}
+              />
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </label>
+          ))}
         </div>
       </div>
+
       {/* //! LOCATION */}
       <div>
         <label className="field-label">Location</label>
@@ -284,22 +253,25 @@ export default function Form() {
           placeholder="Enter a city, state, OR zip code"
         />
       </div>
-      {/* //! DISTANCE */}
-      <div>
-        <label className="field-label">Distance</label>
-        <div className="range-input-container">
-          <input
-            type="range"
-            name="distance"
-            min="0"
-            max="500"
-            value={formData.distance || 0}
-            onChange={handleInputChange}
-            className="range-input"
-          />
-          <span className="range-value">{formData.distance || 0} miles</span>
+      {/* //! DISTANCE: Only Show if Location is Provided */}
+      {formData.location && (
+        <div className={`form-section ${formData.location ? "visible" : ""}`}>
+          <label className="field-label">Distance</label>
+          <div className="range-input-container">
+            <input
+              type="range"
+              name="distance"
+              min="0"
+              max="500"
+              value={formData.distance || 0}
+              onChange={handleInputChange}
+              className="range-input"
+            />
+            <span className="range-value">{formData.distance || 0} miles</span>
+          </div>
         </div>
-      </div>
+      )}
+
       {/* //! GOOD WITH: */}
       <div className="good-with-container">
         <label className="field-label">Good with:</label>
@@ -392,9 +364,7 @@ export default function Form() {
           </div>
         </div>
       </div>
-      <button type="submit">
-        Search
-      </button>
+      <button type="submit">Search</button>
     </form>
   );
 }
