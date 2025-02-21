@@ -9,22 +9,18 @@ export default function Filter({ onFilterChange }: FilterProps) {
     age: "",
     tags: "",
     published_at: "",
+    mixed: "" as string | boolean,
   });
 
-  // const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   const updatedFilters = { ...filters, [name]: value };
-  //   setFilters(updatedFilters);
-  //   onFilterChange(updatedFilters);
-  // };
-
-const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const { name, value } = e.target;
-  const updatedFilters = { ...filters, [name]: value }; // Keep original casing
-  setFilters(updatedFilters);
-  onFilterChange(updatedFilters);
-};
-
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const updatedFilters = { ...filters, [name]: value };
+    if (name === "mixed") {
+      updatedFilters.mixed = value === "true"; 
+    }
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters);
+  };
 
   return (
     <div className="filter-container">
@@ -61,7 +57,16 @@ const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           <option value="any">Any</option>
           <option value="none">None</option>
         </select>
-      </label>{" "}
+      </label>
+      <label>
+        Mixed:
+        <select name="mixed" value={String(filters.mixed)} onChange={handleChange}>
+          <option value="">Any</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </label>
+
       {/* <label>
         Published Date:
         <select name="tags" value={filters.published_at} onChange={handleChange}>

@@ -30,7 +30,9 @@ export default function Results() {
           animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
         (!filters.age ||
           animal.age.toLowerCase() === filters.age.toLowerCase()) &&
-        (!filters.tags || (filters.tags === "none" && animal.tags.length === 0))
+        (!filters.tags ||
+          (filters.tags === "none" && animal.tags.length === 0)) &&
+        (filters.mixed === "" || animal.breeds.mixed === filters.mixed) // Fixed parentheses and added missing address for mixed
     );
     setFilteredAnimals(filtered);
     setCurrentPage(1);

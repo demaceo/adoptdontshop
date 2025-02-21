@@ -17,4 +17,5 @@
 
 .search-bar input:focus {
   border-color: #f48c8c;
+  box-shadow: 0 0 5px rgba(244, 140, 140, 0.5);
 }
