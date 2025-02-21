@@ -92,6 +92,32 @@
   font-weight: bold;
 }
 
+.card-button {
+  background-color: #ffd24b; /* Soft yellow */
+  color: #4e3b31; /* Dark brown for contrast */
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(255, 210, 75, 0.5); /* Initial glow effect */
+  transition: all 0.3s ease-in-out;
+}
+
+.card-button:hover {
+  background-color: #ffcc00; /* Brighter yellow */
+  box-shadow: 0px 0px 15px rgba(255, 210, 75, 0.8), 
+              0px 0px 25px rgba(255, 210, 75, 0.5); /* Stronger glow */
+  transform: scale(1.05); /* Slightly increase size */
+}
+
+.card-button:active {
+  transform: scale(0.95); /* Pressed effect */
+  box-shadow: 0px 0px 5px rgba(255, 210, 75, 0.6);
+}
+
+
 .favorite-btn {
   /* display: grid; */
   /* align-items: center; */

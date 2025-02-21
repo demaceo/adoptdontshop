@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Card.css";
-import { AnimalCard } from "../../utils/Types";
+import { Animal } from "../../utils/Types";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
 // import DEFAULT_IMAGE from "../../assets/default-card-img.jsx";
 
@@ -11,11 +11,12 @@ export default function Card({
   type,
   organization_id,
   url,
-  image_url,
-  images,
+  // image_url,
+  // images,
   name,
   description,
   primary_photo_cropped,
+  videos,
   breeds = {
     primary: "Unknown",
     secondary: "",
@@ -50,7 +51,7 @@ export default function Card({
     email: "",
     phone: null,
   },
-}: AnimalCard) {
+}: Animal) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
@@ -61,11 +62,12 @@ export default function Card({
           id,
           organization_id,
           url,
-          image_url,
-          images,
+          // image_url,
+          // images,
           name,
           description,
           primary_photo_cropped,
+          videos,
           breeds,
           colors,
           age,
@@ -83,9 +85,9 @@ export default function Card({
     });
   };
 
-  const adjustedDescription = (description: string) => {
-    if (!description) return "";
-    let content = description.replace(/(<([^>]+)>)/gi, "");
+  const adjustedText = (text: string) => {
+    if (!text) return "";
+    let content = text.replace(/(<([^>]+)>)/gi, "");
     content = content.replace(/&#8217;|&#8221;|&amp;#39;|&#039;/g, "'");
     content = content.replace(
       /F&#038;F9|&#8216;|&#8220;|&#8230;|Read More/g,
@@ -110,11 +112,12 @@ export default function Card({
           type,
           organization_id,
           url,
-          image_url,
-          images,
+          // image_url,
+          // images,
           name,
           description,
           primary_photo_cropped,
+          videos,
           breeds,
           colors,
           age,
@@ -129,11 +132,11 @@ export default function Card({
           contact,
         }}
       />
-      <h3 className={`pet-name-${id}`}>{name}</h3>
+      <h3 className={`pet-name-${id}`}>{adjustedText(name)}</h3>
       <div
         className="card-image"
-        onClick={handleImageClick}
-        style={{ cursor: "pointer" }}
+        // onClick={handleImageClick}
+        // style={{ cursor: "pointer" }}
       >
         {primary_photo_cropped?.small ? (
           <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
@@ -141,8 +144,14 @@ export default function Card({
           <div className="no-card-image">🐾</div>
         )}
       </div>
-      <p>{adjustedDescription(description)}</p>
-
+      <p>{adjustedText(description)}</p>
+      <button
+        className="card-button"
+        onClick={handleImageClick}
+        style={{ cursor: "pointer" }}
+      >
+        Contact
+      </button>
       <div className="card-content">
         <div className={`card-details ${isHovered ? "show" : ""}`}>
           <p className={`badge badge-${id}`}>
