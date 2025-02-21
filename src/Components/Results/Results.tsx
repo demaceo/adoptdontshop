@@ -10,7 +10,9 @@ const RESULTS_PER_PAGE = 25; // Max results per page
 
 export default function Results() {
   const [animals, setAnimals] = useState<Animal[]>([]);
-  const [filteredAnimals, setFilteredAnimals] = useState<Animal[]> ([]);
+  const [filteredAnimals, setFilteredAnimals] = useState<Animal[]>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
 
@@ -18,6 +20,12 @@ export default function Results() {
     if (location.state?.animals) {
       setAnimals(location.state.animals);
       setFilteredAnimals(location.state.animals);
+      // Extract unique tags from animals
+      const tagsSet = new Set<string>();
+      location.state.animals.forEach((animal: Animal) => {
+        animal.tags.forEach((tag) => tagsSet.add(tag));
+      });
+      setAvailableTags(Array.from(tagsSet)); // Convert Set to Array
     }
   }, [location.state?.animals]);
 
@@ -31,7 +39,8 @@ export default function Results() {
         (!filters.age ||
           animal.age.toLowerCase() === filters.age.toLowerCase()) &&
         (!filters.tags ||
-          (filters.tags === "none" && animal.tags.length === 0)) &&
+          filters.tags === "" ||
+          animal.tags.includes(filters.tags)) && // Ensure tag filtering works
         (filters.mixed === "" || animal.breeds.mixed === filters.mixed) // Fixed parentheses and added missing address for mixed
     );
     setFilteredAnimals(filtered);
@@ -72,7 +81,10 @@ export default function Results() {
       <SearchBar handleSearch={handleSearch} />
       {/* <p>Total Results: {totalResults}</p> */}
       {/* <p>Showing {currentResults.length} results on this page</p> */}
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter
+        onFilterChange={handleFilterChange}
+        availableTags={availableTags}
+      />
       <div className="cards-container">
         {currentResults.length > 0 ? (
           currentResults.map((animal) => <Card key={animal.id} {...animal} />)

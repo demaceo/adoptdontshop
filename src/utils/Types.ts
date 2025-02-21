@@ -136,6 +136,7 @@ export interface FilterCriteria {
 
 export interface FilterProps {
   onFilterChange: (filters: FilterCriteria) => void;
+  availableTags: string[]; 
 }
 
 export interface GetAllAnimalsApiResponse {

@@ -5,8 +5,8 @@ form {
   justify-content: space-evenly;
   /* align-content: center; */
   text-align: center;
-  width: 50vw;
-  /* max-width: 600px; */
+  /* width: 50vw; */
+  max-width: 600px;
   margin: 2vh auto;
   padding: 60px 30px;
   background-color: #f6eedf; /* Light Beige background */

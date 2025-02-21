@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Filter.css";
 import { FilterProps } from "../../utils/Types";
 
-export default function Filter({ onFilterChange }: FilterProps) {
+export default function Filter({ onFilterChange, availableTags }: FilterProps) {
   const [filters, setFilters] = useState({
     type: "",
     gender: "",
@@ -54,13 +54,23 @@ export default function Filter({ onFilterChange }: FilterProps) {
       <label>
         Tags:
         <select name="tags" value={filters.tags} onChange={handleChange}>
-          <option value="any">Any</option>
-          <option value="none">None</option>
+          {/* <option value="any">Any</option>
+          <option value="none">None</option> */}
+          <option value="">Any</option>
+          {availableTags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
         </select>
       </label>
       <label>
         Mixed:
-        <select name="mixed" value={String(filters.mixed)} onChange={handleChange}>
+        <select
+          name="mixed"
+          value={String(filters.mixed)}
+          onChange={handleChange}
+        >
           <option value="">Any</option>
           <option value="true">Yes</option>
           <option value="false">No</option>

@@ -8,6 +8,8 @@ import { Animal, FilterCriteria } from "../../utils/Types";
 export default function Favorites() {
   const [favorites, setFavorites] = useState<Animal[]>([]);
   const [filteredFavorites, setFilteredFavorites] = useState<Animal[]>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
+
 
   useEffect(() => {
     const storedFavorites = JSON.parse(
@@ -15,6 +17,12 @@ export default function Favorites() {
     );
     setFavorites(storedFavorites);
     setFilteredFavorites(storedFavorites);
+    // Extract unique tags from favorites
+    const tagsSet = new Set<string>();
+    storedFavorites.forEach((animal: Animal) => {
+      animal.tags.forEach((tag) => tagsSet.add(tag));
+    });
+    setAvailableTags(Array.from(tagsSet)); // Convert Set to Array
   }, []);
 
   const handleFilterChange = (filters: FilterCriteria) => {
@@ -27,7 +35,8 @@ export default function Favorites() {
         (!filters.age ||
           animal.age.toLowerCase() === filters.age.toLowerCase()) &&
         (!filters.tags ||
-          (filters.tags === "none" && animal.tags.length === 0)) &&
+          filters.tags === "" ||
+          animal.tags.includes(filters.tags)) && // Ensure tag filtering works
         (filters.mixed === "" || animal.breeds.mixed === filters.mixed)
     );
     setFilteredFavorites(filtered);
@@ -59,7 +68,10 @@ export default function Favorites() {
       <h2>Your Favorite Pets</h2>
       <SearchBar handleSearch={handleSearch} />
       {/* <button onClick={handleResetFilters}>Reset Filters</button> */}
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter
+        onFilterChange={handleFilterChange}
+        availableTags={availableTags}
+      />
       <div className="favorites-grid">
         {filteredFavorites.length > 0 ? (
           filteredFavorites.map((animal) => (
