@@ -42,7 +42,7 @@ input[type="number"] {
 select:focus,
 input[type="text"]:focus,
 input[type="number"]:focus {
-  outline-color: #6d9f2b; /* Muted Green for focus on input fields */
+  outline-color: #6d9f2b; 
 }
 
 button {
@@ -65,10 +65,10 @@ button:hover {
   color: var(--secondary-color);
 }
 
-/* h2 {
+h2 {
   text-align: center;
   margin-bottom: 20px;
-} */
+}
 
 .field-label {
   letter-spacing: 3px;
