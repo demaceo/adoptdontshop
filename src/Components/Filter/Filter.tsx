@@ -1,15 +1,6 @@
 import { useState } from "react";
 import "./Filter.css";
-
-interface FilterProps {
-  onFilterChange: (filters: {
-    type: string;
-    gender: string;
-    age: string;
-    tags: string;
-    published_at: string;
-  }) => void;
-}
+import { FilterProps } from "../../utils/Types";
 
 export default function Filter({ onFilterChange }: FilterProps) {
   const [filters, setFilters] = useState({

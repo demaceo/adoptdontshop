@@ -42,7 +42,7 @@ export interface AnimalCard {
   organization_id: string;
   url: string;
   image_url: string;
-  images: string[];
+  images: string[]; 
   name: string;
   description: string;
   primary_photo_cropped: PrimaryPhotoCropped;
@@ -93,12 +93,49 @@ export interface Environment {
   cats: boolean | null;
 }
 
+export interface FavoriteButtonProps {
+  id: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  petData: any;
+}
+
 export interface FavoritesProps {
   favoritePets: Pet[];
 }
 
+export interface FormData {
+  type: string;
+  breed: string;
+  size: string;
+  gender: string[];
+  age: string[];
+  coat: string;
+  location: string;
+  distance: string;
+  goodWithChildren: boolean;
+  goodWithDogs: boolean;
+  goodWithCats: boolean;
+  spayedNeutered: boolean;
+  houseTrained: boolean;
+  specialNeeds: boolean;
+  shotsCurrent: boolean;
+  limit: number;
+}
+
 export interface FormProps {
   getAnimals: () => Promise<void>;
+}
+
+export interface FilterCriteria {
+  type: string;
+  gender: string;
+  age: string;
+  tags: string;
+  mixed: boolean | string; 
+}
+
+export interface FilterProps {
+  onFilterChange: (filters: FilterCriteria) => void;
 }
 
 export interface GetAllAnimalsApiResponse {

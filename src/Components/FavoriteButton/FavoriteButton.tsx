@@ -2,11 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import "./FavoriteButton.css";
-
-interface FavoriteButtonProps {
-  id: number;
-  petData: any;
-}
+import { FavoriteButtonProps } from "../../utils/Types";
 
 export default function FavoriteButton({ id, petData }: FavoriteButtonProps) {
   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");

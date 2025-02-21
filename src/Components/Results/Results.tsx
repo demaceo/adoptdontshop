@@ -5,12 +5,12 @@ import Card from "../Card/Card";
 import Filter from "../Filter/Filter";
 import "./Results.css";
 import SearchBar from "../SearchBar/SearchBar";
-
+import { FilterCriteria, Animal } from "../../utils/Types";
 const RESULTS_PER_PAGE = 25; // Max results per page
 
 export default function Results() {
-  const [animals, setAnimals] = useState<any[]>([]);
-  const [filteredAnimals, setFilteredAnimals] = useState<any[]>([]);
+  const [animals, setAnimals] = useState<Animal[]>([]);
+  const [filteredAnimals, setFilteredAnimals] = useState<Animal[]> ([]);
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
 
@@ -21,12 +21,7 @@ export default function Results() {
     }
   }, [location.state?.animals]);
 
-  const handleFilterChange = (filters: {
-    type: string;
-    gender: string;
-    age: string;
-    tags: string;
-  }) => {
+  const handleFilterChange = (filters: FilterCriteria) => {
     const filtered = animals.filter(
       (animal) =>
         (!filters.type ||
