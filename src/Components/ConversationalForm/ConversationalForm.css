@@ -1,0 +1,216 @@
+:root {
+  --cf-bg-overlay: rgba(0, 0, 0, 0.7);
+  --cf-modal-bg: #fff;
+  --cf-primary: #6d9f2b;
+  --cf-secondary: #ffd24b;
+  --cf-text: #333;
+  --cf-accent: #4e3b31;
+  --cf-skip: #999;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--cf-bg-overlay);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--cf-modal-bg);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  max-width: 480px;
+  width: 95%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.question {
+  margin-bottom: 1.25rem;
+  font-size: 1.2rem;
+  color: var(--cf-text);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.input-group > * {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Always show a 6-row listbox for breeds */
+.breed-select {
+  display: block;
+  width: 100%;
+  min-height: 140px; /* roughly 6 rows */
+  max-height: 200px;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+.breed-select::-webkit-scrollbar {
+  width: 8px;
+}
+.breed-select::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+/* ==== ICON GRID ==== */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  justify-items: center;
+}
+
+.icon-button {
+      position: relative; /* make ::after absolute to this */
+
+  background: #f6f6f6;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.icon-button:hover {
+  background: #eaeaea;
+  transform: scale(1.15);
+}
+
+/* only show when hovered */
+.icon-button::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 2rem;      /* adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.icon-button:hover::after {
+  opacity: 1;
+}
+
+.icon-button.selected {
+  background: var(--cf-primary);
+  border-color: var(--cf-primary);
+  color: #fff;
+}
+
+/* Multiple-select breed box */
+select[multiple] {
+  height: 120px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* ==== BUTTON GROUP ==== */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: var(--cf-accent);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  text-decoration: underline;
+}
+
+.btn-back:hover {
+  color: var(--cf-primary);
+}
+
+.btn-skip {
+  background: transparent;
+  border: none;
+  color: var(--cf-skip);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-skip:hover {
+  color: var(--cf-accent);
+}
+
+.btn {
+  background: var(--cf-secondary);
+  color: var(--cf-accent);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+  background: #efc93f;
+  transform: translateY(-1px);
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 420px) {
+  .icon-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .icon-button {
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+  }
+  select[multiple] {
+    height: 100px;
+  }
+}
+
+@media (max-width: 340px) {
+  .icon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .icon-button {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+}

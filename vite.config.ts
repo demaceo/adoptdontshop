@@ -3,13 +3,13 @@ import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression'
 
 export default defineConfig({
-  base: "/adoptdontshop",
+  base: "/",
   plugins: [react(), viteCompression()],
   build: {
     minify: "terser",
   },
   server: {
-    port: 3001, // Change to any unused port
+    port: 5173, // Change to any unused port
 
     // proxy: {
     //   '/v2': {

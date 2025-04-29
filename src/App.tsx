@@ -6,9 +6,9 @@ import Results from "./Components/Results/Results.tsx";
 import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
-import Form from "./Components/Form/Form.tsx";
+// import Form from "./Components/Form/Form.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
-
+import ConversationalForm from "./Components/ConversationalForm/ConversationalForm.tsx";
 function App() {
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
@@ -30,7 +30,7 @@ function App() {
             <main className="content">
               <Hero />
               <About />
-              <Form />
+              <ConversationalForm />
             </main>
             <Footer />
           </div>
@@ -44,7 +44,7 @@ function App() {
             <main className="content">
               <Hero />
               <About />
-              <Form />
+              <ConversationalForm />
             </main>
             <Footer />
           </div>
