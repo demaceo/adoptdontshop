@@ -1,58 +1,72 @@
+/* Refactored Card.css for clean, modern look */
+
+:root {
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --card-shadow: rgba(0, 0, 0, 0.05);
+  --card-radius: 12px;
+  --primary-color: #6d9f2b;
+  --accent-color: #ffd24b;
+  --text-color: #333333;
+  --text-light: #555555;
+  --transition-fast: 0.2s ease;
+}
+
 .card {
   position: relative;
-  width: 250px;
-  height: 350px;
-  padding: 16px;
-  background-color: #f6eedf; /* Light Beige background */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: scroll;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 8px var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  width: 100%;
+  max-width: 300px;
 }
 
-.card p {
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Card Hover Effects */
 .card:hover {
-  transform: scale(1.1) rotate(2deg);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px var(--card-shadow);
 }
 
-.card.expanded {
-  height: 500px;
+.card-image {
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  background-color: #f0f0f0;
+  position: relative;
 }
 
 .card-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 5px;
-}
-
-.no-card-image{
-  font-size: 5rem;
 }
 
 .card-content {
-  padding: 10px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.card.expanded .card-content {
-  opacity: 1;
+.card-title {
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin: 0 0 8px;
+  line-height: 1.2;
 }
 
-/* Card Name and Details */
-.card h3 {
-  margin-top: 10px;
-  font-size: 1.5rem;
-  color: #4e3b31;
-  text-shadow: 3px 3px 0px var(--highlight-color);
+.card-description {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  flex: 1;
+  margin-bottom: 16px;
 }
 
 .card-details p {
@@ -60,37 +74,48 @@
   color: #555;
   margin-bottom: 10px;
 }
-
 .card-details strong {
   color: #6d9f2b; /* Muted Green for emphasis on labels */
 }
 
-.card-details p:last-child {
-  margin-bottom: 0;
-}
-
-/* Additional styling for tags and other details */
 .card-tags {
-  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
 }
 
 .card-tags span {
-  background-color: #ffd24b; /* Sunny Yellow for tags */
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background: var(--accent-color);
+  color: var(--card-bg);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-.card-tags span:hover {
-  background-color: #f48c8c; 
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 16px;
 }
 
-.card-details .status {
-  color: #b0e57c; /* Lime Green for status */
-  font-weight: bold;
+/* .card-button {
+  background: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition-fast),
+    transform var(--transition-fast);
 }
+
+.card-button:hover {
+  background: darken(var(--primary-color), 10%);
+  transform: translateY(-2px);
+} */
 
 .card-button {
   background-color: #ffd24b; /* Soft yellow */
@@ -107,37 +132,18 @@
 
 .card-button:hover {
   background-color: #ffcc00; /* Brighter yellow */
-  box-shadow: 0px 0px 15px rgba(255, 210, 75, 0.8), 
-              0px 0px 25px rgba(255, 210, 75, 0.5); /* Stronger glow */
   transform: scale(1.05); /* Slightly increase size */
 }
 
-.card-button:active {
-  transform: scale(0.95); /* Pressed effect */
-  box-shadow: 0px 0px 5px rgba(255, 210, 75, 0.6);
-}
-
-
 .favorite-btn {
-  /* display: grid; */
-  /* align-items: center; */
-    /* justify-items: end; */
-  background-color: #ffd24b00;
+  background: transparent;
   border: none;
-  font-size: clamp(1em, 10vw, 2.1em);
-  border-radius: 5px;
+  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  /* transition: background-color 0.3s ease; */
-  transition: ease-in 0.1s;
+  color: var(--accent-color);
+  transition: color var(--transition-fast);
 }
 
 .favorite-btn:hover {
-  transform: rotate(25deg);
-  color: black;
-}
-
-.favorited {
-  color: var(--highlight-color);
-  transition: color 0.3s ease;
+  color: var(--primary-color);
 }

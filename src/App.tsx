@@ -33,10 +33,7 @@ function App() {
             <main className="content">
               <Hero onChat={() => setShowCF(true)} />
               <About />
-              <button onClick={() => setShowCF(true)}>Chat with Barkley</button>
-              {showCF && (
-                <ConversationalForm onClose={() => setShowCF(false)} />
-              )}
+              <Form />
             </main>
             <Footer />
           </div>

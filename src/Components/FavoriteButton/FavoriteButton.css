@@ -11,6 +11,7 @@
   /* align-items: center; */
     /* justify-items: end; */
   background-color: #ffd24b00;
+  outline: none;
   border: none;
   font-size: clamp(1em, 10vw, 2.1em);
   border-radius: 5px;

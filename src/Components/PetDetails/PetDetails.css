@@ -1,62 +1,201 @@
+/* Sleek PetDetails.css */
+:root {
+  --pd-bg: #ffffff;
+  --pd-accent: #6d9f2b;
+  --pd-secondary: #ffd24b;
+  --pd-text: #333333;
+  --pd-muted: #777777;
+  --pd-border: #e0e0e0;
+  --pd-shadow: rgba(0, 0, 0, 0.1);
+  --pd-radius: 12px;
+  --pd-font: "Poppins", sans-serif;
+}
+
 .pet-details-container {
-  width: 80%;
-  max-width: 600px;
+  max-width: 900px;
   margin: 2rem auto;
-  padding: 20px;
-  background-color: #f6eedf;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  padding: 2rem;
+  background: var(--pd-bg);
+  border-radius: var(--pd-radius);
+  box-shadow: 0 4px 16px var(--pd-shadow);
+  font-family: var(--pd-font);
+  color: var(--pd-text);
 }
 
 .pet-details-header {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  padding: 0px 10px;
-}
-
-.pet-details-container h2 {
-  font-size: 2rem;
-  color: #4e3b31;
-}
-
-.pet-details-container img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-
-.no-pet-image {
-  font-size: 5rem;
-}
-
-.pet-details-container p {
-  font-size: 1.2rem;
-  color: #555;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 .back-button {
-  background-color: #ffcc00;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 5px;
+  background: transparent;
+  border: 2px solid var(--pd-accent);
+  color: var(--pd-accent);
+  padding: 0.5rem 1rem;
+  border-radius: var(--pd-radius);
+  font-size: 0.95rem;
   cursor: pointer;
-  margin-bottom: 15px;
+  transition: background 0.2s, color 0.2s;
 }
-
 .back-button:hover {
-  background-color: #f48c8c;
+  background: var(--pd-accent);
+  color: #fff;
 }
 
-.contact-info-container{
-  border: 4px solid white;
-  border-radius: 15px;
-  background-color:#ffcc00;
-  padding: 15px;
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--pd-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: var(--pd-accent);
+}
+
+.pet-name {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--pd-accent);
+  text-transform: capitalize;
+}
+
+.pet-details-content {
+  display: flex;
+  gap: 2rem;
+}
+
+.pet-main,
+.pet-side {
+  flex: 1;
+}
+
+.pet-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--pd-radius);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pd-border);
+}
+.pet-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-pet-image {
+  font-size: 4rem;
+  color: var(--pd-muted);
+}
+
+.pet-description {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: var(--pd-text);
+}
+.pet-description h3 {
+  margin-bottom: 0.5rem;
+  color: var(--pd-accent);
+}
+
+.pet-tags ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pet-tags li {
+  background: var(--pd-secondary);
+  color: var(--pd-text);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--pd-radius);
+  font-size: 0.9rem;
+}
+
+.pet-details-list {
+  margin-bottom: 2rem;
+}
+.pet-details-list h3 {
+  margin-bottom: 0.5rem;
+  color: var(--pd-accent);
+}
+.pet-details-list dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem 2rem;
+}
+.pet-details-list dt {
+  font-weight: 600;
+  color: var(--pd-text);
+}
+.pet-details-list dd {
+  margin: 0;
+  color: var(--pd-muted);
+}
+
+.contact-info-container {
+  background: var(--pd-secondary);
+  padding: 1.5rem;
+  border-radius: var(--pd-radius);
   color: #fff;
-  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+.contact-info-container h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.contact-info-container p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+.contact-info-container a {
+  color: #fff;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+.contact-info-container a:hover {
+  opacity: 0.8;
+}
+
+.external-link-button {
+  /* display: block; */
+  width: fit-content;
+  margin: 0 auto;
+  background: transparent;
+  /* color: #fff; */
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--pd-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.external-link-button:hover {
+  background: var(--pd-secondary);
+}
+
+@media (max-width: 800px) {
+  .pet-details-content {
+    flex-direction: column;
+  }
+  .pet-main,
+  .pet-side {
+    flex: unset;
+  }
+  .pet-details-container {
+    padding: 1rem;
+  }
+  .pet-details-list dl {
+    grid-template-columns: 1fr;
+  }
 }
