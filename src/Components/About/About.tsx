@@ -12,8 +12,8 @@ const About = () => {
         <br />
         <br />
         <b>
-          Fill out the form below to find a future friend in need of a forever
-          home!
+          Fill out the following form to find a future friend in need of a forever
+          family!
         </b>
       </p>
     </section>
