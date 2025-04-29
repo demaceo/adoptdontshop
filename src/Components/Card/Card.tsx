@@ -8,7 +8,7 @@ import FavoriteButton from "../FavoriteButton/FavoriteButton";
 const sanitize = (html: string = "") =>
   html
     .replace(/(<([^>]+)>)/gi, "")
-    .replace(/&#8217;|&#8221;|&amp;#39;|&#039;/g, "'")
+    .replace(/&#8217;|&#8221;|&amp;#39;|&quot;|&#039;/g, "'")
     .replace(/&#8212;|&#8211;/g, "—")
     .slice(0, 200) + (html.length > 200 ? "…" : "");
 
