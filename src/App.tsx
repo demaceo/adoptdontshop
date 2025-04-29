@@ -1,6 +1,5 @@
 import { HashRouter, useRoutes } from "react-router-dom";
 import { useState } from "react";
-
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
@@ -8,11 +7,11 @@ import Results from "./Components/Results/Results.tsx";
 import Favorites from "./Components/Favorites/Favorites.tsx";
 import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
-// import Form from "./Components/Form/Form.tsx";
+import Form from "./Components/Form/Form.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
 import ConversationalForm from "./Components/ConversationalForm/ConversationalForm.tsx";
 function App() {
-    const [showCF, setShowCF] = useState(false);
+  const [showCF, setShowCF] = useState(false);
 
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
@@ -30,14 +29,14 @@ function App() {
         path: "*",
         element: (
           <div className="app-container">
-            <NavBar />
+            <NavBar onChat={() => setShowCF(true)} />
             <main className="content">
-              <Hero />
+              <Hero onChat={() => setShowCF(true)} />
               <About />
               <button onClick={() => setShowCF(true)}>Chat with Barkley</button>
               {showCF && (
                 <ConversationalForm onClose={() => setShowCF(false)} />
-              )}{" "}
+              )}
             </main>
             <Footer />
           </div>
@@ -47,14 +46,14 @@ function App() {
         path: "/",
         element: (
           <div className="app-container">
-            <NavBar />
+            <NavBar onChat={() => setShowCF(showCF)} />
             <main className="content">
-              <Hero />
-              <About />
-              <button onClick={() => setShowCF(true)}>Chat with Barkley</button>
+              <Hero onChat={() => setShowCF(true)} />
               {showCF && (
                 <ConversationalForm onClose={() => setShowCF(false)} />
-              )}{" "}
+              )}
+              <About />
+              <Form />
             </main>
             <Footer />
           </div>
@@ -64,7 +63,7 @@ function App() {
         path: "/results",
         element: (
           <>
-            <NavBar />
+            <NavBar onChat={() => setShowCF(true)} />
             <Results />
             <Footer />
           </>
@@ -74,7 +73,7 @@ function App() {
         path: "/favorites",
         element: (
           <>
-            <NavBar />
+            <NavBar onChat={() => setShowCF(true)} />
             <Favorites />
             <Footer />
           </>
@@ -84,7 +83,7 @@ function App() {
         path: "/pet-details/:id",
         element: (
           <>
-            <NavBar />
+            <NavBar onChat={() => setShowCF(true)} />
             <PetDetails />
             <Footer />
           </>

@@ -46,12 +46,34 @@
   line-height: 1.5;
 }
 
+.chat-btn {
+  background-color: #0dfdfd;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #333;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #e0e0e0;
+    color: #ff8000;
+  }
+  &:active {
+    background-color: #ccc;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
 /* Tennis Ball Animation */
 .tennis-ball {
   width: 80px; /* Adjust size as needed */
   position: absolute;
   bottom: 0;
-  background-image: url('../../assets/tennisball.svg');
+  background-image: url("../../assets/tennisball.svg");
   background-size: contain;
   background-repeat: no-repeat;
   height: 80px;
@@ -60,11 +82,25 @@
 
 /* Combined Bouncing & Spinning Effect */
 @keyframes bounce-spin {
-  0%   { transform: translateY(0) rotate(0deg); }
-  20%  { transform: translateY(-250px) rotate(60deg); } /* Peak of bounce */
-  40%  { transform: translateY(0) rotate(120deg); } /* Hits ground */
-  60%  { transform: translateY(-150px) rotate(180deg); } /* Adjusted for smoother animation */
-  80%  { transform: translateY(0) rotate(240deg); } /* Hits ground */
-  90%  { transform: translateY(-70px) rotate(300deg); } /* Adjusted tiny bounce */
-  100% { transform: translateY(0) rotate(360deg); } /* Back to ground */
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-250px) rotate(60deg);
+  } /* Peak of bounce */
+  40% {
+    transform: translateY(0) rotate(120deg);
+  } /* Hits ground */
+  60% {
+    transform: translateY(-150px) rotate(180deg);
+  } /* Adjusted for smoother animation */
+  80% {
+    transform: translateY(0) rotate(240deg);
+  } /* Hits ground */
+  90% {
+    transform: translateY(-70px) rotate(300deg);
+  } /* Adjusted tiny bounce */
+  100% {
+    transform: translateY(0) rotate(360deg);
+  } /* Back to ground */
 }
