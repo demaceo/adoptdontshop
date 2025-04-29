@@ -98,7 +98,7 @@
   color: #ffffff;
   padding: 0.25rem 0.75rem;
   border-radius: 6px;
-  font-size: .75rem;
+  font-size: 0.75rem;
   white-space: nowrap;
   opacity: 1;
   transform: translateX(-50%);
@@ -110,7 +110,6 @@
   width: 2.5rem !important;
   height: 2.5rem !important;
 }
-
 
 /* ===== Breed Search & Options ===== */
 .breed-search {
@@ -185,25 +184,46 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   align-items: center;
   margin-top: auto;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .btn-back,
 .btn-skip {
   background: transparent;
+  outline: none;
+  /* margin-right: 1rem; */
   border: none;
   color: var(--cf-accent);
   font-size: 0.95rem;
   cursor: pointer;
   padding: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-skip {
+  margin-left: auto;
+  /* background: var(--cf-secondary); */
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: none;
+  transition: background 0.2s, transform 0.1s;
+  border: 2px solid var(--cf-secondary);
+  text-decoration: underline;
 }
 
 .btn-back:hover,
 .btn-skip:hover {
+  outline: none;
   color: var(--cf-primary);
-  text-decoration: underline;
+    background: var(--cf-secondary);
 }
 
 .btn-next {
+  text-decoration: none;
+  outline: none;
   margin-left: auto;
   background: var(--cf-primary);
   color: #fff;

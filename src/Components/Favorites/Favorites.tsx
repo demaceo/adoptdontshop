@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import "./Favorites.css";
 import Card from "../Card/Card";
@@ -7,80 +8,66 @@ import { Animal, FilterCriteria } from "../../utils/Types";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<Animal[]>([]);
-  const [filteredFavorites, setFilteredFavorites] = useState<Animal[]>([]);
-  const [availableTags, setAvailableTags] = useState<string[]>([]);
-
+  const [filtered, setFiltered] = useState<Animal[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
-    const storedFavorites = JSON.parse(
+    const stored = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
-    setFavorites(storedFavorites);
-    setFilteredFavorites(storedFavorites);
-    // Extract unique tags from favorites
-    const tagsSet = new Set<string>();
-    storedFavorites.forEach((animal: Animal) => {
-      animal.tags.forEach((tag) => tagsSet.add(tag));
-    });
-    setAvailableTags(Array.from(tagsSet)); // Convert Set to Array
+    setFavorites(stored);
+    setFiltered(stored);
+    // derive unique tags
+    const allTags = new Set<string>();
+    stored.forEach((pet: { tags: any[]; }) => pet.tags.forEach((t: string) => allTags.add(t)));
+    setTags(Array.from(allTags));
   }, []);
 
-  const handleFilterChange = (filters: FilterCriteria) => {
-    const filtered = favorites.filter(
-      (animal) =>
-        (!filters.type ||
-          animal.type.toLowerCase() === filters.type.toLowerCase()) &&
-        (!filters.gender ||
-          animal.gender.toLowerCase() === filters.gender.toLowerCase()) &&
-        (!filters.age ||
-          animal.age.toLowerCase() === filters.age.toLowerCase()) &&
-        (!filters.tags ||
-          filters.tags === "" ||
-          animal.tags.includes(filters.tags)) && // Ensure tag filtering works
-        (filters.mixed === "" || animal.breeds.mixed === filters.mixed)
-    );
-    setFilteredFavorites(filtered);
-  };
-
   const handleSearch = (query: string) => {
-    const lowerQuery = query.toLowerCase();
-
-    const searched = favorites.filter(
-      (animal) =>
-        animal.name?.toLowerCase().includes(lowerQuery) ||
-        animal.type?.toLowerCase().includes(lowerQuery) ||
-        animal.gender?.toLowerCase().includes(lowerQuery) ||
-        animal.age?.toLowerCase().includes(lowerQuery) ||
-        (animal.tags &&
-          animal.tags.some((tag: string) =>
-            tag.toLowerCase().includes(lowerQuery)
-          ))
+    const q = query.toLowerCase();
+    setFiltered(
+      favorites.filter(
+        (pet) =>
+          pet.name.toLowerCase().includes(q) ||
+          pet.type.toLowerCase().includes(q) ||
+          pet.tags.some((t) => t.toLowerCase().includes(q))
+      )
     );
-    setFilteredFavorites(searched);
   };
 
-  // const handleResetFilters = () => {
-  //   setFilteredFavorites(favorites);
-  // };
+  const handleFilter = (criteria: FilterCriteria) => {
+    setFiltered(
+      favorites.filter(
+        (pet) =>
+          (!criteria.type || pet.type === criteria.type) &&
+          (!criteria.gender || pet.gender === criteria.gender) &&
+          (!criteria.age || pet.age === criteria.age) &&
+          (!criteria.tags || pet.tags.includes(criteria.tags)) &&
+          (criteria.mixed === "" || pet.breeds.mixed === criteria.mixed)
+      )
+    );
+  };
 
   return (
     <section className="favorites">
       <h2>Your Favorite Pets</h2>
-      <SearchBar handleSearch={handleSearch} />
-      {/* <button onClick={handleResetFilters}>Reset Filters</button> */}
-      <Filter
-        onFilterChange={handleFilterChange}
-        availableTags={availableTags}
-      />
-      <div className="favorites-grid">
-        {filteredFavorites.length > 0 ? (
-          filteredFavorites.map((animal) => (
-            <Card key={animal.id} {...animal} />
-          ))
-        ) : (
-          <p>No favorited pets match your filter.</p>
-        )}
+      <div className="filters-container">
+        <div className="search-bar">
+          <SearchBar handleSearch={handleSearch} />
+        </div>
+        <Filter onFilterChange={handleFilter} availableTags={tags} />
       </div>
+      {filtered.length > 0 ? (
+        <div className="favorites-grid">
+          {filtered.map((pet) => (
+            <Card key={pet.id} {...pet} />
+          ))}
+        </div>
+      ) : (
+        <p className="no-favorites">
+          No favorites match your search or filters.
+        </p>
+      )}
     </section>
   );
 }

@@ -29,7 +29,7 @@ function App() {
         path: "*",
         element: (
           <div className="app-container">
-            <NavBar onChat={() => setShowCF(true)} />
+            <NavBar />
             <main className="content">
               <Hero onChat={() => setShowCF(true)} />
               <About />
@@ -43,7 +43,7 @@ function App() {
         path: "/",
         element: (
           <div className="app-container">
-            <NavBar onChat={() => setShowCF(showCF)} />
+            <NavBar />
             <main className="content">
               <Hero onChat={() => setShowCF(true)} />
               {showCF && (
@@ -60,7 +60,7 @@ function App() {
         path: "/results",
         element: (
           <>
-            <NavBar onChat={() => setShowCF(true)} />
+            <NavBar />
             <Results />
             <Footer />
           </>
@@ -70,7 +70,7 @@ function App() {
         path: "/favorites",
         element: (
           <>
-            <NavBar onChat={() => setShowCF(true)} />
+            <NavBar />
             <Favorites />
             <Footer />
           </>
@@ -80,7 +80,7 @@ function App() {
         path: "/pet-details/:id",
         element: (
           <>
-            <NavBar onChat={() => setShowCF(true)} />
+            <NavBar />
             <PetDetails />
             <Footer />
           </>
