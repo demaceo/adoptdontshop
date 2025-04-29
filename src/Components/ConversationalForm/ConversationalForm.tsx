@@ -7,16 +7,18 @@ import {
   fetchCompletedFormResults,
 } from "../../utils/apiRequests";
 import "./ConversationalForm.css";
-import { PiBarnThin, PiRabbit, PiPawPrintDuotone } from "react-icons/pi";
 import {
-  GiFishScales,
-  GiHorseHead,
-  GiBirdHouse,
-  GiBalloonDog,
-  GiCat,
-} from "react-icons/gi";
+  PiBarnThin,
+  PiBird,
+  PiRabbit,
+  PiPawPrintDuotone,
+  PiDogFill,
+  PiCat,
+} from "react-icons/pi";
+import { GiFishScales } from "react-icons/gi";
+import { LiaHorseHeadSolid } from "react-icons/lia";
+import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
 
-// Shape of form data: multiple types & breeds supported
 interface FormData {
   type: string[];
   breed: string[];
@@ -55,14 +57,21 @@ const initialData: FormData = {
 
 // Icon mappings for animal types
 const icons: Record<string, JSX.Element> = {
-  Dog: <GiBalloonDog />,
-  Cat: <GiCat />,
+  Dog: <PiDogFill />,
+  Cat: <PiCat />,
   Rabbit: <PiRabbit />,
   "Small & Furry": <PiPawPrintDuotone />,
-  Horse: <GiHorseHead />,
-  Bird: <GiBirdHouse />,
+  Horse: <LiaHorseHeadSolid />,
+  Bird: <PiBird />,
   "Scales, Fins & Other": <GiFishScales />,
   Barnyard: <PiBarnThin />,
+};
+
+// Icons for gender preferences
+const genderIcons: Record<string, JSX.Element> = {
+  male: <FaMars />,
+  female: <FaVenus />,
+  unknown: <FaGenderless />,
 };
 
 export default function ConversationalForm() {
@@ -73,6 +82,8 @@ export default function ConversationalForm() {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
   const [coats, setCoats] = useState<string[]>([]);
+  const [breedQuery, setBreedQuery] = useState("");
+
   // Fetch animal types once
   useEffect(() => {
     const fetchData = async () => {
@@ -120,8 +131,7 @@ export default function ConversationalForm() {
   }[] = [
     {
       key: "type",
-      question:
-        "🌸 Hello, I'm Samantha. What kind of companion are you dreaming of today?",
+      question: "What kind of companion are you dreaming of?",
       render: () => (
         <div className="icon-grid">
           {animalTypes.map((t) => {
@@ -150,26 +160,49 @@ export default function ConversationalForm() {
     {
       key: "breed",
       question: "🐶 Lovely choice! Now, which breed calls to your heart?",
-      render: () => (
-        <select
-          multiple
-          size={6}
-          className="breed-select"
-          value={formData.breed}
-          onChange={(e) => {
-            const opts = Array.from(e.target.selectedOptions).map(
-              (o) => o.value
-            );
-            setFormData((p) => ({ ...p, breed: opts }));
-          }}
-        >
-          {breeds.map((b) => (
-            <option key={b} value={b}>
-              {b}
-            </option>
-          ))}
-        </select>
-      ),
+      render: () => {
+        // filter by query
+        const filtered = breeds.filter((b) =>
+          b.toLowerCase().includes(breedQuery.toLowerCase())
+        );
+        return (
+          <>
+            <input
+              className="breed-search"
+              type="text"
+              value={breedQuery}
+              onChange={(e) => setBreedQuery(e.target.value)}
+              placeholder="Search breeds..."
+            />
+            <div className="breed-options">
+              {filtered.map((b) => (
+                <label key={b} className="breed-option">
+                  <input
+                    type="checkbox"
+                    checked={formData.breed.includes(b)}
+                    onChange={() => {
+                      setFormData((p) => {
+                        const next = p.breed.includes(b)
+                          ? p.breed.filter((x) => x !== b)
+                          : [...p.breed, b];
+                        return { ...p, breed: next };
+                      });
+                    }}
+                  />
+                  {b}
+                </label>
+              ))}
+            </div>
+            <div className="selected-breeds">
+              {formData.breed.map((b) => (
+                <span key={b} className="breed-tag">
+                  {b}
+                </span>
+              ))}
+            </div>
+          </>
+        );
+      },
     },
     {
       key: "size",
@@ -210,17 +243,20 @@ export default function ConversationalForm() {
       question: "⚧ Any gender preference?",
       render: () => (
         <div className="icon-grid">
-          {["male", "female", "unknown"].map((g) => (
-            <button
-              key={g}
-              className={`icon-button ${
-                formData.gender === g ? "selected" : ""
-              }`}
-              onClick={() => setFormData((p) => ({ ...p, gender: g }))}
-            >
-              {g}
-            </button>
-          ))}
+          {Object.entries(genderIcons).map(([g, icon]) => {
+            const sel = formData.gender === g;
+            const label = g.charAt(0).toUpperCase() + g.slice(1);
+            return (
+              <button
+                key={g}
+                data-label={label}
+                className={`icon-button ${sel ? "selected" : ""}`}
+                onClick={() => setFormData((p) => ({ ...p, gender: g }))}
+              >
+                {icon}
+              </button>
+            );
+          })}
         </div>
       ),
     },

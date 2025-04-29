@@ -66,6 +66,53 @@
   border-radius: 4px;
 }
 
+/* Search bar */
+.breed-search {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Options container */
+.breed-options {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Each checkbox row */
+.breed-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.breed-option input {
+  margin-right: 0.5rem;
+}
+
+/* Selected tags */
+.selected-breeds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.breed-tag {
+  background: var(--cf-secondary);
+  color: var(--cf-accent);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+
 /* ==== ICON GRID ==== */
 .icon-grid {
   display: grid;
@@ -75,8 +122,7 @@
 }
 
 .icon-button {
-      position: relative; /* make ::after absolute to this */
-
+  position: relative; /* make ::after absolute to this */
   background: #f6f6f6;
   border: 2px solid #ddd;
   border-radius: 8px;
@@ -99,7 +145,7 @@
 .icon-button::after {
   content: attr(data-label);
   position: absolute;
-  top: 2rem;      /* adjust as needed */
+  top: 2rem; /* adjust as needed */
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.75);
