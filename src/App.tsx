@@ -1,4 +1,6 @@
 import { HashRouter, useRoutes } from "react-router-dom";
+import { useState } from "react";
+
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
@@ -10,6 +12,8 @@ import Footer from "./Components/Footer/Footer.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
 import ConversationalForm from "./Components/ConversationalForm/ConversationalForm.tsx";
 function App() {
+    const [showCF, setShowCF] = useState(false);
+
   // const [favoritePets, setFavoritePets] = useState([]);
   // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
 
@@ -30,7 +34,10 @@ function App() {
             <main className="content">
               <Hero />
               <About />
-              <ConversationalForm />
+              <button onClick={() => setShowCF(true)}>Chat with Barkley</button>
+              {showCF && (
+                <ConversationalForm onClose={() => setShowCF(false)} />
+              )}{" "}
             </main>
             <Footer />
           </div>
@@ -44,7 +51,10 @@ function App() {
             <main className="content">
               <Hero />
               <About />
-              <ConversationalForm />
+              <button onClick={() => setShowCF(true)}>Chat with Barkley</button>
+              {showCF && (
+                <ConversationalForm onClose={() => setShowCF(false)} />
+              )}{" "}
             </main>
             <Footer />
           </div>

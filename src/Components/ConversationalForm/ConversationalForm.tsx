@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   fetchAnimalTypes,
@@ -17,13 +18,13 @@ import {
 } from "react-icons/pi";
 import { GiFishScales } from "react-icons/gi";
 import { LiaHorseHeadSolid } from "react-icons/lia";
-import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
+import { FaMars, FaVenus, FaGenderless, FaTimes } from "react-icons/fa";
 
 interface FormData {
   type: string[];
   breed: string[];
   size: string;
-  coat: string;
+  //   coat: string;
   gender: string;
   age: string;
   location: string;
@@ -41,7 +42,7 @@ const initialData: FormData = {
   type: [],
   breed: [],
   size: "",
-  coat: "",
+  //   coat: "",
   gender: "",
   age: "",
   location: "",
@@ -57,14 +58,14 @@ const initialData: FormData = {
 
 // Icon mappings for animal types
 const icons: Record<string, JSX.Element> = {
-  Dog: <PiDogFill />,
-  Cat: <PiCat />,
-  Rabbit: <PiRabbit />,
-  "Small & Furry": <PiPawPrintDuotone />,
-  Horse: <LiaHorseHeadSolid />,
-  Bird: <PiBird />,
-  "Scales, Fins & Other": <GiFishScales />,
-  Barnyard: <PiBarnThin />,
+  Dog: <PiDogFill size={32} />,
+  Cat: <PiCat size={32} />,
+  Rabbit: <PiRabbit size={32} />,
+  "Small & Furry": <PiPawPrintDuotone size={32} />,
+  Horse: <LiaHorseHeadSolid size={32} />,
+  Bird: <PiBird size={32} />,
+  "Scales, Fins & Other": <GiFishScales size={32} />,
+  Barnyard: <PiBarnThin size={32} />,
 };
 
 // Icons for gender preferences
@@ -74,15 +75,20 @@ const genderIcons: Record<string, JSX.Element> = {
   unknown: <FaGenderless />,
 };
 
-export default function ConversationalForm() {
+interface ConversationalFormProps {
+  onClose: () => void;
+}
+
+const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(initialData);
   const [animalTypes, setAnimalTypes] = useState<string[]>([]);
   const [breeds, setBreeds] = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
-  const [coats, setCoats] = useState<string[]>([]);
+  //   const [coats, setCoats] = useState<string[]>([]);
   const [breedQuery, setBreedQuery] = useState("");
+  const [error, setError] = useState<string>();
 
   // Fetch animal types once
   useEffect(() => {
@@ -114,12 +120,12 @@ export default function ConversationalForm() {
         (arrs) => {
           const all = arrs.flat();
           setSizes(Array.from(new Set(all.map((a) => a.size))));
-          setCoats(Array.from(new Set(all.map((a) => a.coat))));
+          //   setCoats(Array.from(new Set(all.map((a) => a.coat))));
         }
       );
     } else {
       setSizes([]);
-      setCoats([]);
+      //   setCoats([]);
     }
   }, [formData.breed]);
 
@@ -159,7 +165,7 @@ export default function ConversationalForm() {
     },
     {
       key: "breed",
-      question: "🐶 Lovely choice! Now, which breed calls to your heart?",
+      question: "Lovely choice! Now, which breed calls to your heart?",
       render: () => {
         // filter by query
         const filtered = breeds.filter((b) =>
@@ -221,23 +227,23 @@ export default function ConversationalForm() {
         </select>
       ),
     },
-    {
-      key: "coat",
-      question: "🧥 What coat type do you prefer?",
-      render: () => (
-        <select
-          value={formData.coat}
-          onChange={(e) => setFormData((p) => ({ ...p, coat: e.target.value }))}
-        >
-          <option value="">-- Choose coat --</option>
-          {coats.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-      ),
-    },
+    // {
+    //   key: "coat",
+    //   question: "🧥 What coat type do you prefer?",
+    //   render: () => (
+    //     <select
+    //       value={formData.coat}
+    //       onChange={(e) => setFormData((p) => ({ ...p, coat: e.target.value }))}
+    //     >
+    //       <option value="">-- Choose coat --</option>
+    //       {coats.map((c) => (
+    //         <option key={c} value={c}>
+    //           {c}
+    //         </option>
+    //       ))}
+    //     </select>
+    //   ),
+    // },
     {
       key: "gender",
       question: "⚧ Any gender preference?",
@@ -313,28 +319,73 @@ export default function ConversationalForm() {
   const isSecond = step === 1;
   const isLocation = step === 6;
 
-  const handleNext = async () => {
-    if (isLast) {
-      const params = new URLSearchParams();
-      Object.entries(formData).forEach(([k, v]) => {
-        if (Array.isArray(v) && v.length) params.append(k, v.join(","));
-        else if (typeof v === "boolean" && v) params.append(k, "true");
-        else if (v !== "" && v != null) params.append(k, String(v));
-      });
-      const data = await fetchCompletedFormResults(params);
-      navigate("/results", { state: data });
+  async function handleNext() {
+    // on last step, build & execute API calls
+    if (step === steps.length - 1) {
+      if (!/^[A-Za-z ]{3,}$/.test(formData.location)) {
+        setError("Looks like that location isn’t valid—please try again.");
+        return;
+      }
+      if (!formData.location) {
+        setError("Please enter a valid location before searching.");
+        return;
+      }
+
+      try {
+        setError(undefined);
+        let allAnimals: any[] = [];
+
+        // for each selected breed (or just once if none)
+        const breedList = formData.breed.length ? formData.breed : [""];
+        for (const b of breedList) {
+          const params = new URLSearchParams();
+          params.append("type", formData.type[0] || "");
+          if (b) params.append("breed", b);
+          params.append("location", formData.location);
+          params.append("distance", formData.distance);
+          // append any true booleans
+          if (formData.goodWithChildren)
+            params.append("good_with_children", "true");
+          // … same for goodWithDogs, goodWithCats, etc
+
+          const data = await fetchCompletedFormResults(params);
+          allAnimals = allAnimals.concat(data?.animals ?? []);
+        }
+
+        // dedupe by id
+        const unique = Array.from(
+          new Map(allAnimals.map((a: any) => [a.id, a])).values()
+        );
+
+        navigate("/results", { state: { animals: unique } });
+      } catch (err) {
+        console.error(err);
+        setError(
+          "Oops, something went wrong fetching pets. Please double-check your inputs."
+        );
+      }
     } else {
+      // not last step yet
       setStep((s) => s + 1);
     }
-  };
+  }
 
   const handleSkip = () => setStep((s) => s + 1);
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="close-btn"
+          onClick={onClose}
+          aria-label="Close modal"
+        >
+          <FaTimes />
+        </button>
         <p className="question">{steps[step].question}</p>
         <div className="input-group">{steps[step].render()}</div>
+        {error && <p className="cf-error">{error}</p>}
+
         <div className="button-group">
           {step > 0 && (
             <button className="btn-back" onClick={() => setStep((s) => s - 1)}>
@@ -347,7 +398,7 @@ export default function ConversationalForm() {
             </button>
           )}
           <button
-            className="btn"
+            className="btn-next"
             onClick={handleNext}
             disabled={
               (isFirst && formData.type.length === 0) ||
@@ -355,10 +406,12 @@ export default function ConversationalForm() {
               (isLocation && !formData.location)
             }
           >
-            {isLast ? "✨ Find Pets" : "Next ➡️"}
+            {isLast ? "✨ Find Pets" : "Next ➡"}
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ConversationalForm;

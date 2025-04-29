@@ -1,18 +1,17 @@
 :root {
-  --cf-bg-overlay: rgba(0, 0, 0, 0.7);
-  --cf-modal-bg: #fff;
-  --cf-primary: #6d9f2b;
-  --cf-secondary: #ffd24b;
-  --cf-text: #333;
-  --cf-accent: #4e3b31;
-  --cf-skip: #999;
+  --cf-bg-overlay: rgba(0, 0, 0, 0.5);
+  --cf-modal-bg: #ffffff;
+  --cf-primary: #4e8cff;
+  --cf-secondary: #f7f9fc;
+  --cf-accent: #1f2a3a;
+  --cf-highlight: #ffb74d;
+  --cf-error: #e53935;
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: var(--cf-bg-overlay);
-  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,21 +19,32 @@
 }
 
 .modal {
+  position: relative;
   background: var(--cf-modal-bg);
-  border-radius: 12px;
-  padding: 2rem 1.5rem;
-  max-width: 480px;
-  width: 95%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
 }
 
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: var(--cf-accent);
+  cursor: pointer;
+}
+
 .question {
-  margin-bottom: 1.25rem;
-  font-size: 1.2rem;
-  color: var(--cf-text);
-  font-weight: 500;
+  margin: 2.5rem 0rem 1.5rem;
+  font-size: 1.3rem;
+  color: var(--cf-accent);
   text-align: center;
   line-height: 1.4;
 }
@@ -44,60 +54,90 @@
   margin-bottom: 1rem;
 }
 
-/* Always show a 6-row listbox for breeds */
-.breed-select {
-  display: block;
-  width: 100%;
-  min-height: 140px; /* roughly 6 rows */
-  max-height: 200px;
-  padding: 0.5rem;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #fff;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-.breed-select::-webkit-scrollbar {
-  width: 8px;
-}
-.breed-select::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+/* ===== Icon Grid ===== */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  margin-bottom: 2rem;
 }
 
-/* Search bar */
+.icon-button {
+  background: var(--cf-secondary);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  /* width: 64px; */
+  /* height: 64px; */
+  /* font-size: 2.5rem; icon size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cf-accent);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, border-color 0.2s;
+}
+
+.icon-button:hover {
+  transform: translateY(-2px);
+}
+
+.icon-button.selected {
+  background: var(--cf-primary);
+  color: #ffffff;
+  border-color: var(--cf-highlight);
+}
+
+/* Tooltip on hover */
+.icon-button[data-label]:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: -2.5rem;
+  background: var(--cf-highlight);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: .75rem;
+  white-space: nowrap;
+  opacity: 1;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+/* icon  inside the button */
+.icon-button svg {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+
+
+/* ===== Breed Search & Options ===== */
 .breed-search {
-  width: 100%;
-  padding: 0.5rem;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Options container */
-.breed-options {
-  max-height: 200px;
-  overflow-y: auto;
+  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
-/* Each checkbox row */
+.breed-options {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
 .breed-option {
   display: flex;
   align-items: center;
-  margin-bottom: 0.25rem;
+  padding: 0.25rem 0;
 }
 
 .breed-option input {
   margin-right: 0.5rem;
 }
 
-/* Selected tags */
+/* Selected breeds tags */
 .selected-breeds {
   display: flex;
   flex-wrap: wrap;
@@ -105,158 +145,90 @@
 }
 
 .breed-tag {
-  background: var(--cf-secondary);
-  color: var(--cf-accent);
+  background: var(--cf-primary);
+  color: #fff;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
-
-/* ==== ICON GRID ==== */
-.icon-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  justify-items: center;
+/* ===== Range Slider ===== */
+input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.icon-button {
-  position: relative; /* make ::after absolute to this */
-  background: #f6f6f6;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  width: 64px;
-  height: 64px;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s, transform 0.2s;
-}
-
-.icon-button:hover {
-  background: #eaeaea;
-  transform: scale(1.15);
-}
-
-/* only show when hovered */
-.icon-button::after {
-  content: attr(data-label);
-  position: absolute;
-  top: 2rem; /* adjust as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.75);
-  color: #fff;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  white-space: nowrap;
-  font-size: 0.75rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s;
-}
-
-.icon-button:hover::after {
-  opacity: 1;
-}
-
-.icon-button.selected {
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
   background: var(--cf-primary);
-  border-color: var(--cf-primary);
-  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-/* Multiple-select breed box */
-select[multiple] {
-  height: 120px;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--cf-primary);
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-/* ==== BUTTON GROUP ==== */
+/* ===== Buttons ===== */
 .button-group {
   display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
+  align-items: center;
   margin-top: auto;
 }
 
-.btn-back {
-  background: transparent;
-  border: none;
-  color: var(--cf-accent);
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  text-decoration: underline;
-}
-
-.btn-back:hover {
-  color: var(--cf-primary);
-}
-
+.btn-back,
 .btn-skip {
   background: transparent;
   border: none;
-  color: var(--cf-skip);
-  font-size: 0.9rem;
+  color: var(--cf-accent);
+  font-size: 0.95rem;
   cursor: pointer;
+  padding: 0.5rem;
+}
+
+.btn-back:hover,
+.btn-skip:hover {
+  color: var(--cf-primary);
   text-decoration: underline;
 }
 
-.btn-skip:hover {
-  color: var(--cf-accent);
-}
-
-.btn {
-  background: var(--cf-secondary);
-  color: var(--cf-accent);
+.btn-next {
+  margin-left: auto;
+  background: var(--cf-primary);
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
 
-.btn:disabled {
+.btn-next:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.btn:hover:not(:disabled) {
-  background: #efc93f;
-  transform: translateY(-1px);
+.btn-next:hover:not(:disabled) {
+  background: var(--cf-highlight);
+  transform: translateY(-2px);
 }
 
-/* ==== RESPONSIVE ==== */
-@media (max-width: 420px) {
-  .icon-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .icon-button {
-    width: 56px;
-    height: 56px;
-    font-size: 1.75rem;
-  }
-  select[multiple] {
-    height: 100px;
-  }
-}
-
-@media (max-width: 340px) {
-  .icon-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .icon-button {
-    width: 48px;
-    height: 48px;
-    font-size: 1.5rem;
-  }
+/* ===== Error Message ===== */
+.cf-error {
+  color: var(--cf-error);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
 }
