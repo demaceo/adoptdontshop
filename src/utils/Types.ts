@@ -34,6 +34,8 @@ export interface Animal {
   distance: number | null;
   contact: Contact;
   _links: Links;
+  image_url?: string;
+  images?: string[];
 }
 
 export interface AnimalCard {
@@ -41,8 +43,8 @@ export interface AnimalCard {
   type: string;
   organization_id: string;
   url: string;
-  image_url: string;
-  images: string[]; 
+  image_url?: string;
+  images?: string[]; 
   name: string;
   description: string;
   primary_photo_cropped: PrimaryPhotoCropped;

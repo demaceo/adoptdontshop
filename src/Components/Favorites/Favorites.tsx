@@ -60,7 +60,7 @@ export default function Favorites() {
       {filtered.length > 0 ? (
         <div className="favorites-grid">
           {filtered.map((pet) => (
-            <Card key={pet.id} {...pet} />
+            <Card key={pet.id} {...pet} image_url={pet.image_url} images={pet.images} />
           ))}
         </div>
       ) : (

@@ -2,11 +2,8 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-interface NavbarProps {
-  onChat: () => void;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ onChat }) => {
+const Navbar = () => {
   return (
     <nav className="navbar">
       <div id="typewriter-container" className="logo">
