@@ -1,4 +1,3 @@
-/* filepath: /Users/demaceovincent/coding/tbc/adoptdontshop/src/Components/Hero/Hero.tsx */
 import "./Hero.css";
 
 interface HeroProps {

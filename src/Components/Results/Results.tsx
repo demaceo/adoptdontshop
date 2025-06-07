@@ -1,4 +1,3 @@
-/* filepath: /Users/demaceovincent/coding/tbc/adoptdontshop/src/Components/Results/Results.tsx */
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Card from "../Card/Card";
