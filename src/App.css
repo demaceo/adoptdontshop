@@ -1,9 +1,73 @@
+/* App-specific layout styles */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
 }
 
 .content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Main content areas */
+.main-content {
+  flex: 1;
+  padding: var(--space-6) 0;
+}
+
+.section {
+  padding: var(--space-12) 0;
+}
+
+.section:first-child {
+  padding-top: var(--space-8);
+}
+
+.section:last-child {
+  padding-bottom: var(--space-8);
+}
+
+/* Layout utilities for app */
+.full-width {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+/* Smooth scrolling sections */
+.scroll-section {
+  scroll-margin-top: var(--space-20);
+}
+
+/* App-specific responsive adjustments */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+  
+  .main-content {
+    padding: var(--space-4) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-6) 0;
+  }
+  
+  .main-content {
+    padding: var(--space-3) 0;
+  }
 }

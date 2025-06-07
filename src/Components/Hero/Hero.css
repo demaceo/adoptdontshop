@@ -1,106 +1,356 @@
 .hero {
-  height: 85vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   position: relative;
-  background-color: var(--highlight-color);
-  text-align: center;
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 50%, var(--accent-600) 100%);
   overflow: hidden;
+  padding: var(--space-8) 0;
 }
 
-.hero-image {
-  width: 100%;
-  object-fit: cover;
-  filter: brightness(0.7);
-  transition: filter 0.3s ease;
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  z-index: 1;
 }
 
-.hero-image:hover {
-  filter: brightness(1);
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-12);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  position: relative;
+  z-index: 3;
 }
 
 .hero-text {
-  position: absolute;
-  color: #ffffff;
-  font-family: "Poppins", sans-serif;
-  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  transform: translateY(-20%);
+  max-width: 600px;
 }
 
 .hero h1 {
-  font-size: 5rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
-  color: #f9f8f2;
-  text-shadow: 5px 5px 0px var(--primary-color);
+  font-family: var(--font-family-primary);
+  font-size: var(--text-5xl);
+  font-weight: var(--font-extrabold);
+  color: white;
+  margin-bottom: var(--space-4);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.hero p {
-  font-size: 1.5rem;
-  color: #ffffff;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  margin: 0;
-  line-height: 1.5;
+.hero-subtitle {
+  font-family: var(--font-family-secondary);
+  font-size: var(--text-xl);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+  font-weight: var(--font-normal);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .chat-btn {
-  background-color: #0dfdfd;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: linear-gradient(135deg, var(--accent-400) 0%, var(--accent-500) 100%);
+  color: var(--gray-900);
   border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-family-primary);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  border-radius: 5px;
-  color: #333;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #e0e0e0;
-    color: #ff8000;
-  }
-  &:active {
-    background-color: #ccc;
-  }
-  &:focus {
-    outline: none;
-  }
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Tennis Ball Animation */
-.tennis-ball {
-  width: 80px; /* Adjust size as needed */
+.chat-btn::before {
+  content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.chat-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, var(--accent-300) 0%, var(--accent-400) 100%);
+}
+
+.chat-btn:hover::before {
+  left: 100%;
+}
+
+.chat-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chat-btn::after {
+  content: '🐕';
+  font-size: var(--text-base);
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-family-primary);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stat-label {
+  font-family: var(--font-family-secondary);
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Tennis Ball Animation - Refined */
+.tennis-ball-container {
+  position: relative;
+  width: 120px;
+  height: 400px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.tennis-ball {
+  width: 60px;
+  height: 60px;
   background-image: url("../../assets/tennisball.svg");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 80px;
-  animation: bounce-spin 3s ease-in-out infinite;
+  animation: refined-bounce 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
-/* Combined Bouncing & Spinning Effect */
-@keyframes bounce-spin {
-  0% {
-    transform: translateY(0) rotate(0deg);
+@keyframes refined-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
   }
-  20% {
-    transform: translateY(-250px) rotate(60deg);
-  } /* Peak of bounce */
-  40% {
-    transform: translateY(0) rotate(120deg);
-  } /* Hits ground */
-  60% {
-    transform: translateY(-150px) rotate(180deg);
-  } /* Adjusted for smoother animation */
-  80% {
-    transform: translateY(0) rotate(240deg);
-  } /* Hits ground */
-  90% {
-    transform: translateY(-70px) rotate(300deg);
-  } /* Adjusted tiny bounce */
-  100% {
-    transform: translateY(0) rotate(360deg);
-  } /* Back to ground */
+  25% {
+    transform: translateY(-150px) rotate(90deg) scale(0.95);
+  }
+  50% {
+    transform: translateY(-200px) rotate(180deg) scale(0.9);
+  }
+  75% {
+    transform: translateY(-100px) rotate(270deg) scale(0.95);
+  }
+}
+
+/* Floating elements for visual interest */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.floating-paw {
+  position: absolute;
+  font-size: var(--text-4xl);
+  opacity: 0.1;
+  animation: float-rotate 8s ease-in-out infinite;
+}
+
+.floating-paw:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-paw:nth-child(2) {
+  top: 60%;
+  right: 15%;
+  animation-delay: 2s;
+  animation-duration: 10s;
+}
+
+.floating-paw:nth-child(3) {
+  bottom: 30%;
+  left: 20%;
+  animation-delay: 4s;
+  animation-duration: 12s;
+}
+
+@keyframes float-rotate {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(240deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-8);
+  }
+  
+  .tennis-ball-container {
+    order: -1;
+    height: 200px;
+  }
+  
+  .tennis-ball {
+    width: 50px;
+    height: 50px;
+  }
+  
+  @keyframes refined-bounce {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg) scale(1);
+    }
+    50% {
+      transform: translateY(-80px) rotate(180deg) scale(0.9);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 90vh;
+    padding: var(--space-6) 0;
+  }
+  
+  .hero-content {
+    padding: 0 var(--space-4);
+    gap: var(--space-6);
+  }
+  
+  .hero h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-6);
+  }
+  
+  .chat-btn {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+  }
+  
+  .hero-stats {
+    gap: var(--space-4);
+    justify-content: center;
+  }
+  
+  .stat-number {
+    font-size: var(--text-xl);
+  }
+  
+  .tennis-ball-container {
+    height: 150px;
+  }
+  
+  .floating-paw {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 80vh;
+  }
+  
+  .hero h1 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-3);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-4);
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .chat-btn {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .hero-stats {
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tennis-ball-container {
+    display: none;
+  }
+  
+  .floating-elements {
+    display: none;
+  }
 }

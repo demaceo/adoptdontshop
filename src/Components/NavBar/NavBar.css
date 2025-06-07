@@ -1,48 +1,69 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #000;
-  border-bottom: 4px solid #ffcc00;
+  padding: var(--space-4) var(--space-6);
+  background-color: rgba(165, 220, 84, 0.334);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: all var(--transition-base);
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--accent-50) 100%);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .logo a {
-  font-size: 2.5rem;
-  color: #ffcc00;
+  font-family: var(--font-family-primary);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--primary-700);
   text-decoration: none;
-  font-family: "Bebas Neue", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: -0.02em;
+  transition: all var(--transition-fast);
+  position: relative;
 }
 
-.nav-links a {
-  margin-left: 3rem;
-  font-size: 1.3rem;
-  color: #fff;
-  text-decoration: none;
-  font-family: "Poppins", sans-serif;
-  text-transform: lowercase;
+.logo a::before {
+  content: '🐾';
+  margin-right: var(--space-2);
+  font-size: var(--text-lg);
+  opacity: 0.8;
 }
 
-.nav-links a:hover {
-  color: #ffcc00;
-  font-weight: bold;
-  text-decoration: underline;
+.logo a:hover {
+  color: var(--primary-600);
+  transform: translateY(-1px);
 }
 
+/* Typewriter effect - refined */
 #typewriter-container {
-  display: flex;
-  justify-content: center; /* if removed - left cursor affect */
+  overflow: hidden;
 }
 
 #typewriter-text {
-  font-family: monospace;
-  margin-inline: auto;  /* if removed - left cursor affect*/
+  display: inline-block;
+  border-right: 2px solid var(--primary-600);
+  white-space: nowrap;
   overflow: hidden;
-  white-space: nowrap; /* keeps on a single line */
-  border-right: 1px solid; /* acts as the cursor */
-  animation: typing 3s steps(22) forwards, blink 1s step-end infinite;
+  animation: typing 3s steps(15) forwards, blink 1s step-end infinite;
 }
 
 @keyframes typing {
@@ -55,7 +76,101 @@
 }
 
 @keyframes blink {
-  50% {
+  0%, 50% {
+    border-color: var(--primary-600);
+  }
+  51%, 100% {
     border-color: transparent;
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.nav-links a {
+  font-family: var(--font-family-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--primary-100), transparent);
+  transition: left var(--transition-base);
+}
+
+.nav-links a:hover {
+  color: var(--primary-700);
+  background-color: var(--primary-50);
+  transform: translateY(-1px);
+}
+
+.nav-links a:hover::before {
+  left: 100%;
+}
+
+.nav-links a:focus-visible {
+  outline: 2px solid var(--primary-600);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: var(--space-3) var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  
+  .logo a {
+    font-size: var(--text-xl);
+  }
+  
+  .nav-links {
+    gap: var(--space-4);
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+  }
+  
+  .nav-links a {
+    font-size: var(--text-xs);
+    padding: var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .logo a {
+    font-size: var(--text-lg);
+  }
+  
+  .nav-links {
+    gap: var(--space-2);
+  }
+  
+  #typewriter-text {
+    animation: none;
+    border-right: none;
   }
 }

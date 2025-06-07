@@ -129,6 +129,7 @@ export interface FormProps {
 }
 
 export interface FilterCriteria {
+  size: any;
   type: string;
   gender: string;
   age: string;

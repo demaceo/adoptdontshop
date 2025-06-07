@@ -14,7 +14,8 @@ export default function Form() {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [availableSizes, setAvailableSizes] = useState<string[]>([]);
   const [availableCoats, setAvailableCoats] = useState<string[]>([]);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState<FormData>({
     type: "",
     breed: "",
@@ -35,6 +36,7 @@ export default function Form() {
   });
 
   const navigate = useNavigate();
+
   const clearFormData = () => {
     setFormData({
       type: "",
@@ -50,7 +52,6 @@ export default function Form() {
       goodWithCats: false,
       spayedNeutered: false,
       houseTrained: false,
-      // declawed: false,
       specialNeeds: false,
       shotsCurrent: false,
       limit: 100,
@@ -73,7 +74,7 @@ export default function Form() {
     const type = e.target.value;
     setFormData({ ...formData, type });
     const fetchedBreeds = await fetchBreeds(type);
-    const uniqueBreeds = Array.from(new Set(fetchedBreeds)); // Remove duplicates using Set
+    const uniqueBreeds = Array.from(new Set(fetchedBreeds));
     setBreeds(uniqueBreeds);
   };
 
@@ -106,6 +107,7 @@ export default function Form() {
       [name]: value,
     });
   };
+
   const handleMultiSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: "gender" | "age"
@@ -114,8 +116,8 @@ export default function Form() {
 
     setFormData((prevFormData) => {
       const updatedValues = checked
-        ? [...prevFormData[field], value] // Add if checked
-        : prevFormData[field].filter((item) => item !== value); // Remove if unchecked
+        ? [...prevFormData[field], value]
+        : prevFormData[field].filter((item) => item !== value);
 
       return { ...prevFormData, [field]: updatedValues };
     });
@@ -123,248 +125,335 @@ export default function Form() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const params = new URLSearchParams();
-    Object.keys(formData).forEach((key) => {
-      const typedKey = key as keyof typeof formData;
-      if (formData[typedKey] && formData[typedKey] !== "") {
-        params.append(key, formData[typedKey].toString());
-      }
-    });
+    setIsLoading(true);
 
-    const data = await fetchCompletedFormResults(params);
-    navigate("/results", { state: data });
+    try {
+      const params = new URLSearchParams();
+      Object.keys(formData).forEach((key) => {
+        const typedKey = key as keyof typeof formData;
+        if (formData[typedKey] && formData[typedKey] !== "") {
+          params.append(key, formData[typedKey].toString());
+        }
+      });
+
+      const data = await fetchCompletedFormResults(params);
+      navigate("/results", { state: data });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-section visible">
-        {/* //!Type field */}
-        <label className="field-label">Type</label>
-        <select name="type" value={formData.type} onChange={handleTypeChange}>
-          <option value="">Select Animal Type</option>
-          {animalTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-      </div>
-      {/* //!Breed: Only show after Type is selected */}
-      {formData.type && (
-        <div className={`form-section ${formData.type ? "visible" : ""}`}>
-          <label className="field-label">Breed</label>
-          <select
-            name="breed"
-            value={formData.breed}
-            onChange={handleBreedChange}
-          >
-            <option value="">Select Breed</option>
-            {breeds.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
-          </select>
+    <section className="form-section">
+      <div className="form-container">
+        <div className="form-header">
+          <h2>Find Your Perfect Pet</h2>
+          <p>
+            Tell us what you're looking for, and we'll help you find your ideal
+            companion
+          </p>
         </div>
-      )}
-      {/* //! Additional Fields: Show after Breed is selected  */}
-      {formData.breed && (
-        <>
-          <div className="checkbox-group">
-            <div className={`form-section ${formData.breed ? "visible" : ""}`}>
-              <label className="field-label">Size</label>
+
+        <form
+          onSubmit={handleSubmit}
+          className={`pet-form ${isLoading ? "form-loading" : ""}`}
+        >
+          {/* Basic Information */}
+          <div className="form-row">
+            <div className="form-field">
+              <label className="field-label">Animal Type</label>
               <select
-                name="size"
-                value={formData.size}
-                onChange={handleSelectChange}
+                name="type"
+                value={formData.type}
+                onChange={handleTypeChange}
               >
-                <option value="">Select Size</option>
-                {availableSizes.map((size) => (
-                  <option key={size} value={size}>
-                    {size}
+                <option value="">Select Animal Type</option>
+                {animalTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
                   </option>
                 ))}
               </select>
             </div>
-            {/* //! COAT */}
-            <div className={`form-section ${formData.breed ? "visible" : ""}`}>
-              <label className="field-label">Coat</label>
-              <select
-                name="coat"
-                value={formData.coat}
-                onChange={handleSelectChange}
+
+            {formData.type && (
+              <div
+                className={`form-field form-step ${
+                  formData.type ? "visible" : ""
+                }`}
               >
-                <option value="">Select Coat</option>
-                {availableCoats.map((coat) => (
-                  <option key={coat} value={coat}>
-                    {coat}
-                  </option>
-                ))}
-              </select>
+                <label className="field-label">Breed</label>
+                <select
+                  name="breed"
+                  value={formData.breed}
+                  onChange={handleBreedChange}
+                >
+                  <option value="">Select Breed</option>
+                  {breeds.map((breed) => (
+                    <option key={breed} value={breed}>
+                      {breed}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+
+          {/* Additional Characteristics */}
+          {formData.breed && (
+            <div className="form-step visible">
+              <div className="form-row">
+                <div className="form-field">
+                  <label className="field-label">Size</label>
+                  <select
+                    name="size"
+                    value={formData.size}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="">Select Size</option>
+                    {availableSizes.map((size) => (
+                      <option key={size} value={size}>
+                        {size}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-field">
+                  <label className="field-label">Coat</label>
+                  <select
+                    name="coat"
+                    value={formData.coat}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="">Select Coat</option>
+                    {availableCoats.map((coat) => (
+                      <option key={coat} value={coat}>
+                        {coat}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="form-divider">
+            <span>Preferences</span>
+          </div>
+
+          {/* Gender Selection */}
+          <div className="form-field">
+            <label className="field-label">Gender</label>
+            <div className="checkbox-group">
+              {["male", "female", "unknown"].map((option) => (
+                <label
+                  key={option}
+                  className={`checkbox-item ${
+                    formData.gender.includes(option) ? "checked" : ""
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    name="gender"
+                    value={option}
+                    checked={formData.gender.includes(option)}
+                    onChange={(e) => handleMultiSelect(e, "gender")}
+                  />
+                  <span className="checkbox-label">
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </span>
+                </label>
+              ))}
             </div>
           </div>
-        </>
-      )}
-      {/* //! GENDER - Multi-select using checkboxes */}
-      <div>
-        <label className="field-label">Gender</label>
-        <div>
-          {["male", "female", "unknown"].map((option) => (
-            <label key={option}>
-              <input
-                type="checkbox"
-                name="gender"
-                value={option}
-                checked={formData.gender.includes(option)}
-                onChange={(e) => handleMultiSelect(e, "gender")}
-              />
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </label>
-          ))}
-        </div>
-      </div>
-      {/* //! AGE - Multi-select using checkboxes */}
-      <div>
-        <label className="field-label">Age</label>
-        <div>
-          {["baby", "young", "adult", "senior"].map((option) => (
-            <label key={option}>
-              <input
-                type="checkbox"
-                name="age"
-                value={option}
-                checked={formData.age.includes(option)}
-                onChange={(e) => handleMultiSelect(e, "age")}
-              />
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </label>
-          ))}
-        </div>
-      </div>
 
-      {/* //! LOCATION */}
-      <div>
-        <label className="field-label">Location</label>
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleInputChange}
-          placeholder="Enter a city, state, OR zip code"
-        />
-      </div>
-      {/* //! DISTANCE: Only Show if Location is Provided */}
-      {formData.location && (
-        <div className={`form-section ${formData.location ? "visible" : ""}`}>
-          <label className="field-label">Distance</label>
-          <div className="range-input-container">
-            <input
-              type="range"
-              name="distance"
-              min="0"
-              max="500"
-              value={formData.distance || 0}
-              onChange={handleInputChange}
-              className="range-input"
-            />
-            <span className="range-value">{formData.distance || 0} miles</span>
-          </div>
-        </div>
-      )}
-
-      {/* //! GOOD WITH: */}
-      <div className="good-with-container">
-        <label className="field-label">Good with:</label>
-        <div className="checkbox-group">
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="goodWithChildren"
-                checked={formData.goodWithChildren}
-                onChange={handleInputChange}
-              />
-              Children
-            </label>
+          {/* Age Selection */}
+          <div className="form-field">
+            <label className="field-label">Age</label>
+            <div className="checkbox-group">
+              {["baby", "young", "adult", "senior"].map((option) => (
+                <label
+                  key={option}
+                  className={`checkbox-item ${
+                    formData.age.includes(option) ? "checked" : ""
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    name="age"
+                    value={option}
+                    checked={formData.age.includes(option)}
+                    onChange={(e) => handleMultiSelect(e, "age")}
+                  />
+                  <span className="checkbox-label">
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </span>
+                </label>
+              ))}
+            </div>
           </div>
 
-          <div className="checkbox-item">
-            <label>
+          {/* Location */}
+          <div className="form-row">
+            <div className="form-field">
+              <label className="field-label">Location</label>
               <input
-                type="checkbox"
-                name="goodWithDogs"
-                checked={formData.goodWithDogs}
+                type="text"
+                name="location"
+                value={formData.location}
                 onChange={handleInputChange}
+                placeholder="Enter city, state, or zip code"
               />
-              Dogs
-            </label>
+            </div>
           </div>
 
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="goodWithCats"
-                checked={formData.goodWithCats}
-                onChange={handleInputChange}
-              />
-              Cats
-            </label>
-          </div>
-        </div>
-      </div>
-      {/* //! ATTRIBUTES */}
-      <div className="attributes-container">
-        <label className="field-label">Attributes:</label>
+          {/* Distance Range */}
+          {formData.location && (
+            <div
+              className={`form-field form-step ${
+                formData.location ? "visible" : ""
+              }`}
+            >
+              <label className="field-label">Search Distance</label>
+              <div className="range-input-container">
+                <input
+                  type="range"
+                  name="distance"
+                  min="0"
+                  max="500"
+                  value={formData.distance || 0}
+                  onChange={handleInputChange}
+                  className="range-input"
+                />
+                <span className="range-value">
+                  {formData.distance || 0} miles
+                </span>
+              </div>
+            </div>
+          )}
 
-        <div className="attributes-group">
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="spayedneutered"
-                checked={formData.spayedNeutered}
-                onChange={handleInputChange}
-              />
-              Spayed/Neutered
-            </label>
+          <div className="form-divider">
+            <span>Compatibility & Care</span>
           </div>
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="houseTrained"
-                checked={formData.houseTrained}
-                onChange={handleInputChange}
-              />
-              House Trained
-            </label>
+
+          {/* Good With */}
+          <div className="form-field">
+            <label className="field-label">Good with</label>
+            <div className="checkbox-group">
+              <label
+                className={`checkbox-item ${
+                  formData.goodWithChildren ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="goodWithChildren"
+                  checked={formData.goodWithChildren}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Children</span>
+              </label>
+
+              <label
+                className={`checkbox-item ${
+                  formData.goodWithDogs ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="goodWithDogs"
+                  checked={formData.goodWithDogs}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Dogs</span>
+              </label>
+
+              <label
+                className={`checkbox-item ${
+                  formData.goodWithCats ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="goodWithCats"
+                  checked={formData.goodWithCats}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Cats</span>
+              </label>
+            </div>
           </div>
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="specialNeeds"
-                checked={formData.specialNeeds}
-                onChange={handleInputChange}
-              />
-              Special Needs
-            </label>
+
+          {/* Attributes */}
+          <div className="form-field">
+            <label className="field-label">Special Attributes</label>
+            <div className="checkbox-group">
+              <label
+                className={`checkbox-item ${
+                  formData.spayedNeutered ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="spayedNeutered"
+                  checked={formData.spayedNeutered}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Spayed/Neutered</span>
+              </label>
+
+              <label
+                className={`checkbox-item ${
+                  formData.houseTrained ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="houseTrained"
+                  checked={formData.houseTrained}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">House Trained</span>
+              </label>
+
+              <label
+                className={`checkbox-item ${
+                  formData.specialNeeds ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="specialNeeds"
+                  checked={formData.specialNeeds}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Special Needs</span>
+              </label>
+
+              <label
+                className={`checkbox-item ${
+                  formData.shotsCurrent ? "checked" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  name="shotsCurrent"
+                  checked={formData.shotsCurrent}
+                  onChange={handleInputChange}
+                />
+                <span className="checkbox-label">Vaccinated</span>
+              </label>
+            </div>
           </div>
-          <div className="checkbox-item">
-            <label>
-              <input
-                type="checkbox"
-                name="shotscurrent"
-                checked={formData.shotsCurrent}
-                onChange={handleInputChange}
-              />
-              Vaccinated
-            </label>
-          </div>
-        </div>
+
+          <button type="submit" className="submit-btn" disabled={isLoading}>
+            {isLoading ? "Searching..." : "Find My Perfect Pet"}
+          </button>
+        </form>
       </div>
-      <button type="submit">Search</button>
-    </form>
+    </section>
   );
 }
