@@ -4,6 +4,7 @@ import { FilterProps } from "../../utils/Types";
 
 export default function Filter({ onFilterChange, availableTags }: FilterProps) {
   const [filters, setFilters] = useState({
+    size: "",
     type: "",
     gender: "",
     age: "",
@@ -40,7 +41,6 @@ export default function Filter({ onFilterChange, availableTags }: FilterProps) {
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
-      </label>
       <label>
         Age:
         <select name="age" value={filters.age} onChange={handleChange}>
@@ -50,6 +50,17 @@ export default function Filter({ onFilterChange, availableTags }: FilterProps) {
           <option value="adult">Adult</option>
           <option value="senior">Senior</option>
         </select>
+      </label>
+      <label>
+        Size:
+        <select name="size" value={filters.size} onChange={handleChange}>
+          <option value="">All</option>
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+          <option value="extra_large">Extra Large</option>
+        </select>
+      </label>
       </label>
       <label>
         Tags:
