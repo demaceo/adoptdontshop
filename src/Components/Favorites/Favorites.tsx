@@ -17,8 +17,7 @@ export default function Favorites() {
     setFiltered(stored);
     // derive unique tags
     const allTags = new Set<string>();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    stored.forEach((pet: { tags: any[] }) =>
+    stored.forEach((pet: { tags: string[] }) =>
       pet.tags.forEach((t: string) => allTags.add(t))
     );
     setTags(Array.from(allTags));

@@ -316,18 +316,23 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
 
   const isLast = step === steps.length - 1;
   const isFirst = step === 0;
-  const isSecond = step === 1;
+  // const isSecond = step === 1;
   const isLocation = step === 6;
+
+  /* filepath: /Users/demaceovincent/coding/tbc/adoptdontshop/src/Components/ConversationalForm/ConversationalForm.tsx */
+  // ...existing code...
 
   async function handleNext() {
     // on last step, build & execute API calls
     if (step === steps.length - 1) {
-      if (!/^[A-Za-z ]{3,}$/.test(formData.location)) {
-        setError("Looks like that location isn’t valid—please try again.");
+      // Updated location validation - more flexible
+      const locationPattern = /^[A-Za-z0-9\s,.-]{2,}$/;
+      if (!formData.location.trim()) {
+        setError("Please enter a valid location before searching.");
         return;
       }
-      if (!formData.location) {
-        setError("Please enter a valid location before searching.");
+      if (!locationPattern.test(formData.location.trim())) {
+        setError("Please enter a valid city, state, or zip code.");
         return;
       }
 
@@ -339,14 +344,29 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
         const breedList = formData.breed.length ? formData.breed : [""];
         for (const b of breedList) {
           const params = new URLSearchParams();
-          params.append("type", formData.type[0] || "");
+
+          // Handle multiple types - join with commas for API
+          if (formData.type.length > 0) {
+            params.append("type", formData.type.join(","));
+          }
+
           if (b) params.append("breed", b);
-          params.append("location", formData.location);
+          if (formData.size) params.append("size", formData.size);
+          if (formData.gender) params.append("gender", formData.gender);
+          if (formData.age) params.append("age", formData.age);
+
+          params.append("location", formData.location.trim());
           params.append("distance", formData.distance);
+
           // append any true booleans
           if (formData.goodWithChildren)
             params.append("good_with_children", "true");
-          // … same for goodWithDogs, goodWithCats, etc
+          if (formData.goodWithDogs) params.append("good_with_dogs", "true");
+          if (formData.goodWithCats) params.append("good_with_cats", "true");
+          if (formData.spayedNeutered) params.append("spayed_neutered", "true");
+          if (formData.houseTrained) params.append("house_trained", "true");
+          if (formData.specialNeeds) params.append("special_needs", "true");
+          if (formData.shotsCurrent) params.append("shots_current", "true");
 
           const data = await fetchCompletedFormResults(params);
           allAnimals = allAnimals.concat(data?.animals ?? []);
@@ -392,7 +412,8 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
               ⬅ Back
             </button>
           )}
-          {step >= 2 && !isLast && (
+          {/* Allow skipping from step 1 (breeds) onwards, except location step */}
+          {step >= 1 && !isLast && step !== 6 && (
             <button className="btn-skip" onClick={handleSkip}>
               Skip
             </button>
@@ -402,8 +423,7 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
             onClick={handleNext}
             disabled={
               (isFirst && formData.type.length === 0) ||
-              (isSecond && formData.breed.length === 0) ||
-              (isLocation && !formData.location)
+              (isLocation && !formData.location.trim())
             }
           >
             {isLast ? "✨ Find Pets" : "Next ➡"}
