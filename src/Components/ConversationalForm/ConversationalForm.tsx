@@ -186,7 +186,7 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
       question: "What kind of companion are you dreaming of?",
       render: () => (
         <fieldset className="icon-grid">
-          <legend className="sr-only">Select animal types</legend>
+          <legend>Select the types of animals you are interested in adopting</legend>
           {animalTypes.map((t) => {
             const sel = formData.type.includes(t);
             return (
