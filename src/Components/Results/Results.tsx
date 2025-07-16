@@ -118,7 +118,7 @@ export default function Results() {
         <header className="results-header">
           <h2>COMPANION DATABASE</h2>
           <p className="results-subtitle" aria-live="polite" aria-atomic="true">
-            NEURAL SCAN COMPLETE: {totalResults} entities await synchronization
+            Search complete: {totalResults} pets found
           </p>
         </header>
 
