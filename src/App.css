@@ -1,9 +1,33 @@
-/* App-specific layout styles */
+/* CYBERPUNK APP LAYOUT MATRIX */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+  background: linear-gradient(135deg, #0a0a0f 0%, #151520 50%, #1a1a2e 100%);
+  overflow: hidden;
+}
+
+/* HOLOGRAPHIC OVERLAY */
+.app-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 50%,
+      rgba(56, 189, 248, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(124, 58, 237, 0.03) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: 1;
 }
 
 .content {
@@ -11,16 +35,36 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 2;
 }
 
-/* Main content areas */
+/* NEURAL CONTENT AREAS */
 .main-content {
   flex: 1;
   padding: var(--space-6) 0;
+  position: relative;
 }
 
 .section {
   padding: var(--space-12) 0;
+  position: relative;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(56, 189, 248, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .section:first-child {
@@ -31,43 +75,245 @@
   padding-bottom: var(--space-8);
 }
 
-/* Layout utilities for app */
+/* CYBERPUNK LAYOUT UTILITIES */
 .full-width {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  position: relative;
 }
 
 .sticky-header {
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  background-color: var(--surface);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  background: rgba(17, 24, 39, 0.95);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Smooth scrolling sections */
+.sticky-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00b4ff, transparent);
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* NEURAL SMOOTH SCROLLING */
 .scroll-section {
   scroll-margin-top: var(--space-20);
 }
 
-/* App-specific responsive adjustments */
+/* FLOATING ELEMENTS */
+.floating-accent {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #00b4ff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00b4ff;
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+.floating-accent:nth-child(2n) {
+  background: #a855f7;
+  box-shadow: 0 0 10px #a855f7;
+  animation-delay: -2s;
+  animation-duration: 10s;
+}
+
+.floating-accent:nth-child(3n) {
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation-delay: -4s;
+  animation-duration: 12s;
+}
+
+@keyframes float-particle {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-100px) translateX(50px);
+    opacity: 1;
+  }
+}
+
+/* ACCESSIBILITY LAYOUT ENHANCEMENTS */
+
+/* Skip Navigation Link */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--interactive-primary);
+  color: var(--primary-900);
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+  z-index: var(--z-skipLink);
+  transition: top var(--transition-fast);
+  box-shadow: var(--glow-primary);
+}
+
+.skip-nav:focus {
+  top: 6px;
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* Main Content Focus Management */
+main[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Landmark Region Styling */
+nav[role="navigation"] {
+  outline: none;
+}
+
+main[role="main"] {
+  outline: none;
+}
+
+footer[role="contentinfo"] {
+  outline: none;
+}
+
+/* Enhanced Focus Management for Sections */
+.section:focus-within {
+  outline: 2px solid rgba(56, 189, 248, 0.3);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+}
+
+/* Live Region for Dynamic Content */
+.live-region {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Announcement Banner */
+.announcement {
+  background: linear-gradient(135deg, var(--interactive-primary), var(--interactive-accent));
+  color: var(--primary-900);
+  padding: var(--space-3);
+  text-align: center;
+  font-weight: var(--font-semibold);
+  position: relative;
+  z-index: var(--z-banner);
+}
+
+/* Error Boundary Styling */
+.error-boundary {
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid var(--warning-500);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  text-align: center;
+  margin: var(--space-8) 0;
+}
+
+.error-boundary h2 {
+  color: var(--warning-400);
+  margin-bottom: var(--space-4);
+}
+
+.error-boundary p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+/* Loading State Container */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(56, 189, 248, 0.2);
+  border-top: 4px solid var(--interactive-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: var(--glow-primary);
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  font-weight: var(--font-medium);
+}
+
+/* ARIA Live Regions */
+.status-region[aria-live="polite"] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.alert-region[aria-live="assertive"] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Responsive Accessibility Adjustments */
 @media (max-width: 768px) {
-  .section {
-    padding: var(--space-8) 0;
+  .skip-nav {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
   }
   
-  .main-content {
-    padding: var(--space-4) 0;
+  /* Increase touch targets on mobile */
+  button,
+  a,
+  input,
+  select {
+    min-height: 48px;
+    min-width: 48px;
   }
 }
 
 @media (max-width: 480px) {
-  .section {
-    padding: var(--space-6) 0;
+  /* Larger touch targets for very small screens */
+  button,
+  a,
+  input,
+  select {
+    min-height: 52px;
   }
   
-  .main-content {
-    padding: var(--space-3) 0;
+  .section:focus-within {
+    outline-offset: 2px;
   }
 }

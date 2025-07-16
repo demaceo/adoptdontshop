@@ -5,6 +5,7 @@ import Filter from "../Filter/Filter";
 import "./Results.css";
 import SearchBar from "../SearchBar/SearchBar";
 import { FilterCriteria, Animal } from "../../utils/Types";
+import { LiveRegionAnnouncer, LIVE_MESSAGES } from "../../utils/accessibility";
 
 const RESULTS_PER_PAGE = 25;
 
@@ -15,6 +16,9 @@ export default function Results() {
   const [currentPage, setCurrentPage] = useState(1);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Accessibility: Initialize live region announcer
+  const announcer = LiveRegionAnnouncer.getInstance();
 
   useEffect(() => {
     if (location.state && location.state.animals) {
@@ -27,8 +31,14 @@ export default function Results() {
       ) as string[];
       setAvailableTags(tags);
       setIsLoading(false);
+
+      // Accessibility: Announce search completion
+      announcer.announce(
+        LIVE_MESSAGES.searchComplete(fetchedAnimals.length),
+        "polite"
+      );
     }
-  }, [location.state]);
+  }, [location.state, announcer]);
 
   const handleSearch = (query: string) => {
     const filtered = animals.filter(
@@ -40,6 +50,9 @@ export default function Results() {
     );
     setFilteredAnimals(filtered);
     setCurrentPage(1);
+
+    // Accessibility: Announce search results
+    announcer.announce(LIVE_MESSAGES.searchComplete(filtered.length), "polite");
   };
 
   const handleFilterChange = (filters: FilterCriteria) => {
@@ -69,6 +82,9 @@ export default function Results() {
 
     setFilteredAnimals(filtered);
     setCurrentPage(1);
+
+    // Accessibility: Announce filter results
+    announcer.announce(LIVE_MESSAGES.filterApplied(filtered.length), "polite");
   };
 
   const totalResults = filteredAnimals.length;
@@ -83,8 +99,13 @@ export default function Results() {
     return (
       <div className="results-container">
         <div className="results-content">
-          <div className="results-loading">
-            <p>Finding your perfect pets...</p>
+          <div
+            className="results-loading"
+            role="status"
+            aria-live="polite"
+            aria-label="Loading search results"
+          >
+            <p>INITIATING NEURAL COMPANION SCAN...</p>
           </div>
         </div>
       </div>
@@ -94,43 +115,66 @@ export default function Results() {
   return (
     <div className="results-container">
       <div className="results-content">
-        <div className="results-header">
-          <h2>Search Results</h2>
-          <p className="results-subtitle">
-            Found {totalResults} adorable pets waiting for their forever homes
+        <header className="results-header">
+          <h2>COMPANION DATABASE</h2>
+          <p className="results-subtitle" aria-live="polite" aria-atomic="true">
+            Search complete: {totalResults} pets found
           </p>
-        </div>
+        </header>
 
-        <div className="filters-section">
+        <section
+          className="filters-section"
+          aria-label="Search and filter options"
+        >
           <SearchBar handleSearch={handleSearch} />
           <Filter
             onFilterChange={handleFilterChange}
             availableTags={availableTags}
           />
-        </div>
+        </section>
 
-        <div className="cards-container">
+        <main
+          className="cards-container"
+          role="main"
+          aria-label={`${currentResults.length} pets displayed`}
+          aria-live="polite"
+        >
           {currentResults.length > 0 ? (
-            currentResults.map((animal) => <Card key={animal.id} {...animal} />)
+            <>
+              <div className="sr-only" aria-live="polite">
+                Showing pets {startIndex + 1} to{" "}
+                {Math.min(startIndex + RESULTS_PER_PAGE, totalResults)} of{" "}
+                {totalResults}
+              </div>
+              {currentResults.map((animal) => (
+                <Card key={animal.id} {...animal} />
+              ))}
+            </>
           ) : (
-            <div className="no-results">
+            <div className="no-results" role="status">
               <h3>No pets found</h3>
               <p>
                 Try adjusting your filters or search terms to find more pets
               </p>
             </div>
           )}
-        </div>
+        </main>
 
         {totalPages > 1 && (
-          <div className="pagination">
+          <nav
+            className="pagination"
+            role="navigation"
+            aria-label="Search results pagination"
+          >
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
+              aria-label="Go to previous page"
+              type="button"
             >
-              ← Previous
+              <span aria-hidden="true">←</span> Previous
             </button>
-            <span>
+            <span className="pagination-info" role="status" aria-live="polite">
               Page {currentPage} of {totalPages}
             </span>
             <button
@@ -138,10 +182,12 @@ export default function Results() {
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
+              aria-label="Go to next page"
+              type="button"
             >
-              Next →
+              Next <span aria-hidden="true">→</span>
             </button>
-          </div>
+          </nav>
         )}
       </div>
     </div>

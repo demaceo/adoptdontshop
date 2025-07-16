@@ -1,54 +1,193 @@
+/* CYBERPUNK CONVERSATIONAL FORM - NEURAL INTERFACE MODAL */
 :root {
-  --cf-bg-overlay: rgba(0, 0, 0, 0.4);
-  --cf-modal-bg: var(--surface);
-  --cf-primary: var(--primary-600);
-  --cf-primary-hover: var(--primary-700);
-  --cf-secondary: var(--gray-100);
+  --cf-bg-overlay: rgba(10, 10, 15, 0.95);
+  --cf-modal-bg: rgba(17, 24, 39, 0.95);
+  --cf-primary: var(--primary-200);
+  --cf-primary-hover: var(--primary-100);
+  --cf-secondary: var(--accent-300);
   --cf-accent: var(--text-primary);
-  --cf-highlight: var(--accent-500);
-  --cf-error: var(--warning-600);
-  --cf-success: var(--success-600);
+  --cf-highlight: var(--accent-400);
+  --cf-error: var(--warning-400);
+  --cf-success: var(--success-400);
   --cf-muted: var(--text-muted);
 }
 
-/* Modal Overlay */
+/* Neural Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: var(--cf-bg-overlay);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
   padding: var(--space-4);
   opacity: 0;
-  animation: fadeIn var(--transition-base) forwards;
+  animation: neural-materialize 0.5s ease-out forwards;
+  overflow: hidden;
 }
 
-@keyframes fadeIn {
-  to {
+.modal-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      rgba(0, 180, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 180, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-scan 20s linear infinite;
+}
+
+.modal-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 30%,
+      rgba(0, 180, 255, 0.1) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(168, 85, 247, 0.1) 0%,
+      transparent 70%
+    );
+  animation: neural-drift 25s ease-in-out infinite;
+}
+
+@keyframes neural-materialize {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(20px);
+  }
+}
+
+@keyframes grid-scan {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-25px, -25px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+  }
+}
+
+@keyframes neural-drift {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    transform: rotate(1deg) scale(1.05);
+  }
+  66% {
+    transform: rotate(-1deg) scale(0.95);
+  }
+}
+
+/* Main Neural Modal */
+.modal {
+  position: relative;
+  background: var(--cf-modal-bg);
+  border: 2px solid var(--primary-200);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  max-width: 600px;
+  width: 100%;
+  min-height: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 100px rgba(0, 180, 255, 0.2),
+    inset 0 0 30px rgba(0, 180, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(30px);
+  transform: scale(0.8) translateY(50px);
+  animation: modal-neural-entry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  overflow: hidden;
+}
+
+.modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-200),
+    var(--accent-400),
+    var(--success-400)
+  );
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  animation: neural-header-pulse 3s ease-in-out infinite;
+}
+
+.modal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      rgba(0, 180, 255, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 180, 255, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  border-radius: var(--radius-2xl);
+  animation: modal-grid-scan 15s linear infinite;
+}
+
+@keyframes modal-neural-entry {
+  0% {
+    transform: scale(0.8) translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
 }
 
-/* Main Modal */
-.modal {
-  position: relative;
-  background: var(--cf-modal-bg);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-8);
-  max-width: 520px;
-  width: 100%;
-  min-height: 500px;
-  box-shadow: var(--shadow-2xl);
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  backdrop-filter: blur(20px);
-  transform: scale(0.95);
-  animation: modalSlideIn var(--transition-base) forwards;
-  overflow: hidden;
+@keyframes neural-header-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-grid-scan {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-30px, -30px);
+  }
 }
 
 @keyframes modalSlideIn {
@@ -58,83 +197,182 @@
 }
 
 .modal::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary-500), var(--accent-500), var(--success-500));
+  background: linear-gradient(
+    90deg,
+    var(--primary-500),
+    var(--accent-500),
+    var(--success-500)
+  );
   border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
-/* Close Button */
+/* Neural Close Button */
 .close-btn {
   position: absolute;
   top: var(--space-4);
   right: var(--space-4);
-  background: var(--gray-100);
-  border: 1px solid var(--border);
+  background: rgba(17, 24, 39, 0.8);
+  border: 2px solid var(--primary-200);
   border-radius: var(--radius-full);
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--text-lg);
+  color: var(--primary-200);
   cursor: pointer;
   transition: all var(--transition-fast);
   z-index: 10;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 180, 255, 0.2);
 }
 
 .close-btn:hover {
-  background: var(--warning-100);
-  color: var(--warning-600);
-  border-color: var(--warning-200);
-  transform: scale(1.05);
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--warning-300);
+  border-color: var(--warning-300);
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(244, 63, 94, 0.4);
 }
 
-/* Progress Indicator */
+.close-btn:active {
+  transform: scale(0.95);
+}
+
+/* Neural Progress Indicator */
 .modal::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-200),
+    var(--accent-400),
+    var(--success-400)
+  );
   border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
   transition: width var(--transition-base) ease-out;
   width: calc((var(--current-step, 0) + 1) / var(--total-steps, 8) * 100%);
+  box-shadow: 0 0 10px rgba(0, 180, 255, 0.5);
+  animation: progress-pulse 2s ease-in-out infinite;
 }
 
-/* Question */
+@keyframes progress-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 180, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.8);
+  }
+}
+
+/* Neural Question Interface */
 .question {
   margin: var(--space-6) 0 var(--space-8);
   font-family: var(--font-family-primary);
   font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  color: var(--cf-accent);
+  font-weight: 700;
+  color: var(--primary-200);
   text-align: center;
   line-height: 1.3;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(0, 180, 255, 0.4);
+  animation: question-glow 3s ease-in-out infinite;
+  position: relative;
 }
 
-/* Input Group */
+.question::before {
+  content: "▶";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-400);
+  font-size: var(--text-lg);
+  animation: cursor-blink 1.5s step-end infinite;
+}
+
+@keyframes question-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 15px rgba(0, 180, 255, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(0, 180, 255, 0.6);
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Neural Input Group */
 .input-group {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  position: relative;
 }
 
-/* Icon Grid */
+.input-group::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-200),
+    transparent
+  );
+  border-radius: var(--radius-full);
+  animation: input-scan 3s ease-in-out infinite;
+}
+
+@keyframes input-scan {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* Neural Icon Grid */
 .icon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-6);
   justify-items: center;
+  padding: var(--space-4);
 }
 
 .icon-button {
@@ -157,13 +395,18 @@
 }
 
 .icon-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(66, 153, 225, 0.1),
+    transparent
+  );
   transition: left var(--transition-base);
 }
 
@@ -187,7 +430,7 @@
 }
 
 .icon-button.selected::after {
-  content: '✓';
+  content: "✓";
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
@@ -353,7 +596,11 @@
 input[type="range"] {
   width: 100%;
   height: 6px;
-  background: linear-gradient(to right, var(--primary-500) 0%, var(--primary-200) 100%);
+  background: linear-gradient(
+    to right,
+    var(--primary-500) 0%,
+    var(--primary-200) 100%
+  );
   border-radius: var(--radius-full);
   appearance: none;
   -webkit-appearance: none;
@@ -444,13 +691,18 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .btn-next::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left var(--transition-base);
 }
 
@@ -491,9 +743,16 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @keyframes errorShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* Loading State */
@@ -503,7 +762,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .modal.loading .btn-next::after {
-  content: '';
+  content: "";
   width: 16px;
   height: 16px;
   border: 2px solid transparent;
@@ -588,7 +847,7 @@ input[type="range"]::-moz-range-thumb {
     animation: none;
     transition: none;
   }
-  
+
   .icon-button:hover,
   .btn-next:hover {
     transform: none;

@@ -146,312 +146,474 @@ export default function Form() {
   };
 
   return (
-    <section className="form-section">
+    <section className="form-section" id="companion-scan">
+      <div className="neural-background">
+        <div className="scan-grid"></div>
+        <div className="data-streams"></div>
+        <div className="hologram-particles"></div>
+      </div>
+
       <div className="form-container">
         <div className="form-header">
-          <h2>Find Your Perfect Pet</h2>
-          <p>
-            Tell us what you're looking for, and we'll help you find your ideal
-            companion
+          <h2 className="form-title">
+            <span className="title-glow">COMPANION</span>
+            <span className="title-matrix">SCAN</span>
+            <span className="title-protocol">PROTOCOL</span>
+          </h2>
+          <div className="title-circuit"></div>
+          <p className="form-subtitle">
+            <span className="highlight-accent">
+              Initializing neural interface...
+            </span>
+            Configure your optimal companion parameters for quantum matching
           </p>
+          <div className="scan-indicator">
+            <div className="scan-bar"></div>
+            <span className="scan-text">SCANNING AVAILABLE ENTITIES</span>
+          </div>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className={`pet-form ${isLoading ? "form-loading" : ""}`}
+          className={`neural-form ${isLoading ? "form-processing" : ""}`}
+          aria-busy={isLoading}
         >
-          {/* Basic Information */}
-          <div className="form-row">
-            <div className="form-field">
-              <label className="field-label">Animal Type</label>
-              <select
-                name="type"
-                value={formData.type}
-                onChange={handleTypeChange}
-              >
-                <option value="">Select Animal Type</option>
-                {animalTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
+          <div className="form-matrix">
+            {/* Primary Classification Module */}
+            <div className="matrix-section" data-section="primary">
+              <div className="section-header">
+                <h3 className="section-title">
+                  <span className="section-icon">🧬</span>
+                  PRIMARY CLASSIFICATION
+                </h3>
+                <div className="section-line"></div>
+              </div>
+
+              <div className="form-grid">
+                <div className="neural-field">
+                  <label className="field-label">
+                    <span className="label-text">ENTITY TYPE</span>
+                    <span className="label-circuit"></span>
+                  </label>
+                  <div className="input-container">
+                    <select
+                      name="type"
+                      value={formData.type}
+                      onChange={handleTypeChange}
+                      className="neural-select"
+                    >
+                      <option value="">► Select Entity Type</option>
+                      {animalTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="field-glow"></div>
+                  </div>
+                </div>
+
+                {formData.type && (
+                  <div
+                    className={`neural-field data-step ${
+                      formData.type ? "active" : ""
+                    }`}
+                  >
+                    <label className="field-label">
+                      <span className="label-text">GENETIC VARIANT</span>
+                      <span className="label-circuit"></span>
+                    </label>
+                    <div className="input-container">
+                      <select
+                        name="breed"
+                        value={formData.breed}
+                        onChange={handleBreedChange}
+                        className="neural-select"
+                      >
+                        <option value="">► Select Genetic Variant</option>
+                        {breeds.map((breed) => (
+                          <option key={breed} value={breed}>
+                            {breed}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="field-glow"></div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {formData.type && (
+            {/* Physical Parameters Module */}
+            {formData.breed && (
               <div
-                className={`form-field form-step ${
-                  formData.type ? "visible" : ""
-                }`}
+                className="matrix-section data-step active"
+                data-section="physical"
               >
-                <label className="field-label">Breed</label>
-                <select
-                  name="breed"
-                  value={formData.breed}
-                  onChange={handleBreedChange}
-                >
-                  <option value="">Select Breed</option>
-                  {breeds.map((breed) => (
-                    <option key={breed} value={breed}>
-                      {breed}
-                    </option>
-                  ))}
-                </select>
+                <div className="section-header">
+                  <h3 className="section-title">
+                    <span className="section-icon">⚗️</span>
+                    PHYSICAL PARAMETERS
+                  </h3>
+                  <div className="section-line"></div>
+                </div>
+
+                <div className="form-grid">
+                  <div className="neural-field">
+                    <label className="field-label">
+                      <span className="label-text">DIMENSIONAL CLASS</span>
+                      <span className="label-circuit"></span>
+                    </label>
+                    <div className="input-container">
+                      <select
+                        name="size"
+                        value={formData.size}
+                        onChange={handleSelectChange}
+                        className="neural-select"
+                      >
+                        <option value="">► Select Dimensional Class</option>
+                        {availableSizes.map((size) => (
+                          <option key={size} value={size}>
+                            {size}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="field-glow"></div>
+                    </div>
+                  </div>
+
+                  <div className="neural-field">
+                    <label className="field-label">
+                      <span className="label-text">SURFACE TEXTURE</span>
+                      <span className="label-circuit"></span>
+                    </label>
+                    <div className="input-container">
+                      <select
+                        name="coat"
+                        value={formData.coat}
+                        onChange={handleSelectChange}
+                        className="neural-select"
+                      >
+                        <option value="">► Select Surface Texture</option>
+                        {availableCoats.map((coat) => (
+                          <option key={coat} value={coat}>
+                            {coat}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="field-glow"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
-          </div>
 
-          {/* Additional Characteristics */}
-          {formData.breed && (
-            <div className="form-step visible">
-              <div className="form-row">
-                <div className="form-field">
-                  <label className="field-label">Size</label>
-                  <select
-                    name="size"
-                    value={formData.size}
-                    onChange={handleSelectChange}
-                  >
-                    <option value="">Select Size</option>
-                    {availableSizes.map((size) => (
-                      <option key={size} value={size}>
-                        {size}
-                      </option>
-                    ))}
-                  </select>
+            <div className="matrix-divider">
+              <span className="divider-text">BEHAVIORAL MATRIX</span>
+              <div className="divider-pulse"></div>
+            </div>
+
+            {/* Behavioral Classification */}
+            <div className="matrix-section" data-section="behavioral">
+              <div className="section-header">
+                <h3 className="section-title">
+                  <span className="section-icon">⚡</span>
+                  IDENTITY MATRIX
+                </h3>
+                <div className="section-line"></div>
+              </div>
+
+              {/* Gender Selection */}
+              <div className="neural-field">
+                <label className="field-label">
+                  <span className="label-text">IDENTITY CLASSIFICATION</span>
+                  <span className="label-circuit"></span>
+                </label>
+                <div className="neural-grid">
+                  {["male", "female", "unknown"].map((option) => (
+                    <label
+                      key={option}
+                      className={`neural-chip ${
+                        formData.gender.includes(option) ? "activated" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="gender"
+                        value={option}
+                        checked={formData.gender.includes(option)}
+                        onChange={(e) => handleMultiSelect(e, "gender")}
+                        className="chip-input"
+                      />
+                      <span className="chip-label">
+                        {option.charAt(0).toUpperCase() + option.slice(1)}
+                      </span>
+                      <div className="chip-pulse"></div>
+                    </label>
+                  ))}
                 </div>
+              </div>
 
-                <div className="form-field">
-                  <label className="field-label">Coat</label>
-                  <select
-                    name="coat"
-                    value={formData.coat}
-                    onChange={handleSelectChange}
-                  >
-                    <option value="">Select Coat</option>
-                    {availableCoats.map((coat) => (
-                      <option key={coat} value={coat}>
-                        {coat}
-                      </option>
-                    ))}
-                  </select>
+              {/* Age Selection */}
+              <div className="neural-field">
+                <label className="field-label">
+                  <span className="label-text">TEMPORAL CLASSIFICATION</span>
+                  <span className="label-circuit"></span>
+                </label>
+                <div className="neural-grid">
+                  {["baby", "young", "adult", "senior"].map((option) => (
+                    <label
+                      key={option}
+                      className={`neural-chip ${
+                        formData.age.includes(option) ? "activated" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="age"
+                        value={option}
+                        checked={formData.age.includes(option)}
+                        onChange={(e) => handleMultiSelect(e, "age")}
+                        className="chip-input"
+                      />
+                      <span className="chip-label">
+                        {option.charAt(0).toUpperCase() + option.slice(1)}
+                      </span>
+                      <div className="chip-pulse"></div>
+                    </label>
+                  ))}
                 </div>
               </div>
             </div>
-          )}
 
-          <div className="form-divider">
-            <span>Preferences</span>
-          </div>
+            {/* Location Parameters */}
+            <div className="matrix-section" data-section="location">
+              <div className="section-header">
+                <h3 className="section-title">
+                  <span className="section-icon">🌐</span>
+                  GEOLOCATION PARAMETERS
+                </h3>
+                <div className="section-line"></div>
+              </div>
 
-          {/* Gender Selection */}
-          <div className="form-field">
-            <label className="field-label">Gender</label>
-            <div className="checkbox-group">
-              {["male", "female", "unknown"].map((option) => (
-                <label
-                  key={option}
-                  className={`checkbox-item ${
-                    formData.gender.includes(option) ? "checked" : ""
+              <div className="neural-field">
+                <label className="field-label">
+                  <span className="label-text">COORDINATE INPUT</span>
+                  <span className="label-circuit"></span>
+                </label>
+                <div className="input-container">
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    placeholder="► Enter city, state, or coordinates"
+                    className="neural-input"
+                  />
+                  <div className="field-glow"></div>
+                  <div className="input-scanner"></div>
+                </div>
+              </div>
+
+              {/* Distance Range */}
+              {formData.location && (
+                <div
+                  className={`neural-field data-step ${
+                    formData.location ? "active" : ""
                   }`}
                 >
-                  <input
-                    type="checkbox"
-                    name="gender"
-                    value={option}
-                    checked={formData.gender.includes(option)}
-                    onChange={(e) => handleMultiSelect(e, "gender")}
-                  />
-                  <span className="checkbox-label">
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </span>
+                  <label className="field-label">
+                    <span className="label-text">SEARCH RADIUS</span>
+                    <span className="label-circuit"></span>
+                  </label>
+                  <div className="range-container">
+                    <input
+                      type="range"
+                      name="distance"
+                      min="0"
+                      max="500"
+                      value={formData.distance || 0}
+                      onChange={handleInputChange}
+                      className="neural-range"
+                    />
+                    <div className="range-display">
+                      <span className="range-value">
+                        {formData.distance || 0}
+                      </span>
+                      <span className="range-unit">MILES</span>
+                    </div>
+                    <div className="range-track"></div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="matrix-divider">
+              <span className="divider-text">COMPATIBILITY PROTOCOLS</span>
+              <div className="divider-pulse"></div>
+            </div>
+
+            {/* Compatibility Matrix */}
+            <div className="matrix-section" data-section="compatibility">
+              <div className="section-header">
+                <h3 className="section-title">
+                  <span className="section-icon">🤝</span>
+                  SOCIAL COMPATIBILITY
+                </h3>
+                <div className="section-line"></div>
+              </div>
+
+              <div className="neural-field">
+                <label className="field-label">
+                  <span className="label-text">SOCIAL PROTOCOLS</span>
+                  <span className="label-circuit"></span>
                 </label>
-              ))}
-            </div>
-          </div>
+                <div className="neural-grid">
+                  <label
+                    className={`neural-chip ${
+                      formData.goodWithChildren ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="goodWithChildren"
+                      checked={formData.goodWithChildren}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Children</span>
+                    <div className="chip-pulse"></div>
+                  </label>
 
-          {/* Age Selection */}
-          <div className="form-field">
-            <label className="field-label">Age</label>
-            <div className="checkbox-group">
-              {["baby", "young", "adult", "senior"].map((option) => (
-                <label
-                  key={option}
-                  className={`checkbox-item ${
-                    formData.age.includes(option) ? "checked" : ""
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    name="age"
-                    value={option}
-                    checked={formData.age.includes(option)}
-                    onChange={(e) => handleMultiSelect(e, "age")}
-                  />
-                  <span className="checkbox-label">
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </span>
+                  <label
+                    className={`neural-chip ${
+                      formData.goodWithDogs ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="goodWithDogs"
+                      checked={formData.goodWithDogs}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Dogs</span>
+                    <div className="chip-pulse"></div>
+                  </label>
+
+                  <label
+                    className={`neural-chip ${
+                      formData.goodWithCats ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="goodWithCats"
+                      checked={formData.goodWithCats}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Cats</span>
+                    <div className="chip-pulse"></div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Medical Attributes */}
+              <div className="neural-field">
+                <label className="field-label">
+                  <span className="label-text">MEDICAL STATUS</span>
+                  <span className="label-circuit"></span>
                 </label>
-              ))}
-            </div>
-          </div>
+                <div className="neural-grid">
+                  <label
+                    className={`neural-chip ${
+                      formData.spayedNeutered ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="spayedNeutered"
+                      checked={formData.spayedNeutered}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Spayed/Neutered</span>
+                    <div className="chip-pulse"></div>
+                  </label>
 
-          {/* Location */}
-          <div className="form-row">
-            <div className="form-field">
-              <label className="field-label">Location</label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                placeholder="Enter city, state, or zip code"
-              />
-            </div>
-          </div>
+                  <label
+                    className={`neural-chip ${
+                      formData.houseTrained ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="houseTrained"
+                      checked={formData.houseTrained}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">House Trained</span>
+                    <div className="chip-pulse"></div>
+                  </label>
 
-          {/* Distance Range */}
-          {formData.location && (
-            <div
-              className={`form-field form-step ${
-                formData.location ? "visible" : ""
-              }`}
-            >
-              <label className="field-label">Search Distance</label>
-              <div className="range-input-container">
-                <input
-                  type="range"
-                  name="distance"
-                  min="0"
-                  max="500"
-                  value={formData.distance || 0}
-                  onChange={handleInputChange}
-                  className="range-input"
-                />
-                <span className="range-value">
-                  {formData.distance || 0} miles
-                </span>
+                  <label
+                    className={`neural-chip ${
+                      formData.specialNeeds ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="specialNeeds"
+                      checked={formData.specialNeeds}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Special Needs</span>
+                    <div className="chip-pulse"></div>
+                  </label>
+
+                  <label
+                    className={`neural-chip ${
+                      formData.shotsCurrent ? "activated" : ""
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      name="shotsCurrent"
+                      checked={formData.shotsCurrent}
+                      onChange={handleInputChange}
+                      className="chip-input"
+                    />
+                    <span className="chip-label">Vaccinated</span>
+                    <div className="chip-pulse"></div>
+                  </label>
+                </div>
               </div>
             </div>
-          )}
 
-          <div className="form-divider">
-            <span>Compatibility & Care</span>
-          </div>
-
-          {/* Good With */}
-          <div className="form-field">
-            <label className="field-label">Good with</label>
-            <div className="checkbox-group">
-              <label
-                className={`checkbox-item ${
-                  formData.goodWithChildren ? "checked" : ""
-                }`}
+            {/* Execute Scan Button */}
+            <div className="scan-execution">
+              <button
+                type="submit"
+                className="execute-btn"
+                disabled={isLoading}
               >
-                <input
-                  type="checkbox"
-                  name="goodWithChildren"
-                  checked={formData.goodWithChildren}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Children</span>
-              </label>
-
-              <label
-                className={`checkbox-item ${
-                  formData.goodWithDogs ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="goodWithDogs"
-                  checked={formData.goodWithDogs}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Dogs</span>
-              </label>
-
-              <label
-                className={`checkbox-item ${
-                  formData.goodWithCats ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="goodWithCats"
-                  checked={formData.goodWithCats}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Cats</span>
-              </label>
+                <div className="btn-content">
+                  <span className="btn-icon">🔍</span>
+                  <span className="btn-text">
+                    {isLoading
+                      ? "Searching for companions..."
+                      : "Execute companion scan"}
+                  </span>
+                  <span className="btn-arrow">›</span>
+                </div>
+                <div className="btn-glow"></div>
+                <div className="btn-scanner"></div>
+              </button>
             </div>
           </div>
-
-          {/* Attributes */}
-          <div className="form-field">
-            <label className="field-label">Special Attributes</label>
-            <div className="checkbox-group">
-              <label
-                className={`checkbox-item ${
-                  formData.spayedNeutered ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="spayedNeutered"
-                  checked={formData.spayedNeutered}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Spayed/Neutered</span>
-              </label>
-
-              <label
-                className={`checkbox-item ${
-                  formData.houseTrained ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="houseTrained"
-                  checked={formData.houseTrained}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">House Trained</span>
-              </label>
-
-              <label
-                className={`checkbox-item ${
-                  formData.specialNeeds ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="specialNeeds"
-                  checked={formData.specialNeeds}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Special Needs</span>
-              </label>
-
-              <label
-                className={`checkbox-item ${
-                  formData.shotsCurrent ? "checked" : ""
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  name="shotsCurrent"
-                  checked={formData.shotsCurrent}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Vaccinated</span>
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" className="submit-btn" disabled={isLoading}>
-            {isLoading ? "Searching..." : "Find My Perfect Pet"}
-          </button>
         </form>
       </div>
     </section>

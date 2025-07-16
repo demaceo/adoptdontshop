@@ -1,5 +1,5 @@
 import { HashRouter, useRoutes } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
@@ -10,58 +10,95 @@ import Footer from "./Components/Footer/Footer.tsx";
 import Form from "./Components/Form/Form.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
 import ConversationalForm from "./Components/ConversationalForm/ConversationalForm.tsx";
+
 function App() {
   const [showCF, setShowCF] = useState(false);
 
-  // const [favoritePets, setFavoritePets] = useState([]);
-  // const [localStorage, setLocalStorage] = useLocalStorage("favorites");
+  // Skip link functionality
+  useEffect(() => {
+    const skipLink = document.getElementById("skip-nav");
+    if (skipLink) {
+      skipLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const mainContent = document.getElementById("main-content");
+        if (mainContent) {
+          mainContent.focus();
+          mainContent.scrollIntoView();
+        }
+      });
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   const storedFavorites = JSON.parse(
-  //     localStorage.getItem("favorites") || "[]"
-  //   );
-  //   setFavoritePets(storedFavorites);
-  // }, []);
+  // Keyboard navigation enhancement
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // ESC key closes modal
+      if (e.key === "Escape" && showCF) {
+        setShowCF(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showCF]);
 
   const Routes = () => {
     const routes = useRoutes([
       {
         path: "*",
         element: (
-          <div className="app-container">
-            <NavBar />
-            <main className="content">
-              <Hero onChat={() => setShowCF(true)} />
-              <About />
-              <Form />
-            </main>
-            <Footer />
-          </div>
+          <>
+            <a href="#main-content" className="skip-nav" id="skip-nav">
+              Skip to main content
+            </a>
+            <div className="app-container">
+              <NavBar />
+              <main className="content" id="main-content" tabIndex={-1}>
+                <Hero onChat={() => setShowCF(true)} />
+                <About />
+                <Form />
+              </main>
+              <Footer />
+            </div>
+          </>
         ),
       },
       {
         path: "/",
         element: (
-          <div className="app-container">
-            <NavBar />
-            <main className="content">
-              <Hero onChat={() => setShowCF(true)} />
-              {showCF && (
-                <ConversationalForm onClose={() => setShowCF(false)} />
-              )}
-              <About />
-              <Form />
-            </main>
-            <Footer />
-          </div>
+          <>
+            <a href="#main-content" className="skip-nav" id="skip-nav">
+              Skip to main content
+            </a>
+            <div className="app-container">
+              <NavBar />
+              <main className="content" id="main-content" tabIndex={-1}>
+                <Hero onChat={() => setShowCF(true)} />
+                {showCF && (
+                  <ConversationalForm
+                    onClose={() => setShowCF(false)}
+                    aria-label="Pet preferences questionnaire"
+                  />
+                )}
+                <About />
+                <Form />
+              </main>
+              <Footer />
+            </div>
+          </>
         ),
       },
       {
         path: "/results",
         element: (
           <>
+            <a href="#main-content" className="skip-nav" id="skip-nav">
+              Skip to main content
+            </a>
             <NavBar />
-            <Results />
+            <main id="main-content" tabIndex={-1}>
+              <Results />
+            </main>
             <Footer />
           </>
         ),
@@ -70,8 +107,13 @@ function App() {
         path: "/favorites",
         element: (
           <>
+            <a href="#main-content" className="skip-nav" id="skip-nav">
+              Skip to main content
+            </a>
             <NavBar />
-            <Favorites />
+            <main id="main-content" tabIndex={-1}>
+              <Favorites />
+            </main>
             <Footer />
           </>
         ),
@@ -80,8 +122,13 @@ function App() {
         path: "/pet-details/:id",
         element: (
           <>
+            <a href="#main-content" className="skip-nav" id="skip-nav">
+              Skip to main content
+            </a>
             <NavBar />
-            <PetDetails />
+            <main id="main-content" tabIndex={-1}>
+              <PetDetails />
+            </main>
             <Footer />
           </>
         ),

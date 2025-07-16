@@ -3,6 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import "./FavoriteButton.css";
 import { FavoriteButtonProps } from "../../utils/Types";
+import {
+  ARIA_DESCRIPTIONS,
+  KEYBOARD_KEYS,
+  LiveRegionAnnouncer,
+  LIVE_MESSAGES,
+} from "../../utils/accessibility";
 
 export default function FavoriteButton({ id, petData }: FavoriteButtonProps) {
   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -67,30 +73,51 @@ export default function FavoriteButton({ id, petData }: FavoriteButtonProps) {
 
   const handleFavorite = () => {
     let updatedFavorites;
+    const announcer = LiveRegionAnnouncer.getInstance();
+
     if (isFavoritedState) {
       // Remove from favorites
       updatedFavorites = favorites.filter(
         (favorite: any) => favorite.id !== id
       );
+      announcer.announce(LIVE_MESSAGES.favoriteRemoved(petData.name), "polite");
     } else {
       // Add to favorites
       updatedFavorites = [...favorites, petData];
       animateAddFavorite();
+      announcer.announce(LIVE_MESSAGES.favoriteAdded(petData.name), "polite");
     }
 
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     setIsFavoritedState(!isFavoritedState);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === KEYBOARD_KEYS.ENTER || e.key === KEYBOARD_KEYS.SPACE) {
+      e.preventDefault();
+      handleFavorite();
+    }
+  };
+
+  const buttonLabel = isFavoritedState
+    ? `Remove ${petData.name} from favorites`
+    : `Add ${petData.name} to favorites`;
+
   return (
     <button
       className={`favorite-btn --${id} ${isFavoritedState ? "favorited" : ""}`}
       onClick={handleFavorite}
-      aria-label={
-        isFavoritedState ? "Remove from favorites" : "Add to favorites"
-      }
+      onKeyDown={handleKeyDown}
+      aria-label={buttonLabel}
+      aria-describedby={ARIA_DESCRIPTIONS.favoriteAction}
+      aria-pressed={isFavoritedState}
+      title={buttonLabel}
+      type="button"
     >
-      {isFavoritedState ? "★" : "☆"}
+      <span aria-hidden="true">{isFavoritedState ? "★" : "☆"}</span>
+      <span className="sr-only">
+        {isFavoritedState ? "Favorited" : "Not favorited"}
+      </span>
     </button>
   );
 }

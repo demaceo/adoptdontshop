@@ -7,7 +7,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  placeholder = "Search pets...",
+  placeholder = "INITIATE NEURAL COMPANION SCAN...",
   handleSearch,
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
@@ -15,7 +15,7 @@ export default function SearchBar({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    handleSearch(newQuery); 
+    handleSearch(newQuery);
   };
 
   return (
@@ -25,7 +25,12 @@ export default function SearchBar({
         placeholder={placeholder}
         value={query}
         onChange={handleChange}
+        aria-label="Neural companion search interface"
+        aria-describedby="search-help"
       />
+      <div id="search-help" className="sr-only">
+        Enter keywords like breed, size, or age to search for pets
+      </div>
     </div>
   );
 }
