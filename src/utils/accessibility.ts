@@ -312,16 +312,6 @@ export const ModalManager = {
 // Screen Reader Utilities
 export const ScreenReaderUtils = {
     /**
-     * Check if screen reader is likely being used
-     */
-    isScreenReaderActive(): boolean {
-        return window.navigator.userAgent.includes('NVDA') ||
-            window.navigator.userAgent.includes('JAWS') ||
-            window.speechSynthesis?.speaking ||
-            false;
-    },
-
-    /**
      * Speak text using Speech Synthesis API (if available)
      */
     speak(text: string, priority: 'low' | 'high' = 'low') {
