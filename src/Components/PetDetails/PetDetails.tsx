@@ -22,13 +22,16 @@ export default function PetDetails() {
         <div className="pet-details-content">
           <div className="pet-details-header">
             <button className="back-button" onClick={() => navigate(-1)}>
-              ⟵ Go Back
+              ⟵ RETURN TO DATABASE
             </button>
           </div>
           <div className="pet-details-main">
             <div className="pet-hero">
-              <h2 className="pet-name">Pet Not Found</h2>
-              <p>The pet you're looking for could not be found.</p>
+              <h2 className="pet-name">ENTITY NOT FOUND</h2>
+              <p>
+                The companion entity could not be located in the neural
+                database.
+              </p>
             </div>
           </div>
         </div>
@@ -38,15 +41,15 @@ export default function PetDetails() {
 
   const details = [
     {
-      label: "Breed",
+      label: "GENETIC CODE",
       value: `${pet.breeds.primary}${
         pet.breeds.secondary ? ` / ${pet.breeds.secondary}` : ""
       }`,
     },
-    { label: "Age", value: pet.age },
-    { label: "Gender", value: pet.gender },
-    { label: "Size", value: pet.size },
-    { label: "Coat", value: pet.coat || "Unknown" },
+    { label: "AGE CYCLE", value: pet.age },
+    { label: "GENDER MATRIX", value: pet.gender },
+    { label: "SIZE CLASS", value: pet.size },
+    { label: "EXTERIOR COATING", value: pet.coat || "UNKNOWN" },
     {
       label: "Spayed/Neutered",
       value: pet.attributes.spayed_neutered ? "Yes" : "No",
