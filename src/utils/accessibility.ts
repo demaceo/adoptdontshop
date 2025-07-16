@@ -50,7 +50,7 @@ export const ARIA_DESCRIPTIONS = {
 // ARIA Live Region Messages
 export const LIVE_MESSAGES = {
     searchComplete: (count: number) =>
-        `Search completed. ${count} pet${count !== 1 ? 's' : ''} found.`,
+        `Search completed. ${count} ${count === 1 ? 'pet' : 'pets'} found.`,
     filterApplied: (count: number) =>
         `Filter applied. ${count} pet${count !== 1 ? 's' : ''} match your criteria.`,
     favoriteAdded: (petName: string) =>
