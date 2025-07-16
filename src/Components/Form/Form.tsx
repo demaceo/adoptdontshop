@@ -604,8 +604,8 @@ export default function Form() {
                   <span className="btn-icon">🔍</span>
                   <span className="btn-text">
                     {isLoading
-                      ? "PROCESSING NEURAL SCAN..."
-                      : "EXECUTE COMPANION SCAN"}
+                      ? "Searching for companions..."
+                      : "Execute companion scan"}
                   </span>
                   <span className="btn-arrow">›</span>
                 </div>
