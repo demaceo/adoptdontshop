@@ -116,7 +116,7 @@ export default function Results() {
     <div className="results-container">
       <div className="results-content">
         <header className="results-header">
-          <h1>COMPANION DATABASE</h1>
+          <h2>COMPANION DATABASE</h2>
           <p className="results-subtitle" aria-live="polite" aria-atomic="true">
             NEURAL SCAN COMPLETE: {totalResults} entities await synchronization
           </p>
