@@ -160,7 +160,7 @@ const Card: FC<AnimalCard> = ({
           role="region"
           aria-label={`Detailed information about ${name}`}
         >
-          <dl>
+          <dl aria-label="Pet information details">
             <dt>Published:</dt>
             <dd>{new Date(published_at).toLocaleDateString()}</dd>
 
