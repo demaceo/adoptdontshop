@@ -176,6 +176,7 @@ export default function Form() {
         <form
           onSubmit={handleSubmit}
           className={`neural-form ${isLoading ? "form-processing" : ""}`}
+          aria-busy={isLoading}
         >
           <div className="form-matrix">
             {/* Primary Classification Module */}
