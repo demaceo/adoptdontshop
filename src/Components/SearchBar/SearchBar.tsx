@@ -29,7 +29,7 @@ export default function SearchBar({
         aria-describedby="search-help"
       />
       <div id="search-help" className="sr-only">
-        Enter keywords to scan for companion entities
+        Enter keywords like breed, size, or age to search for pets
       </div>
     </div>
   );
