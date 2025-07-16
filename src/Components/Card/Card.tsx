@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Card.css";
 import { AnimalCard } from "../../utils/Types";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import { ARIA_DESCRIPTIONS, KEYBOARD_KEYS } from "../../utils/accessibility";
 
 // Utility: sanitize and truncate text
 const sanitize = (html: string = "") =>
@@ -58,8 +59,34 @@ const Card: FC<AnimalCard> = ({
     });
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === KEYBOARD_KEYS.ENTER || e.key === KEYBOARD_KEYS.SPACE) {
+      e.preventDefault();
+      handleView();
+    }
+  };
+
+  const handleToggleExpanded = () => {
+    setExpanded((prev) => !prev);
+  };
+
+  const handleToggleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === KEYBOARD_KEYS.ENTER || e.key === KEYBOARD_KEYS.SPACE) {
+      e.preventDefault();
+      handleToggleExpanded();
+    }
+  };
+
+  const cardId = `pet-card-${id}`;
+  const detailsId = `pet-details-${id}`;
+
   return (
-    <article className={`card${expanded ? " expanded" : ""}`}>
+    <article
+      className={`card${expanded ? " expanded" : ""}`}
+      aria-labelledby={`${cardId}-title`}
+      aria-describedby={`${cardId}-description`}
+      role="article"
+    >
       <FavoriteButton
         id={id}
         petData={{
@@ -84,70 +111,110 @@ const Card: FC<AnimalCard> = ({
       <div
         className="card-image"
         onClick={handleView}
-        aria-label={`View details for ${name}`}
+        onKeyDown={handleKeyPress}
+        aria-label={`View full profile for ${name}`}
+        aria-describedby={ARIA_DESCRIPTIONS.petCard}
         role="button"
         tabIndex={0}
-        onKeyPress={(e) => e.key === "Enter" && handleView()}
       >
         {primary_photo_cropped?.small ? (
-          <img src={primary_photo_cropped.small} alt={name} loading="lazy" />
+          <img
+            src={primary_photo_cropped.small}
+            alt={`Photo of ${name}, a ${breeds.primary}${
+              breeds.secondary ? ` ${breeds.secondary} mix` : ""
+            }`}
+            loading="lazy"
+          />
         ) : (
-          <div className="no-card-image" aria-hidden>
+          <div
+            className="no-card-image"
+            aria-label={`No photo available for ${name}`}
+            role="img"
+          >
             🐾
           </div>
         )}
       </div>
-      <h3 className="card-title">{sanitize(name)}</h3>
-      <p className="card-description">
+      <h3 id={`${cardId}-title`} className="card-title">
+        {sanitize(name)}
+      </h3>
+      <p id={`${cardId}-description`} className="card-description">
         {sanitize(description || "No description provided.")}
       </p>
-      <button className="card-button" onClick={() => setExpanded((e) => !e)}>
+      <button
+        className="card-button"
+        onClick={handleToggleExpanded}
+        onKeyDown={handleToggleKeyPress}
+        aria-expanded={expanded}
+        aria-controls={detailsId}
+        aria-label={
+          expanded ? `Hide details for ${name}` : `Show details for ${name}`
+        }
+      >
         {expanded ? "Hide Details" : "View Details"}
       </button>
       {expanded && (
-        <div className="card-details">
-          <p>
-            <strong>Published:</strong>{" "}
-            {new Date(published_at).toLocaleDateString()}
-          </p>
-          <p>
-            <strong>Location:</strong> {contact.address.city},{" "}
-            {contact.address.state}
-          </p>
-          <p>
-            <strong>Breed:</strong> {breeds.primary}
-            {breeds.secondary ? ` / ${breeds.secondary}` : ""}
-          </p>
-          <p>
-            <strong>Age:</strong> {age}
-          </p>
-          <p>
-            <strong>Gender:</strong> {gender}
-          </p>
-          <p>
-            <strong>Size:</strong> {size}
-          </p>
-          <p>
-            <strong>Coat:</strong> {coat}
-          </p>
-          <p>
-            <strong>Spayed/Neutered:</strong>{" "}
-            {attributes.spayed_neutered ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>House Trained:</strong>{" "}
-            {attributes.house_trained ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Good With:</strong> Children:{" "}
-            {environment.children ? "Yes" : "No"}, Dogs:{" "}
-            {environment.dogs ? "Yes" : "No"}, Cats:{" "}
-            {environment.cats ? "Yes" : "No"}
-          </p>
+        <div
+          id={detailsId}
+          className="card-details"
+          role="region"
+          aria-label={`Detailed information about ${name}`}
+        >
+          <dl>
+            <dt>Published:</dt>
+            <dd>{new Date(published_at).toLocaleDateString()}</dd>
+
+            <dt>Location:</dt>
+            <dd>
+              {contact.address.city}, {contact.address.state}
+            </dd>
+
+            <dt>Breed:</dt>
+            <dd>
+              {breeds.primary}
+              {breeds.secondary ? ` / ${breeds.secondary}` : ""}
+            </dd>
+
+            <dt>Age:</dt>
+            <dd>{age}</dd>
+
+            <dt>Gender:</dt>
+            <dd>{gender}</dd>
+
+            <dt>Size:</dt>
+            <dd>{size}</dd>
+
+            <dt>Coat:</dt>
+            <dd>{coat}</dd>
+
+            <dt>Spayed/Neutered:</dt>
+            <dd>{attributes.spayed_neutered ? "Yes" : "No"}</dd>
+
+            <dt>House Trained:</dt>
+            <dd>{attributes.house_trained ? "Yes" : "No"}</dd>
+
+            <dt>Good With:</dt>
+            <dd>
+              Children: {environment.children ? "Yes" : "No"}, Dogs:{" "}
+              {environment.dogs ? "Yes" : "No"}, Cats:{" "}
+              {environment.cats ? "Yes" : "No"}
+            </dd>
+          </dl>
+
           {tags.length > 0 && (
-            <div className="card-tags">
+            <div
+              className="card-tags"
+              role="list"
+              aria-label="Pet characteristics"
+            >
               {tags.map((tag) => (
-                <span key={tag}>{tag}</span>
+                <span
+                  key={tag}
+                  role="listitem"
+                  aria-label={`Characteristic: ${tag}`}
+                >
+                  {tag}
+                </span>
               ))}
             </div>
           )}

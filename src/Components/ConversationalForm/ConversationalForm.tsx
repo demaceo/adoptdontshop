@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   fetchAnimalTypes,
@@ -19,6 +19,12 @@ import {
 import { GiFishScales } from "react-icons/gi";
 import { LiaHorseHeadSolid } from "react-icons/lia";
 import { FaMars, FaVenus, FaGenderless, FaTimes } from "react-icons/fa";
+import {
+  ARIA_LABELS,
+  KEYBOARD_KEYS,
+  LiveRegionAnnouncer,
+  ModalManager,
+} from "../../utils/accessibility";
 
 interface FormData {
   type: string[];
@@ -89,6 +95,46 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
   //   const [coats, setCoats] = useState<string[]>([]);
   const [breedQuery, setBreedQuery] = useState("");
   const [error, setError] = useState<string>();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Accessibility: Setup modal focus management
+  useEffect(() => {
+    if (modalRef.current) {
+      const cleanup = ModalManager.open(modalRef.current);
+      return cleanup;
+    }
+  }, []);
+
+  // Accessibility: Announce step changes
+  const announcer = LiveRegionAnnouncer.getInstance();
+  useEffect(() => {
+    const stepNames = [
+      "Animal Type",
+      "Breed",
+      "Size",
+      "Gender",
+      "Age",
+      "Location",
+      "Distance",
+      "Preferences",
+    ];
+    announcer.announce(
+      `Step ${step + 1}: ${stepNames[step] || "Question"}`,
+      "polite"
+    );
+  }, [step, announcer]);
+
+  // Accessibility: Handle escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === KEYBOARD_KEYS.ESCAPE) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
 
   // Fetch animal types once
   useEffect(() => {
@@ -139,7 +185,8 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
       key: "type",
       question: "What kind of companion are you dreaming of?",
       render: () => (
-        <div className="icon-grid">
+        <fieldset className="icon-grid">
+          <legend className="sr-only">Select animal types</legend>
           {animalTypes.map((t) => {
             const sel = formData.type.includes(t);
             return (
@@ -155,12 +202,18 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
                       : [...p.type, t],
                   }))
                 }
+                type="button"
+                role="checkbox"
+                aria-checked={sel}
+                aria-label={`Select ${t} as pet type`}
+                title={t}
               >
-                {icons[t] || t}
+                <span aria-hidden="true">{icons[t] || t}</span>
+                <span className="icon-label">{t}</span>
               </button>
             );
           })}
-        </div>
+        </fieldset>
       ),
     },
     {
@@ -171,42 +224,82 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
         const filtered = breeds.filter((b) =>
           b.toLowerCase().includes(breedQuery.toLowerCase())
         );
+        const searchId = `breed-search-${step}`;
+        const resultsId = `breed-results-${step}`;
+
         return (
-          <>
+          <div role="group" aria-labelledby={`question-${step}`}>
+            <label htmlFor={searchId} className="sr-only">
+              Search for breeds
+            </label>
             <input
+              id={searchId}
               className="breed-search"
               type="text"
               value={breedQuery}
               onChange={(e) => setBreedQuery(e.target.value)}
               placeholder="Search breeds..."
+              aria-describedby={resultsId}
+              aria-label="Search for pet breeds"
+              autoComplete="off"
             />
-            <div className="breed-options">
-              {filtered.map((b) => (
-                <label key={b} className="breed-option">
-                  <input
-                    type="checkbox"
-                    checked={formData.breed.includes(b)}
-                    onChange={() => {
-                      setFormData((p) => {
-                        const next = p.breed.includes(b)
-                          ? p.breed.filter((x) => x !== b)
-                          : [...p.breed, b];
-                        return { ...p, breed: next };
-                      });
-                    }}
-                  />
-                  {b}
-                </label>
-              ))}
-            </div>
-            <div className="selected-breeds">
-              {formData.breed.map((b) => (
-                <span key={b} className="breed-tag">
-                  {b}
-                </span>
-              ))}
-            </div>
-          </>
+
+            <fieldset
+              id={resultsId}
+              className="breed-options"
+              aria-label="Available breeds"
+              aria-live="polite"
+              aria-relevant="additions removals"
+            >
+              <legend className="sr-only">
+                Select breeds ({filtered.length} available)
+              </legend>
+              {filtered.length > 0 ? (
+                filtered.map((b) => (
+                  <label key={b} className="breed-option">
+                    <input
+                      type="checkbox"
+                      checked={formData.breed.includes(b)}
+                      onChange={() => {
+                        setFormData((p) => {
+                          const next = p.breed.includes(b)
+                            ? p.breed.filter((x) => x !== b)
+                            : [...p.breed, b];
+                          return { ...p, breed: next };
+                        });
+                      }}
+                      aria-describedby={`breed-desc-${b}`}
+                    />
+                    <span id={`breed-desc-${b}`}>{b}</span>
+                  </label>
+                ))
+              ) : (
+                <p className="no-results">
+                  No breeds found matching "{breedQuery}"
+                </p>
+              )}
+            </fieldset>
+
+            {formData.breed.length > 0 && (
+              <div
+                className="selected-breeds"
+                role="region"
+                aria-label="Selected breeds"
+              >
+                <h4 className="sr-only">Selected breeds:</h4>
+                {formData.breed.map((b) => (
+                  <span
+                    key={b}
+                    className="breed-tag"
+                    role="listitem"
+                    aria-label={`Selected breed: ${b}`}
+                  >
+                    {b}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         );
       },
     },
@@ -390,34 +483,101 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
     }
   }
 
-  const handleSkip = () => setStep((s) => s + 1);
+  const handleSkip = () => {
+    announcer.announce("Skipping to next question", "polite");
+    setStep((s) => s + 1);
+  };
+
+  const handleClose = () => {
+    ModalManager.closeAll();
+    onClose();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === KEYBOARD_KEYS.ESCAPE) {
+      handleClose();
+    }
+  };
+
+  const formId = "conversational-form";
+  const questionId = `${formId}-question-${step}`;
+  const errorId = `${formId}-error`;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="modal-overlay"
+      onClick={handleClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={questionId}
+      aria-describedby={error ? errorId : undefined}
+    >
+      <div
+        ref={modalRef}
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={handleKeyDown}
+        role="form"
+        aria-label={ARIA_LABELS.conversationalForm}
+      >
         <button
           className="close-btn"
-          onClick={onClose}
-          aria-label="Close modal"
+          onClick={handleClose}
+          aria-label="Close pet preferences form"
+          type="button"
         >
-          <FaTimes />
+          <FaTimes aria-hidden="true" />
+          <span className="sr-only">Close</span>
         </button>
-        <p className="question">{steps[step].question}</p>
-        <div className="input-group">{steps[step].render()}</div>
-        {error && <p className="cf-error">{error}</p>}
 
-        <div className="button-group">
+        <div role="group" aria-labelledby={questionId}>
+          <h2 id={questionId} className="question">
+            {steps[step].question}
+          </h2>
+          <div className="input-group" role="group" aria-label="Form inputs">
+            {steps[step].render()}
+          </div>
+
+          {error && (
+            <div
+              id={errorId}
+              className="cf-error"
+              role="alert"
+              aria-live="polite"
+            >
+              {error}
+            </div>
+          )}
+        </div>
+
+        <div
+          className="button-group"
+          role="group"
+          aria-label="Navigation buttons"
+        >
           {step > 0 && (
-            <button className="btn-back" onClick={() => setStep((s) => s - 1)}>
-              ⬅ Back
+            <button
+              className="btn-back"
+              onClick={() => setStep((s) => s - 1)}
+              type="button"
+              aria-label="Go to previous question"
+            >
+              <span aria-hidden="true">⬅</span> Back
             </button>
           )}
+
           {/* Allow skipping from step 1 (breeds) onwards, except location step */}
           {step >= 1 && !isLast && step !== 6 && (
-            <button className="btn-skip" onClick={handleSkip}>
+            <button
+              className="btn-skip"
+              onClick={handleSkip}
+              type="button"
+              aria-label="Skip this question"
+            >
               Skip
             </button>
           )}
+
           <button
             className="btn-next"
             onClick={handleNext}
@@ -425,8 +585,18 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
               (isFirst && formData.type.length === 0) ||
               (isLocation && !formData.location.trim())
             }
+            type="button"
+            aria-label={isLast ? "Search for pets" : "Go to next question"}
           >
-            {isLast ? "✨ Find Pets" : "Next ➡"}
+            {isLast ? (
+              <>
+                <span aria-hidden="true">✨</span> Find Pets
+              </>
+            ) : (
+              <>
+                Next <span aria-hidden="true">➡</span>
+              </>
+            )}
           </button>
         </div>
       </div>
