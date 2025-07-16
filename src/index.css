@@ -923,7 +923,7 @@ input[type="number"],
 textarea,
 select {
   border-width: 2px;
-  min-height: 44px; /* Minimum touch target size */
+  min-height: 48px; /* Updated touch target size for better mobile accessibility */
 }
 
 input:invalid {
