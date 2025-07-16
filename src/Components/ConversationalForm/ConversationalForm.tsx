@@ -205,7 +205,7 @@ const ConversationalForm: FC<ConversationalFormProps> = ({ onClose }) => {
                 type="button"
                 role="checkbox"
                 aria-checked={sel}
-                aria-label={`Select ${t} as pet type`}
+                aria-label={`Select ${t} as your preferred pet type`}
                 title={t}
               >
                 <span aria-hidden="true">{icons[t] || t}</span>
