@@ -5,9 +5,9 @@ import Hero from "./Components/Hero/Hero.tsx";
 import NavBar from "./Components/NavBar/NavBar.tsx";
 import Results from "./Components/Results/Results.tsx";
 import Favorites from "./Components/Favorites/Favorites.tsx";
-import About from "./Components/About/About.tsx";
+// import About from "./Components/About/About.tsx";
 import Footer from "./Components/Footer/Footer.tsx";
-import Form from "./Components/Form/Form.tsx";
+// import Form from "./Components/Form/Form.tsx";
 import PetDetails from "./Components/PetDetails/PetDetails";
 import ConversationalForm from "./Components/ConversationalForm/ConversationalForm.tsx";
 
@@ -55,8 +55,8 @@ function App() {
               <NavBar />
               <main className="content" id="main-content" tabIndex={-1}>
                 <Hero onChat={() => setShowCF(true)} />
-                <About />
-                <Form />
+                {/* <About /> */}
+                {/* <Form /> */}
               </main>
               <Footer />
             </div>
@@ -80,8 +80,8 @@ function App() {
                     aria-label="Pet preferences questionnaire"
                   />
                 )}
-                <About />
-                <Form />
+                {/* <About /> */}
+                {/* <Form /> */}
               </main>
               <Footer />
             </div>
