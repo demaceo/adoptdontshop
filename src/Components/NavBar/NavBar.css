@@ -10,16 +10,22 @@
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   transition: all var(--transition-base);
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .navbar::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--primary-50) 0%, var(--accent-50) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-50) 0%,
+    var(--accent-50) 100%
+  );
   opacity: 0.6;
   z-index: -1;
 }
@@ -42,7 +48,7 @@
 }
 
 .logo a::before {
-  content: '🐾';
+  content: "🐾";
   margin-right: var(--space-2);
   font-size: var(--text-lg);
   opacity: 0.8;
@@ -76,10 +82,12 @@
 }
 
 @keyframes blink {
-  0%, 50% {
+  0%,
+  50% {
     border-color: var(--primary-600);
   }
-  51%, 100% {
+  51%,
+  100% {
     border-color: transparent;
   }
 }
@@ -88,6 +96,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-8);
+  box-sizing: border-box;
 }
 
 .nav-links a {
@@ -104,13 +113,18 @@
 }
 
 .nav-links a::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, var(--primary-100), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-100),
+    transparent
+  );
   transition: left var(--transition-base);
 }
 
@@ -136,11 +150,11 @@
     flex-wrap: wrap;
     gap: var(--space-4);
   }
-  
+
   .logo a {
     font-size: var(--text-xl);
   }
-  
+
   .nav-links {
     gap: var(--space-4);
     order: 3;
@@ -149,7 +163,7 @@
     padding-top: var(--space-3);
     border-top: 1px solid var(--border);
   }
-  
+
   .nav-links a {
     font-size: var(--text-xs);
     padding: var(--space-2);
@@ -160,15 +174,20 @@
   .navbar {
     padding: var(--space-2) var(--space-3);
   }
-  
+
   .logo a {
     font-size: var(--text-lg);
   }
-  
+
   .nav-links {
     gap: var(--space-2);
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border);
   }
-  
+
   #typewriter-text {
     animation: none;
     border-right: none;
